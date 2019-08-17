@@ -1,0 +1,17 @@
+*.tar
+*.gz
+# latex
+*.aux
+*.log
+*.bbl
+*.dvi
+*.pdf
+*.out
+*.blg
+*.fdb_latexmk
+*.fls
+# vtk
+*.vtu
+*.pvtu
+*.pvd
+*.series
