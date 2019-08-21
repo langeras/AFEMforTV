@@ -283,9 +283,10 @@ is the variation of $u$ in $\Omega$. Here, $L^q(\Omega)$, with $q\in [1,\infty]$
 \paragraph{Image reconstruction}
 
 In image restoration one is interested in recovering an unknown image from a corrupted observation. Hence, the obtained data $g$ might be described as
-$$
+\begin{equation}\label{eq:g}
 g=\mathcal{N}(T\hat{u}),
-$$
+\end{equation}
+
 where $\hat{u}$ is the unknown original image, $T$ is a linear bounded operator modeling the image formation device, and $\mathcal{N}$ represents noise. %In this project we will concentrate on images, which do not possess any noise or they are corrupted by Gaussian noise. 
 We note, that in reality in general not only one type of noise, but a mixture of several different types, such as Gaussian, Poisson, and impulse noise, occur in an image. This contamination usually happens during image acquisition and image transmission. Nevertheless, in case the image is not effected by impulse noise, the mixture of Gaussian and Poisson noise can be transformed into additive white Gaussian noise \cite{}. In this vein, we will mainly focus in this project on either  Gaussian noise corrupted images or images which are noise-free at all. However, we plan to extend the work to other types of noise as well, by noting that this leads to different models, see below, and hence to a different analysis and numerical implementation. \todo{really or extend to more types of noise?}
 
@@ -525,71 +526,8 @@ The main objective of the proposed research project is the enhancement of the re
 \subsection{Objectives}\label{sec:Objectives}
 \todo{Objective genauer auf den Punkt ausarbeiten!}
 
-The aim of the current project is to improve state-of-the-art locally adaptive parameter selection strategies for total variation image denoising tasks. 
-
-
-The aim of the current project is to derive, analyse and implement methods for non-smooth optimization problems containing a total variation term with applications in image inpainting and motion estimation, which automatically adjust to the underlying problem. This adjustment, on the one hand-side, may happen on the modelling side where the according objective functional, e.g., its regularization term and parameters, is automatically chosen, and on the other hand-side, may occur on the discretization-level, where an optimal discretization is learned. This two-sided adjustment is motivated by the following observation on inverse problems: Let $X,Y$ be two normed vector spaces. Given $A\in \mathcal{L}(X,Y)$ and $y^\delta\in Y$, where $\|y-y^\delta\|_Y \leq \delta$ and $y\in Y$, we are seeking for a solution $x\in X$ such that $Ax=y$, whereas the equation is ill-posed. Let $(R_{\alpha})_\alpha$ be a regularisation of the pseudoinverse $A^\dagger$ of $A$ and $D_h: Y \to Y_h \subset Y$ a discretisation. Then we have 
-$$
-\|R_\alpha D_h y^\delta - A^{\dagger} y\|_X \leq \underbrace{\|R_\alpha D_h (y^\delta - y)\|_X}_{\text{data error}} + \underbrace{\|R_\alpha D_h y - R_\alpha y\|_X}_{\text{discretisation error}} + \underbrace{\|R_\alpha y - A^{\dagger} y \|_X}_{\text{regularisation error}}.
-$$
-The sum of the last two terms is the so-called approximation error. It is well-know that for a fixed $\delta$ the data error and the approximation error propagate opposite for $\alpha,h \to 0$, see Figure \ref{}. \nnew{Let $D_{\overline{h}}$ be another discretization such that $D_{\overline{h}}$ and $D_{h}$ are not necessarily nested and we use the convention that $D_hD_{\overline{h}} = D_h$. If $y = D_{\overline{h}} y$, then the minimal discretisation error is obtained for $D_h$ being such that $D_h y = D_{\overline{h}}y$, which is true if $D_h = D_{\overline{h}}$ or $D_h$ being a nested refinement of $D_{\overline{h}}$.} %If $y = D_{\overline{h}} y$ is discrete and we use the convention that $D_hD_{\overline{h}} = D_h$, then $D_h = D_{\overline{h}}$ would give the minimal discretisation error. 
-On the contrary, assuming uniform meshes with mesh-size $h<\overline{h}$, the data error increases, and for $h>\overline{h}$ the data error decreases. Hence, in the noise-free case, i.e. $\delta=0$, from this consideration we deduce that $D_h=D_{\overline{h}}$ (resp. $D_h$ such that $D_h y = D_{\overline{h}} y$) seems to be the best choice. However, for $\delta>0$, %, which is indeed the case for $\delta=0$, i.e., in the noise-free situation. But for $\delta>0$, 
-since the data error may be reduced for $h > \overline{h}$, the choice of the discretisation seems not clear. %From this consideration it seems not clear that $D_h=D_{\overline{h}}$ is the best choice, as it depends on how the data error may be reduced for $h > \overline{h}$. 
-%Nevertheless, numerical experiments suggest to take $D_h=D_{\overline{h}}$ \cite{}, while a reason for this might be, that it is very difficult to optimise a regularisation method with respect to a possibly non-uniform mesh. 
-In this project we mainly concentrate at looking at the considered inverse imaging problems from the perspective that the objects depicted in an image are analog. %Nevertheless, investigating the influence of a discretisation on the data error for given discrete observations should be part of .... \todo{see if it fits somewhere}. 
-Hence, here we mainly assume $y$ being a function rather than a discrete object. For example, then in image inpainting we are interested in restoring the corrupted physical objects depicted in the image as accurate as possible by keeping the computational complexity on a manageable level. This accurate restoration may also be put in the context of super-resolution or zooming.
-
-We derive criteria which tell us how the adjustment of the regularization and discretization should be performed. Since we are interested in imaging problems, an important criteria will be an indicator for discontinuities or edges. Exactly at discontinuities the regularization should be very little, preventing any smoothing. This asks for localized regularization and locally adaptive regularization parameters. Moreover, according to the discontinuities also the discretization should be aligned, e.g., in order to use a (discontinuous) Galerkin method successfully. Such an automatic alignment may be performed by solving an optimisation problem with respect to the discrete mesh or triangulation. However, in general such adjustment criteria will depend on the application. For example, if we calculate the optical flow of a (noise-free) image sequence, then an edge indicator of the flow field should be sufficient. Thereby, note, that the derivation of an accurate edge indicator is by far not a trivial task and we need to investigate what might be a good choice. However, assuming we have an edge indicator and if there is additional noise present, then such an indicator may detect noise as small features, which leads to false edge indications. In such a situation additional information has to be used, as the according noise-level, to construct a reasonable indicator. 
-
-The final goal of the present project is to provide a fully adaptive method for image inpainting and motion estimation, which automatically adjusts the regularisation and discretization accordingly. Moreover, strongly related problems, as the calculation of crack propagation, might be considered as well.
-
-
-
-
-\subsection{Work programme incl. proposed research methods}
-\label{sec:work-programme}
-
-The work program starts by deriving indicators, telling where and how to adaptively adjust the model and solution process. Based on these derived indicators, we construct different adaptive methods, which iteratively reduce the reconstruction error. The adaptivity may refer to the adaptive choice of the parameters in the objective functional (locally distributed parameters), the adaptive choice of stopping criteria in an iterative regularization method (iterative adaptive regularization), or the adaptive adjustment of the (discrete) mesh on which the problem should be solved (adaptive discretization). The work program of the proposed project is separated into three parts, while in all parts we mainly focus on applications to image inpainting and motion estimation. In the first part we develop and analyse adaptive discretization schemes, while in the second part adaptive regularization methods are constructed and investigated. In the third part the implementation of the adaptive schemes is considered, where we aim at a fully automatic adjustment scheme with respect to discretization and regularization. The first two parts are planned in a way that they benefit from each other. %might be developed independently from each other. However, the work programme is planned in a way, that the second part benefits form the first one and maybe vice-versa. 
-For example, indicators, based on a posteriori estimates, for an automatic adjustment of the discretization, may also be used to adjust the regularization accordingly and vice-versa. \nnew{Note that (an adaptive) refinement alone only improves the solution of the optimisation problem for a given regularization parameter. Actually it is the regularization parameter which decides how much smoothing is performed in the solution process. Hence in order to get sharp edges and preserve fine details the regularization parameter has to be locally adjusted.} %Additionally,  an adaptive discretization alone, might not improve the solution but only reduces the degree of freedom. 
-\nnew{That is} in order to gain significant improvement in the reconstruction, we need to combine adaptive discretization with a locally adaptive parameter choice. %\nnew{For example, in image inpainting a fine discretization in the inpainting region is not sufficient to obtain a more accurate reconstruction} \todo{maybe example inpainting where both is needed}
-
- 
-
-\begin{table}[!htbp]\centering
-{\small%\scriptsize%
-\begin{tabular}{*4l}
-\toprule
- \multicolumn{1}{c}{Aufgabenbereich} &  Jahr 1 & Jahr 2 & Jahr 3\\
-\midrule
-\textbf{\ref{Bereich1} Adaptive discretization}  \\
-(A) Indicator - A posteriori estimate&  \multicolumn{3}{l}{\textbullet\textbullet\textbullet\textbullet\textbullet\textbullet\textbullet\textbullet\textbullet\textbullet\textbullet}   \\
-(B) Mesh optimisation &  \multicolumn{3}{l}{\hspace{1.3cm} \textbullet\textbullet\textbullet\textbullet\textbullet\textbullet\textbullet\textbullet}   \\
-%(C) Konvergenzanalyse&  \multicolumn{3}{l}{\hspace{0.6cm} \textbullet\textbullet \textbullet\textbullet\textbullet\textbullet\textbullet\textbullet\textbullet\textbullet\textbullet\textbullet\textbullet\textbullet\textbullet\textbullet}   \\ 
-\hline
-\textbf{\ref{Bereich2} Adaptive regularisation}\\
-(A) Indicators  & \multicolumn{3}{l}{ \textbullet\textbullet\textbullet\textbullet\textbullet\textbullet \textbullet\textbullet\textbullet\textbullet\textbullet\textbullet}
-%\sbt\sbt\sbt\sbt\sbt\textbullet\textbullet\textbullet\textbullet\textbullet\textbullet\textbullet\textbullet\textbullet\textbullet}   
-\\
-(B)  Locally varying parameters & \multicolumn{3}{l}{\hspace{0.9cm} \textbullet\textbullet\textbullet\textbullet\textbullet\textbullet\textbullet \textbullet\textbullet\textbullet\textbullet\textbullet\textbullet}   \\
-(C)  Iterative adaptive regularisation & \multicolumn{3}{l}{\hspace{1.9cm} \textbullet\textbullet\textbullet\textbullet\textbullet\textbullet\textbullet \textbullet\textbullet \textbullet}   \\
-
-\hline
-\textbf{\ref{Bereich3} Implementation and validation} \\
-(A)  Implementation & \multicolumn{3}{l}{\hspace{0.9cm} \textbullet\textbullet\textbullet\textbullet\textbullet\textbullet\textbullet \textbullet\textbullet\textbullet\textbullet\textbullet\textbullet\textbullet\textbullet\textbullet}   \\
-(C)  Application and validation & \multicolumn{3}{l}{\hspace{2.4cm} \textbullet\textbullet\textbullet\textbullet\textbullet\textbullet\textbullet \textbullet\textbullet}   \\
-\bottomrule
-\end{tabular}
-\caption{Intended workload distribution over project duration.\label{T:workload}}}\vspace{-0.5cm}
-\end{table}
-
-
-
-
-\subsubsection{Part I: Combining $h$-adaptivity and local adaptive parameter selection}\label{Bereich1}
-
-\paragraph{Goals}
-
-For image denoising it has been demonstrated multiple times that a locally depend regularisation parameter is able to produce better results than a globally constant parameter \cite{}. In particular the local regularisation parameter should be large in homogeneous regions, while in parts with details the parameter should be small in order to preserve the structures. When looking at a concrete digital image, the underlying analogue image is usually discretized by quadratic pixels of uniform size. For further image enhancement, e.g. removing noise, this strongly supplies a finite difference (FD) implementation of image restoration algorithms. Considering a FD discretization, a local parameter may be viewed as a piecewise constant function, being constant on each pixel. That is, any constant part of the parameter is at least of the size of a pixel. This is (clearly) a restriction of the spatial adjustment of the parameter and may have influence on the restoration; cf. Figure~\ref{fig:1Dsignal}.
+The aim of the current project is to improve state-of-the-art locally adaptive parameter selection strategies for total variation image denoising. %By image denoising tasks we mean that the observed image contains noise and might be additionally corrupted by further instances, like blur or subsampling. That is the observation $g$ is given as in \eqref{eq:g}, where the operator $T$ might be, for example, the identity (solely denoising), a blurring operator (deblurring + denoising), a subsampled Fourier-transform (reconstruction of CT images), or a subsampled wavelet-transform.\todo{what type of noise?!}
+For image denoising it has been demonstrated multiple times that a locally depend regularisation parameter is able to produce better results than a globally constant parameter \cite{}. In particular the local regularisation parameter should be large in homogeneous regions, while in parts with details the parameter should be small in order to preserve the structures. When looking at a concrete digital image, the underlying analogue image is usually discretized by quadratic pixels of uniform size. For further image enhancement, e.g. removing noise, this strongly supplies a finite difference (FD) implementation of image restoration algorithms. Considering a FD discretization, a local parameter may be viewed as a piecewise constant function, being constant on each pixel. That is, any constant part of the parameter is at least of the size of a pixel. This is (clearly) a restriction of the spatial adjustment of the parameter which may have influence on the restoration; cf. Figure~\ref{fig:1Dsignal}.
 
 \begin{figure}[h!]
 \begin{center}
@@ -601,12 +539,19 @@ For image denoising it has been demonstrated multiple times that a locally depen
 \end{figure}
 
 
-In order to overcome this constraint, in this part of the project we develop methods, which combine a local adaptive parameter selection with a local refinement ($h$-adaptivity). Of course one may refine globally uniformly. However this would lead very fast to a very high computational complexity possibly not even manageable by a standard computer. For example, consider a medium size image of $1024 \times 1024$ pixels ($1\ 048\ 576$ pixels). Only five refinements, where a refinement quarters a pixel uniformly, would lead to an image which has $2^{10}$ times more elements, i.e., $1\ 073\ 741\ 824$ pixels. Hence it is not advised to use global refinement at all, and motivates us to consider local refinement, which allows to keep the degrees of freedom at a manageable size.
+In order to overcome this constraint, in this project we develop methods, which combine a local adaptive parameter selection with a local refinement ($h$-adaptivity). Of course one may refine globally uniformly. However this would lead very fast to a very high computational complexity possibly not even manageable by a standard computer. For example, consider a medium size image of $1024 \times 1024$ pixels ($1\ 048\ 576$ pixels). Only five refinements, where a refinement quarters a pixel uniformly, would lead to an image which has $2^{10}$ times more elements, i.e., $1\ 073\ 741\ 824$ pixels. Hence it is not advised to use global refinement at all, and motivates us to consider local refinement, which allows to keep the degrees of freedom at a manageable size. Note that a (local) refinement alone does not improve the solution of the optimisation problem for a given regularization parameter. Actually it is the regularization parameter which decides how much smoothing is performed in the solution process. Hence in order to get sharp edges and preserve fine details the regularization parameter has to be locally adjusted. 
+%This can be easily seen by the following observation on inverse problems: Let $X,Y$ be two normed vector spaces. Given $A\in \mathcal{L}(X,Y)$ and $y^\delta\in Y$, where $\|y-y^\delta\|_Y \leq \delta$ and $y\in Y$, we are seeking for a solution $x\in X$ such that $Ax=y$, whereas the equation is ill-posed. Let $(R_{\alpha})_\alpha$ be a regularisation of the pseudoinverse $A^\dagger$ of $A$ and $D_h: Y \to Y_h \subset Y$ a discretization. Then we have 
+%$$
+%\|R_\alpha D_h y^\delta - A^{\dagger} y\|_X \leq \underbrace{\|R_\alpha D_h (y^\delta - y)\|_X}_{\text{data error}} + \underbrace{\|R_\alpha D_h y - R_\alpha y\|_X}_{\text{discretisation error}} + \underbrace{\|R_\alpha y - A^{\dagger} y \|_X}_{\text{regularisation error}}.
+%$$
+%The sum of the last two terms is the so-called approximation error. It is well-know that for a fixed $\delta$ the data error and the approximation error propagate opposite for $\alpha,h \to 0$, see Figure \ref{}. Let $D_{\overline{h}}$ be another discretization such that $D_{\overline{h}}$ and $D_{h}$ are not necessarily nested and we use the convention that $D_hD_{\overline{h}} = D_h$. If $y = D_{\overline{h}} y$, then the minimal discretisation error is obtained for $D_h$ being such that $D_h y = D_{\overline{h}}y$, which is true if $D_h = D_{\overline{h}}$ or $D_h$ being a nested refinement of $D_{\overline{h}}$. %If $y = D_{\overline{h}} y$ is discrete and we use the convention that $D_hD_{\overline{h}} = D_h$, then $D_h = D_{\overline{h}}$ would give the minimal discretisation error. 
 
-Let us motivate our approach further on by demonstrating with a simple one-dimensional example the strength of a combined local refinement and local parameter selection. We consider the noisy signal in Figure~\ref{fig:noisy_signal} and restore the original signal once on the original (observed) mesh, i.e., mesh-size $h=0.01$, with a locally adjusted parameter and once on a locally twice refined mesh around the discontinuity again with a locally adjusted parameter. For the concrete choices of the local refined mesh and locally adjusted parameters see Figure~\ref{fig:stepsize} and Figure~\ref{fig:lamdba} respectively. That is, the non-uniform (locally refined) case allows for a more precise choice of the regularization parameter leading to a significantly more accurate restoration than the uniform setting, see Figure~\ref{fig:1Dsignal}.
+Let us motivate our approach further on by demonstrating with a simple one-dimensional example the strength of a combined local refinement and local parameter selection. We consider the noisy signal in Figure~\ref{fig:noisy_signal}, where the noise is of Gaussian type, and restore the original signal once on the original (observed) mesh, i.e., mesh-size $h=0.01$, with a locally adjusted parameter and once on a locally twice refined mesh around the discontinuity again with a locally adjusted parameter by minimizing \eqref{L2TVmultimodel2}. For the concrete choices of the local refined mesh and locally adjusted parameters see Figure~\ref{fig:stepsize} and Figure~\ref{fig:lamdba} respectively. That is, the non-uniform (locally refined) case allows for a more precise choice of the regularization parameter leading to a significantly more accurate restoration than the uniform setting, see Figure~\ref{fig:1Dsignal}.
 %In order to motivate our approach and demonstrate the strength of a combined local refinement and local parameter selection we depict in 
 %In Figure~\ref{fig:1Dsignal} we depict for a one-dimensional signal that a local refinement together with a local parameter selection indeed allows for better reconstruction. The mesh-size in Figure~\ref{fig:1Dsignal} is chosen to be $h=0.01$ in the uniform case and in the case of a non-uniform mesh the grid is two times refined around the jump, see Figure \ref{fig:stepsize}.  According to the grid the parameter $\lambda$ is locally adjusted as depicted in Figure \ref{fig:lamdba}. That is, in the non-uniform case this allows for a more precise choice of the regularization parameter leading to a significantly more accurate restoration than in the uniform setting, see Figure~\ref{fig:1Dsignal}.
- Note that in this motivative example the mesh refinement as well as the parameter choice of $\lambda$ is set by hand knowing the position of the discontinuity in advance. The goal of this project is to develop a method which fully automatic adapts the grid as well as the regularization parameter in total variation image denoising problems without knowing the places of the discontinuities (free-discontinuity problem) in order to increase the restoration quality significantly. More precisely the developed method will have the following desirable properties: 
+ Note that in this motivative example the mesh refinement as well as the parameter choice of $\lambda$ is set by hand knowing the position of the discontinuity in advance. 
+ 
+ The goal of this project is to develop a method which fully automatic adapts the grid as well as the regularization parameter in total variation image denoising problems without knowing the places of the discontinuities (free-discontinuity problem) in order to increase the restoration quality significantly. More precisely the developed method will have the following desirable properties: 
 \begin{inparaenum}[(i)]
 \item it obtains restorations of higher quality than state of the art methods;
 \item it is computationally efficient in time;
@@ -632,18 +577,156 @@ The goal is achieved by addressing the following challenges:
 \item How to combine h-adaptivity and locally adaptive parameter selection strategies? 
 \item What are the theoretical requirements to ensure convergence, robustness, and stability of the developed locally adaptive method?
 \end{itemize}
-Answering these research questions by means of the below described work packages (see next subsection) will lead to substantial scientific novelties. Concrete contributions of this project include the development of an algorithm which fully automatically adjusts locally the regularization parameter and refines the mesh for image denoising. In particular, to the best of our knowledge, this is the first mathematical contribution to simultaneously perform h-adaptivity and local adaptive parameter selection for an image restoration task.
+Answering these research questions by means of the below described work packages (see next subsection) will lead to substantial scientific novelties. Concrete contributions of this project include the development of an algorithm which fully automatically adjusts locally the regularization parameter and locally refines the mesh for image denoising. In particular, to the best of our knowledge, this is the first mathematical contribution to simultaneously perform h-adaptivity and local adaptive parameter selection for an image restoration task.
 
-Our method will be tailored to the concrete application of total variation image denoising tasks, whereby we mean that the observed image contains noise, but might be additionally corrupted by blur or subsampling. That is the operator $T$ in \eqref{L2TV} might be, for example, the identity (solely denoising), a blurring operator (deblurring + denoising), a subsampled Fourier-transform (reconstruction of CT images), or a subsampled wavelet-transform. These are indeed in practice challenging and very important restoration tasks appearing, e.g., in medical imaging and in the restoration of stored and transmitted photographs. Hence our method will be able to improve the restoration capability of several very relevant imaging tasks.
+Our method will be tailored to concrete applications of total variation image denoising tasks. By image denoising tasks we mean that the observed image contains noise and might be additionally corrupted by further instances, like blur or subsampling. That is the observation $g$ is given as in \eqref{eq:g}, where the operator $T$ might be, for example, the identity (solely denoising), a blurring operator (deblurring + denoising), a subsampled Fourier-transform (reconstruction of CT images), or a subsampled wavelet-transform, and $\mathcal{N}$ represents Gaussian noise, impulsive noise or a combination of both, leading to optimization problems of the form \eqref{eq:L1L2TV}. % \todo{what type of noise?!}
+In practice exactly such situations need to be dealt with, e.g., in medical imaging and in the restoration of stored and transmitted photographs. Hence our proposed method will be able to improve the restoration capability of several in practice very relevant and important imaging tasks.
+%challenging and very important restoration tasks appearing, Hence our method will be able to improve the restoration capability of several very relevant imaging tasks.
+
+%By image denoising tasks we mean that the observed image $g$ contains noise, but might be additionally corrupted by blur or subsampling. That is the operator $T$ in \eqref{L2TV} might be, for example, the identity (solely denoising), a blurring operator (deblurring + denoising), a subsampled Fourier-transform (reconstruction of CT images), or a subsampled wavelet-transform. 
 
 %Although our considerations are restricted to total variation regularization, it will serve as an important groundwork
 %Although our method is tailored to the concrete application of image denoising tasks, it will serve as an important groundwork for other applications, such as image inpainting, which is considered in a later phase of the project. 
 
-\paragraph{Approach and Work Programme}
+
+%The goal of the project is achieved by developing and implementing an adaptive method which automatically adjusts to the underlying problem, respectively image. The adjustment is, on the one hand side, happening on the discretization-level, where an optimal adaptive discretization is learned
+
+
+%The aim of the current project is to derive, analyse and implement methods for non-smooth optimization problems containing a total variation term with applications in image inpainting and motion estimation, which automatically adjust to the underlying problem. This adjustment, on the one hand-side, may happen on the modelling side where the according objective functional, e.g., its regularization term and parameters, is automatically chosen, and on the other hand-side, may occur on the discretization-level, where an optimal discretization is learned. This two-sided adjustment is motivated by the following observation on inverse problems: Let $X,Y$ be two normed vector spaces. Given $A\in \mathcal{L}(X,Y)$ and $y^\delta\in Y$, where $\|y-y^\delta\|_Y \leq \delta$ and $y\in Y$, we are seeking for a solution $x\in X$ such that $Ax=y$, whereas the equation is ill-posed. Let $(R_{\alpha})_\alpha$ be a regularisation of the pseudoinverse $A^\dagger$ of $A$ and $D_h: Y \to Y_h \subset Y$ a discretisation. Then we have 
+%$$
+%\|R_\alpha D_h y^\delta - A^{\dagger} y\|_X \leq \underbrace{\|R_\alpha D_h (y^\delta - y)\|_X}_{\text{data error}} + \underbrace{\|R_\alpha D_h y - R_\alpha y\|_X}_{\text{discretisation error}} + \underbrace{\|R_\alpha y - A^{\dagger} y \|_X}_{\text{regularisation error}}.
+%$$
+%The sum of the last two terms is the so-called approximation error. It is well-know that for a fixed $\delta$ the data error and the approximation error propagate opposite for $\alpha,h \to 0$, see Figure \ref{}. \nnew{Let $D_{\overline{h}}$ be another discretization such that $D_{\overline{h}}$ and $D_{h}$ are not necessarily nested and we use the convention that $D_hD_{\overline{h}} = D_h$. If $y = D_{\overline{h}} y$, then the minimal discretisation error is obtained for $D_h$ being such that $D_h y = D_{\overline{h}}y$, which is true if $D_h = D_{\overline{h}}$ or $D_h$ being a nested refinement of $D_{\overline{h}}$.} %If $y = D_{\overline{h}} y$ is discrete and we use the convention that $D_hD_{\overline{h}} = D_h$, then $D_h = D_{\overline{h}}$ would give the minimal discretisation error. 
+%On the contrary, assuming uniform meshes with mesh-size $h<\overline{h}$, the data error increases, and for $h>\overline{h}$ the data error decreases. Hence, in the noise-free case, i.e. $\delta=0$, from this consideration we deduce that $D_h=D_{\overline{h}}$ (resp. $D_h$ such that $D_h y = D_{\overline{h}} y$) seems to be the best choice. However, for $\delta>0$, %, which is indeed the case for $\delta=0$, i.e., in the noise-free situation. But for $\delta>0$, 
+%since the data error may be reduced for $h > \overline{h}$, the choice of the discretisation seems not clear. %From this consideration it seems not clear that $D_h=D_{\overline{h}}$ is the best choice, as it depends on how the data error may be reduced for $h > \overline{h}$. 
+%%Nevertheless, numerical experiments suggest to take $D_h=D_{\overline{h}}$ \cite{}, while a reason for this might be, that it is very difficult to optimise a regularisation method with respect to a possibly non-uniform mesh. 
+%In this project we mainly concentrate at looking at the considered inverse imaging problems from the perspective that the objects depicted in an image are analog. %Nevertheless, investigating the influence of a discretisation on the data error for given discrete observations should be part of .... \todo{see if it fits somewhere}. 
+%Hence, here we mainly assume $y$ being a function rather than a discrete object. For example, then in image inpainting we are interested in restoring the corrupted physical objects depicted in the image as accurate as possible by keeping the computational complexity on a manageable level. This accurate restoration may also be put in the context of super-resolution or zooming.
+%
+%We derive criteria which tell us how the adjustment of the regularization and discretization should be performed. Since we are interested in imaging problems, an important criteria will be an indicator for discontinuities or edges. Exactly at discontinuities the regularization should be very little, preventing any smoothing. This asks for localized regularization and locally adaptive regularization parameters. Moreover, according to the discontinuities also the discretization should be aligned, e.g., in order to use a (discontinuous) Galerkin method successfully. Such an automatic alignment may be performed by solving an optimisation problem with respect to the discrete mesh or triangulation. However, in general such adjustment criteria will depend on the application. For example, if we calculate the optical flow of a (noise-free) image sequence, then an edge indicator of the flow field should be sufficient. Thereby, note, that the derivation of an accurate edge indicator is by far not a trivial task and we need to investigate what might be a good choice. However, assuming we have an edge indicator and if there is additional noise present, then such an indicator may detect noise as small features, which leads to false edge indications. In such a situation additional information has to be used, as the according noise-level, to construct a reasonable indicator. 
+%
+%The final goal of the present project is to provide a fully adaptive method for image inpainting and motion estimation, which automatically adjusts the regularisation and discretization accordingly. Moreover, strongly related problems, as the calculation of crack propagation, might be considered as well.
+
+
+
+
+\subsection{Work programme incl. proposed research methods}
+\label{sec:work-programme}
+
+%The work program starts by deriving indicators, telling where and how to adaptively adjust the model and solution process. Based on these derived indicators, we construct different adaptive methods, which iteratively reduce the reconstruction error. The adaptivity may refer to the adaptive choice of the parameters in the objective functional (locally distributed parameters), the adaptive choice of stopping criteria in an iterative regularization method (iterative adaptive regularization), or the adaptive adjustment of the (discrete) mesh on which the problem should be solved (adaptive discretization). The work program of the proposed project is separated into three parts, while in all parts we mainly focus on applications to image inpainting and motion estimation. In the first part we develop and analyse adaptive discretization schemes, while in the second part adaptive regularization methods are constructed and investigated. In the third part the implementation of the adaptive schemes is considered, where we aim at a fully automatic adjustment scheme with respect to discretization and regularization. The first two parts are planned in a way that they benefit from each other. %might be developed independently from each other. However, the work programme is planned in a way, that the second part benefits form the first one and maybe vice-versa. 
+%For example, indicators, based on a posteriori estimates, for an automatic adjustment of the discretization, may also be used to adjust the regularization accordingly and vice-versa. \nnew{Note that (an adaptive) refinement alone only improves the solution of the optimisation problem for a given regularization parameter. Actually it is the regularization parameter which decides how much smoothing is performed in the solution process. Hence in order to get sharp edges and preserve fine details the regularization parameter has to be locally adjusted.} %Additionally,  an adaptive discretization alone, might not improve the solution but only reduces the degree of freedom. 
+%\nnew{That is} in order to gain significant improvement in the reconstruction, we need to combine adaptive discretization with a locally adaptive parameter choice. %\nnew{For example, in image inpainting a fine discretization in the inpainting region is not sufficient to obtain a more accurate reconstruction} \todo{maybe example inpainting where both is needed}
+
+ 
+
+
+
+
+%\subsubsection{Part I: Combining $h$-adaptivity and local adaptive parameter selection}\label{Bereich1}
+
+%\paragraph{Goals}
+%
+%For image denoising it has been demonstrated multiple times that a locally depend regularisation parameter is able to produce better results than a globally constant parameter \cite{}. In particular the local regularisation parameter should be large in homogeneous regions, while in parts with details the parameter should be small in order to preserve the structures. When looking at a concrete digital image, the underlying analogue image is usually discretized by quadratic pixels of uniform size. For further image enhancement, e.g. removing noise, this strongly supplies a finite difference (FD) implementation of image restoration algorithms. Considering a FD discretization, a local parameter may be viewed as a piecewise constant function, being constant on each pixel. That is, any constant part of the parameter is at least of the size of a pixel. This is (clearly) a restriction of the spatial adjustment of the parameter which may have influence on the restoration; cf. Figure~\ref{fig:1Dsignal}.
+%
+%\begin{figure}[h!]
+%\begin{center}
+%\subfigure[\label{fig:noisy_signal}Observed noisy signal]{\includegraphics[width=5cm]{observed_signal}}\hspace{0.2cm}
+%\subfigure[\label{fig:reconstr}Reconstructions versus original signal]{\includegraphics[width=5cm]{Comparison_uniform_nonuniform_mesh}}\hspace{0.2cm}
+%\subfigure[\label{fig:zoom}Zoom of \ref{fig:reconstr}]{\includegraphics[width=5cm]{Comparison_uniform_nonuniform_mesh_zoom}}
+%\caption{Influence of h-adaptivity for reconstruction of a noisy signal, see \ref{fig:noisy_signal},  with a locally adjusted parameter.}\label{fig:1Dsignal}
+%\end{center}
+%\end{figure}
+%
+%
+%In order to overcome this constraint, in this part of the project we develop methods, which combine a local adaptive parameter selection with a local refinement ($h$-adaptivity). Of course one may refine globally uniformly. However this would lead very fast to a very high computational complexity possibly not even manageable by a standard computer. For example, consider a medium size image of $1024 \times 1024$ pixels ($1\ 048\ 576$ pixels). Only five refinements, where a refinement quarters a pixel uniformly, would lead to an image which has $2^{10}$ times more elements, i.e., $1\ 073\ 741\ 824$ pixels. Hence it is not advised to use global refinement at all, and motivates us to consider local refinement, which allows to keep the degrees of freedom at a manageable size.
+%
+%Let us motivate our approach further on by demonstrating with a simple one-dimensional example the strength of a combined local refinement and local parameter selection. We consider the noisy signal in Figure~\ref{fig:noisy_signal} and restore the original signal once on the original (observed) mesh, i.e., mesh-size $h=0.01$, with a locally adjusted parameter and once on a locally twice refined mesh around the discontinuity again with a locally adjusted parameter. For the concrete choices of the local refined mesh and locally adjusted parameters see Figure~\ref{fig:stepsize} and Figure~\ref{fig:lamdba} respectively. That is, the non-uniform (locally refined) case allows for a more precise choice of the regularization parameter leading to a significantly more accurate restoration than the uniform setting, see Figure~\ref{fig:1Dsignal}.
+%%In order to motivate our approach and demonstrate the strength of a combined local refinement and local parameter selection we depict in 
+%%In Figure~\ref{fig:1Dsignal} we depict for a one-dimensional signal that a local refinement together with a local parameter selection indeed allows for better reconstruction. The mesh-size in Figure~\ref{fig:1Dsignal} is chosen to be $h=0.01$ in the uniform case and in the case of a non-uniform mesh the grid is two times refined around the jump, see Figure \ref{fig:stepsize}.  According to the grid the parameter $\lambda$ is locally adjusted as depicted in Figure \ref{fig:lamdba}. That is, in the non-uniform case this allows for a more precise choice of the regularization parameter leading to a significantly more accurate restoration than in the uniform setting, see Figure~\ref{fig:1Dsignal}.
+% Note that in this motivative example the mesh refinement as well as the parameter choice of $\lambda$ is set by hand knowing the position of the discontinuity in advance. The goal of this project is to develop a method which fully automatic adapts the grid as well as the regularization parameter in total variation image denoising problems without knowing the places of the discontinuities (free-discontinuity problem) in order to increase the restoration quality significantly. More precisely the developed method will have the following desirable properties: 
+%\begin{inparaenum}[(i)]
+%\item it obtains restorations of higher quality than state of the art methods;
+%\item it is computationally efficient in time;
+%\item it is stable and robust.
+%\end{inparaenum}
+%\begin{figure}
+%\begin{center}
+%\includegraphics[width=5cm]{stepsize}
+%\caption{Stepsize of the non-unform mesh. Twice refined around the jump.}\label{fig:stepsize}
+%\end{center}
+%\end{figure}
+%\begin{figure}
+%\begin{center}
+%\subfigure[\label{fig:lambda1}]{\includegraphics[width=5cm]{lambda}}\hspace{0.2cm}
+%\subfigure[\label{fig:lambda2}]{\includegraphics[width=5cm]{lambda_zoomed}}
+%\caption{Choice of the locally adaptive parameter}\label{fig:lamdba}
+%\end{center}
+%\end{figure}
+%The goal is achieved by addressing the following challenges:
+%\begin{itemize}
+%\item At which image parts should be locally refined and how should this refinement be performed?
+%\item What is a suitable discretization method (FD, FE) for h-adaptive meshes in image denoising?
+%\item How to combine h-adaptivity and locally adaptive parameter selection strategies? 
+%\item What are the theoretical requirements to ensure convergence, robustness, and stability of the developed locally adaptive method?
+%\end{itemize}
+%Answering these research questions by means of the below described work packages (see next subsection) will lead to substantial scientific novelties. Concrete contributions of this project include the development of an algorithm which fully automatically adjusts locally the regularization parameter and refines the mesh for image denoising. In particular, to the best of our knowledge, this is the first mathematical contribution to simultaneously perform h-adaptivity and local adaptive parameter selection for an image restoration task.
+%
+%Our method will be tailored to the concrete application of total variation image denoising tasks, whereby we mean that the observed image contains noise, but might be additionally corrupted by blur or subsampling. That is the operator $T$ in \eqref{L2TV} might be, for example, the identity (solely denoising), a blurring operator (deblurring + denoising), a subsampled Fourier-transform (reconstruction of CT images), or a subsampled wavelet-transform. These are indeed in practice challenging and very important restoration tasks appearing, e.g., in medical imaging and in the restoration of stored and transmitted photographs. Hence our method will be able to improve the restoration capability of several very relevant imaging tasks.
+%
+%%Although our considerations are restricted to total variation regularization, it will serve as an important groundwork
+%%Although our method is tailored to the concrete application of image denoising tasks, it will serve as an important groundwork for other applications, such as image inpainting, which is considered in a later phase of the project. 
+
+%\paragraph{Approach and Work Programme}
  
  Based on the goals and challenges defined above, we separate the work programme into the following work packages (WP).
  
- \subparagraph{WP 1.1: Heuristic indicator for h-adaptivity} We derive criteria which tell us at which parts of the image domain the mesh needs/should be further refined. In order to allow the PhD candidate to get easier familiar with the topic, in the beginning such a criterion might be heuristic, motivated by intuitive considerations or numerical observations. Let us describe two possible approaches:
+ 
+%\begin{table}[!htbp]\centering
+%{\small%\scriptsize%
+%\begin{tabular}{*4l}
+%\toprule
+% \multicolumn{1}{c}{work program} &  year 1 & year 2 & year 3\\
+%\midrule
+%\textbf{Indicator}\\
+%WP 2  & \multicolumn{3}{l}{ \textbullet\textbullet\textbullet\textbullet\textbullet\textbullet \textbullet\textbullet\textbullet\textbullet\textbullet\textbullet}\\
+%WP 5  & \multicolumn{3}{l}{\hspace{0.9cm} \textbullet\textbullet\textbullet\textbullet\textbullet\textbullet\textbullet \textbullet\textbullet\textbullet\textbullet\textbullet\textbullet}   \\
+%\hline
+%\textbf{Implementation and validation}  \\
+%WP 1  &  \multicolumn{3}{l}{\textbullet\textbullet\textbullet}   \\
+%WP 3 &  \multicolumn{3}{l}{\hspace{1.3cm} \textbullet\textbullet\textbullet\textbullet}   \\
+%WP 4 &\\
+%WP 8 (Validation)\\
+%\hline
+%\textbf{Analysis} \\
+%WP 6 & \multicolumn{3}{l}{\hspace{0.9cm} \textbullet\textbullet\textbullet\textbullet\textbullet\textbullet\textbullet \textbullet\textbullet\textbullet\textbullet\textbullet\textbullet\textbullet\textbullet\textbullet}   \\
+%%(C)  Application and validation & \multicolumn{3}{l}{\hspace{2.4cm} \textbullet\textbullet\textbullet\textbullet\textbullet\textbullet\textbullet \textbullet\textbullet}   \\
+%\hline
+%\textbf{Documentation} \\
+%WP 7 & \multicolumn{3}{l}{\hspace{0.9cm}}\\
+%\bottomrule
+%\end{tabular}
+%\caption{Intended workload distribution over project duration.\label{T:workload}}}\vspace{-0.5cm}
+%\end{table}
+
+%\begin{table}[!htbp]\centering
+%\begin{tabular}{|p{1cm}|p{2cm}|p{3cm}|}
+%\hline
+%1 cm width & 2 cm  width & 3 cm  width \\
+%\hline
+%test 1 & test 2 & test 3\\
+%\hline
+%\end{tabular}
+%\end{table}
+
+
+ 
+\subparagraph{WP 1: Implementation of an adaptive finite difference method}
+ 
+ The literature indicates that for solving the inverse problem of reconstructing an image from its observed corrupted data usually finite differences are used. In this vein we first implement a finite difference method on locally refined meshes for total variation denoising algorithms. In particular we implement different solution strategies for solving the $L^2$-TV, $L^1$-TV and $L^1$-$L^2$-TV model. % the derived double adaptive algorithm by an adaptive finite difference method.  
+ To the best of our knowledge, this seems to be the first adaptive finite difference approach for total variation minimization. The implementation of these algorithms form the basis of the locally adaptive parameter selection and $h$-adaptive method derived in WP 1.2, whose implementation, analysis and validation will be explained in WP 1.3 
+ 
+ 
+ \subparagraph{WP 2: Heuristic indicator for h-adaptivity} We derive criteria which tell us at which parts of the image domain the mesh needs/should be further refined. In order to allow the PhD candidate to get easier familiar with the topic, in the beginning such a criterion might be heuristic, motivated by intuitive considerations or numerical observations. Let us describe two possible approaches:
 \begin{enumerate}
  \item As already stated above, we wish the regularization parameter to be locally small at discontinuities, in order to preserve them. Hence it seems suitable that the mesh is fine around a discontinuity allowing to localize the jump accurately. In this vein, a possible indicator may be an edge indicator, as the Sobel operator or the Canny detector. A consequential strategy to obtain a suitable refinement indicator might be \begin{inparaenum}[(i)] \item (pre-)denoise the image by a standard technique \item apply an edge detector \item define the indicator according to the result of the edge detector\end{inparaenum}.
 This refinement indicator is then combined with a locally adaptive parameter selection strategy. As there exist several different locally adaptive parameter selection strategies, we first use the one described in \cite{Lan}. Subsequently we will adjust the approach to other adaptive parameter selection strategies, as \cite{}, and compare them numerically.  \\
@@ -678,11 +761,18 @@ Note that such an indicator might not only be suitable for local refinement but 
 
 
  
- \subparagraph{WP 1.2: Implementation of an adaptive finite difference method}
+ \subparagraph{WP 3: Implementation of fully adaptive methods by finite differences}
  
- The literature indicates that for solving the inverse problem of reconstructing an image from its observed corrupted data usually finite differences are used. In this vein we first implement the derived double adaptive algorithm by an adaptive finite difference method. To the best of our knowledge, this seems to be the first adaptive finite difference approach for total variation minimization. The derivation and implementation of the fully adaptive algorithm will be complemented by a mathematical analysis investigating the convergence and stability of the method. 
- 
-We will extensively compare our derived adaptive algorithm with state-of-the-art algorithms for image denoising applications. In order to compare the obtained solutions qualitatively, we need to understand which restoration quality measures are suitable for a non-uniform discretization. Can the standard measures, like PSNR, MSE, and SSIM, be directly used for a non-uniform discretization, representing the visual quality? Considering again the example from Figure \ref{fig:1Dsignal}, we observe that this seems not obviously the case. While the transformation onto the locally refined grid for the reconstruction in Figure \ref{fig:1Dsignal} is done by keeping the value as in the parent element, for the reconstruction in Figure \ref{fig:PSNR} a linear interpolation is performed. In both situations the reconstructions on the non-uniform grid are visually more appealing than the solution on the uniform grid. However, the PSNR-values indicate something different. In particular, for the reconstruction on the non-uniform grid in Figure \ref{fig:PSNR} PSNR = 26.54 and for the one in Figure \ref{fig:1Dsignal} PSNR = 34.74, while for the solution on the uniform grid PSNR = 28.88. Note that a larger PSNR indicates a better restoration. While the PSNR-value for the reconstruction of Figure~\ref{fig:1Dsignal} seem reasonable, as it quantifies our visual observation, the PSNR-value of the restoration in Figure~\ref{fig:PSNR} seems odd. The reason for this counterintuitive behaviour of the PSNR might be that, since at the discontinuity the mesh is locally refined, in the case of linear interpolation there the minimization process aims at a solution which is around 0.5, i.e., rather far away from the correct value. Although the size of the element with value around 0.5 is small, the size of the element is weighted linear and not quadratic as the value at this point. Hence the value is more weighted/influential than the size of the element. In this sense we investigate how to utilize standard quality measures for non-uniform grids, so that a fair quantitative comparison of the restoration quality can be done. \textcolor{blue}{(Is it clear what is meant here? - There might be a visualisation problem in MatLab. It depicts piecewise linear functions rather than piecewise constant.)}
+ Base on the adaptive finite difference implementations in WP 1.1, we will implement the different strategies derived in WP 1.2. We compare and numerically investigate their restoration capability as well as their computational performance. Moreover
+ %
+% These numerical investigations of the fully adaptive algorithm will be complemented by a mathematical analysis investigating the convergence and stability of the method. 
+ %
+% The literature indicates that for solving the inverse problem of reconstructing an image from its observed corrupted data usually finite differences are used. In this vein we first implement a finite difference method on locally refined meshes for total variation denoising algorithms. In particular we implement different solution strategies for solving the $L^2$-TV, $L^1$-TV and $L^1$-$L^2$-TV model. % the derived double adaptive algorithm by an adaptive finite difference method.  
+ %To the best of our knowledge, this seems to be the first adaptive finite difference approach for total variation minimization. The implementation of these algorithms forms the base of the locally adaptive parameter selection and $h$-adaptive method derived in WP 1.2, whose implementation, analysis and validation will be explained in WP 1.3
+ %
+ %The derivation and implementation of the fully adaptive algorithm will be complemented by a mathematical analysis investigating the convergence and stability of the method. 
+ %
+ we will extensively compare our derived adaptive algorithm with state-of-the-art algorithms for image denoising applications. In order to compare the obtained solutions qualitatively, we need to understand which restoration quality measures are suitable for a non-uniform discretization. Can the standard measures, like PSNR, MSE, and SSIM, be directly used for a non-uniform discretization, representing the visual quality? Considering again the example from Figure \ref{fig:1Dsignal}, we observe that this seems not obviously the case. While the transformation onto the locally refined grid for the reconstruction in Figure \ref{fig:1Dsignal} is done by keeping the value as in the parent element, for the reconstruction in Figure \ref{fig:PSNR} a linear interpolation is performed. In both situations the reconstructions on the non-uniform grid are visually more appealing than the solution on the uniform grid. However, the PSNR-values indicate something different. In particular, for the reconstruction on the non-uniform grid in Figure \ref{fig:PSNR} PSNR = 26.54 and for the one in Figure \ref{fig:1Dsignal} PSNR = 34.74, while for the solution on the uniform grid PSNR = 28.88. Note that a larger PSNR indicates a better restoration. While the PSNR-value for the reconstruction of Figure~\ref{fig:1Dsignal} seem reasonable, as it quantifies our visual observation, the PSNR-value of the restoration in Figure~\ref{fig:PSNR} seems odd. The reason for this counterintuitive behaviour of the PSNR might be that, since at the discontinuity the mesh is locally refined, in the case of linear interpolation there the minimization process aims at a solution which is around 0.5, i.e., rather far away from the correct value. Although the size of the element with value around 0.5 is small, the size of the element is weighted linear and not quadratic as the value at this point. Hence the value is more weighted/influential than the size of the element. In this sense we investigate how to utilize standard quality measures for non-uniform grids, so that a fair quantitative comparison of the restoration quality can be done. \textcolor{blue}{(Is it clear what is meant here? - There might be a visualisation problem in MatLab. It depicts piecewise linear functions rather than piecewise constant.)}
  
 % \textcolor{blue}{How to measure the restoration quality? Are usual measures as PSNR, MSE, SSIM suitable for a non-uniform discretization? To ME it seems that PSNR is not suitable. Example will be presented!}
  
@@ -693,10 +783,11 @@ We will extensively compare our derived adaptive algorithm with state-of-the-art
 \end{center}
 \end{figure}
  
+ The numerical investigations of the fully adaptive algorithm will be complemented by a mathematical analysis investigating the convergence and stability of the method. 
  
- \subparagraph{WP 1.3: Finite element discretization}
+ \subparagraph{WP 4: Finite element discretization}
  
- An alternative discretization is given by finite element methods, which easily allow for an adaptive meshing. However finite element methods are not yet well established and understood in the context of non-smooth optimisation problems with applications in image processing. Nevertheless finite element methods in imaging applications are needed whenever the image is not represented on a Cartesian grid, for example when the image data is obtained by the use of hexagonal sensor layouts \cite{}, the data is given on manifolds, or in medical imaging \cite{}; see \cite{} for motivations considering finite element discretization of the total variation also in the context of other applications besides imaging. \todo{References from Herzog et al.} 
+ An alternative discretization (to FD) is given by finite element methods, which easily allow for an adaptive meshing. However finite element methods are not yet well established and understood in the context of non-smooth optimisation problems with applications in image processing. Nevertheless finite element methods in imaging applications are needed whenever the image is not represented on a Cartesian grid, for example when the image data is obtained by the use of hexagonal sensor layouts \cite{}, the data is given on manifolds, or in medical imaging \cite{}; see \cite{} for motivations considering finite element discretization of the total variation also in the context of other applications besides imaging. \todo{References from Herzog et al.} 
   Therefore we develop and investigate in more depth finite element methods for total variation minimization. We will examine whether it is more suitable to first discretized and then optimised the considered problem, as in \cite{Herzog etal}, or the other way round, i.e., first optimise and then discretized, as in \cite{AlkLan}. By suitable we mean, which approach is computational more efficient and has better restoration capabilities. %A comparison of both approaches in the sense of quality and efficiency will be carried out. 
   Such a comparison includes the implementation of different total variation minimization strategies, such as the Augmented Lagrange Method, ADMM, primal-dual method of Chambolle and Pock, dual methods, as well as considering different finite element spaces. \textcolor{blue}{A comparison of different methods in a FE setting could be announced as a master-thesis; same may apply for DG $\Rightarrow$ HiWi job.} Due to the fact that the underlying solution is supposed to be discontinuous, we expect a suitable finite element space to be discontinuous, leading to a discontinuous Galerkin (DG) implementation. In fact, it is demonstrated in the master-thesis \cite{Dieterich} (supervised by the principle investigator Andreas Langer) that a DG implementation -- in case of the symmetric interior penalty method -- is able to preserve edges tremendously more accurate than a continuous Galerkin (CG) implementation. A key point in the DG implementation is that the penalty term is made spatially adaptive, so that the formulation is only penalized largely where the solution should be continuous. Motivated by these positive results performed on uncorrupted test images, in this project we will investigate how a DG implementation may be used efficiently to solve total variation image denoising problems. 
   
@@ -721,7 +812,7 @@ Based on this considerations in a next step we will incorporate the h-adaptivity
 % $\Gamma$-convergence; stability; a priori estimate; convergence w.r.t. h; robustness
  
  
- \subparagraph{WP 1.4 Theoretical motivated indicators}
+ \subparagraph{WP 5 Theoretical motivated indicators}
  
   %At a later stage of the overall project 
   At this part an indicator for the h-adaptivity should be derived rigorously by mathematical argumentation based on a posteriori estimates. Note that there exists a variety of reliable and efficient estimators for a large class of different elliptic problems; compare with the monographs~\cite{AinOde,Ciarlet:02,Verfurth:96} and the references therein. In these cases error estimation is in general a two-step procedure: in a first step one shows, by a continuous inf-sup condition and continuity of the associated bilinear form, equivalence of the true error to some negative norm of the residual. Then the non-computable negative norm of the residual is estimated by an equivalent (up to oscillation) but computable quantity in the second step. It is important to notice that the equivalence of the first step is equivalent to have the continuous inf-sup and at the same time continuity of the bilinear form with respect to the chosen spaces. Recently a posteriori estimators have been developed for solving constrained optimization problems \cite{KoRoSi:14}. However, for the inverse problem of analysing or reconstructing images from observed data a posteriori estimators are not yet used. The reason for this might be that in such problems one usually minimizes a non-smooth functional, which do not allow usual derivatives and renders the optimality conditions complicated. To our knowledge the only result in this direction is~\cite{Bar2015} for the $L^2$-TV model in which an abstract version of Repin's technique~\cite{Repin} is applied.
@@ -745,7 +836,9 @@ Note that it is well-known that especially at singularities the reconstruction e
 An indicator solely based on a posteriori estimations may only perform suitably in a noise-free application, as they may detect noise as details and may ask for a fine discretization around noise. However we investigate how crucial this behaviour is in the restoration process of noisy images. In case this behaviour has indeed critical consequences, further informations detecting the noise are needed, so that a reasonable adaptive discretization is guaranteed. Such information might be the noise-level of the underlying noise, and hence may also depend on the type of noise. Note that the local adjustment of the regularization parameter anyway needs such an additional information and should not be solely based on an a posteriori estimate, due to the reasons mentioned before. A strategy which we plan to investigate follows the ideas in \cite{Lan, Lan} assuming some statistical knowledge about the difference $\eta:= g- T \hat{u}$ and computing local residuals in order to check whether a local area of the reconstruction (still) contains noise or is noiseless. It has been demonstrated in \cite{Lan} that for the adjustment of the regularization parameter the statistical knowledge of $\eta$ should be even of local nature, since the noise-level usually differs locally significantly.\\
 In this project we follow this idea, by investigating on how to estimate noise locally rather accurately. Additionally or alternatively, we combine the obtained noise-level with an a posteriori indicator, derived as above, to obtain stable indicators of fine details and edges in an image. These indicators are then used for h-adaptivity and the local adjustment of the parameter. We believe that a combination of these techniques allows to create stable locally adaptive methods.
  
- \subparagraph{WP 1.5: Theoretical analysis}
+The derived indicators of this work package will be incorporated into the finite difference and finite element implementation of the fully adaptive methods of WP 1.3 and WP 1.4.
+ 
+ \subparagraph{WP 6: Theoretical analysis}
 
 From a theoretically point of view it is also highly interesting how such a double adaptive strategy effects the solution. Here we proceed in the following steps:
  
@@ -760,7 +853,7 @@ Complementarily we will consider the dependency of the solutions of~\eqref{L2TVm
  \item Armed with these results we will study the monotonicity and convergence properties of the developed double adaptive methods, i.e., whether the localised resolution increase together with a parameter adjustment, results in optimal (or quasi-optimal) rate of approximation to the solution. 
  \end{enumerate} 
  
- \subparagraph{WP 1.6: Documentation and publication}
+ \subparagraph{WP 7: Documentation and publication}
  
  The project results are presented in reports, at national and international conferences and published in journals. These publications will be written during the entire project period, whenever significant new results are achieved. The software created in the project is documented with modern documentation tools in such a way that reusability is guaranteed. Reusability is not only guaranteed within the group, but as the implementation is done in the software environment DUNE appropriate subpackages of the resulting software are made available to everybody via the internet.
  
@@ -947,9 +1040,45 @@ Complementarily we will consider the dependency of the solutions of~\eqref{L2TVm
 %\end{center}
 %\end{figure}
 
+\paragraph{Work plan}
+Based on the work packages described above the intended workload is distributed during the project period as follows:\\
+\begin{center}
+%\begin{table}[!htbp]\centering
+{\small%\scriptsize%
+\begin{tabular}{p{6cm}|p{1.9cm}|p{1.9cm}|p{1.9cm}}
+\toprule
+ \multicolumn{1}{c|}{work program} &  \centering year 1 & \centering year 2 & \centering{year 3} \tabularnewline
+\midrule
+\textbf{Indicator} \\
+\-\hspace{2pt} WP 2: Heuristic indicators & \multicolumn{3}{l}{\hspace{0.5cm}\textbullet \textbullet \textbullet \textbullet \textbullet \textbullet  \textbullet \textbullet \textbullet } \\
+\-\hspace{2pt} WP 5: Theoretic indicators & \multicolumn{3}{l}{\hspace{3.9cm} \textbullet\textbullet\textbullet\textbullet\textbullet\textbullet\textbullet \textbullet\textbullet\textbullet\textbullet\textbullet\textbullet \textbullet}   \\
+\hline
+\textbf{Implementation and validation}  \\
+WP 1  Adaptive FDM&  \multicolumn{3}{l}{\textbullet\textbullet\textbullet\textbullet}   \\
+WP 3 Fully adaptive method by FD&  \multicolumn{3}{l}{\hspace{1.3cm} \textbullet\textbullet\textbullet\textbullet \textbullet\textbullet}   \\
+WP 4 FE discretization & \multicolumn{3}{l}{\hspace{2.3cm} \textbullet\textbullet\textbullet \textbullet \textbullet\textbullet \textbullet\textbullet\textbullet  \textbullet\textbullet\textbullet}   \\
+WP 8 (Validation) & \multicolumn{3}{l}{\hspace{1.9cm} \textbullet\textbullet\textbullet \textbullet\textbullet\textbullet \hspace{0.8cm}  \textbullet\textbullet\textbullet \hspace{0.4cm} \textbullet\textbullet\textbullet  \textbullet\textbullet  \textbullet\textbullet\textbullet}\\
+\hline
+\textbf{Analysis} \\
+WP 6 & \multicolumn{3}{l}{\hspace{0.9cm} \textbullet\textbullet\textbullet\textbullet\textbullet\textbullet\textbullet \textbullet\textbullet\textbullet\textbullet\textbullet\textbullet\textbullet\textbullet\textbullet
+\textbullet\textbullet\textbullet \textbullet\textbullet\textbullet \textbullet\textbullet\textbullet \textbullet\textbullet\textbullet \textbullet\textbullet\textbullet}   \\
+%(C)  Application and validation & \multicolumn{3}{l}{\hspace{2.4cm} \textbullet\textbullet\textbullet\textbullet\textbullet\textbullet\textbullet \textbullet\textbullet}   \\
+\hline
+\textbf{Documentation} \\
+WP 7 & \multicolumn{3}{l}{\hspace{1.9cm} \textbullet\textbullet\textbullet \textbullet\textbullet\textbullet \hspace{1.4cm}  \textbullet\textbullet\textbullet  \textbullet\textbullet\textbullet  \textbullet\textbullet  \textbullet\textbullet\textbullet}\\
+\bottomrule
+\end{tabular}
+%\caption{Intended workload distribution over project duration.\label{T:workload}}}\vspace{-0.5cm}
+%\end{table}
+}
+\end{center}
+ 
+
 
 \subsection{Impact and Continuation of the Project}
 
+
+Although our proposed adaptive method is tailored to Gaussian and impulsive noise removal as well as to total variation minimization, is also serves as a groundwork for other type of noises, as Poisson and multiplicative noise, as well as other type of regularization.
 
 \paragraph{Supplements.}\todo{Here could go: nonconvex regularizer, different data terms, ...}
 %We are going to consider additional topics for enriching the understanding of adaptive mechanisms by aspects that are different to the setting above. 
