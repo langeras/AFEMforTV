@@ -174,7 +174,7 @@
   
   \author{Andreas Langer and Fernando Gaspoz}
   \date{Stuttgart, \today \\[50mm] Submission\\[50mm]
-    Application period: 01.01.2019 --- 31.12.2021}
+    Application period: 01.04.2020 --- 31.03.2023}
 \end{titlepage}
 
 \maketitle[-1]
@@ -191,7 +191,7 @@
   \textbf{Dr. Andreas Langer}
   \begin{tabbing}
     DFG reference number:\quad\=Phone:\quad\=\kill
-    Position:\> Deputy Professor\\% PostDoc\\
+    Position:\>  PostDoc\\
     %DFG reference number:\>SI 814/1-2\\[1mm]
     Contact:\> Numerische Mathematik f\"ur H\"ochstleistungsrechner\\ 
     \>Institut f\"ur Angewandte Analysis und Numerische Simulation\\
@@ -509,11 +509,12 @@ It is worth mentioning too  the work~\cite{BaeMik} in which adaptive coarsening 
 
 \section{Objectives and work programme}
 \label{sec:object}
-The main objective of the proposed research project is the development and analysis of adaptive methods for solving inverse imaging problems, where the total variation minimization plays a fundamental role. The adaptivity in the methods is designed in a way that the reconstruction error is minimized during an iterative scheme or the computational complexity is reduced, while aiming at a certain accuracy of the solution, which may be obtained by optimising simultaneously the degrees of freedom and the reconstruction error. Such an adaptivity leads to a locally dependent treatment of the underlying problem, i.e., at different points or areas the considered problem will be treated differently. We will create local adjustment methods with the properties of being robust with respect to the observed data and efficient. By efficient we mean, that the methods are optimized with respect to computational time while keeping the numerical solution at a certain accuracy. % with the aim of reducing the reconstruction error. %Since we are dealing with inverse problems, this could mean that at different locations different regularization is used. 
+The main objective of the proposed research project is the enhancement of the restoration of noisy images. This enhancement of the restoration quality is achieved by developing adaptive methods for solving total variation minimization problems. The adaptivity in the method is designed in a way that features and edges in the considered image are preserved while noise is substantially eliminated. Such an adaptivity leads to a locally dependent treatment of the underlying problem, i.e., at different points or areas in the image domain the considered problem will be treated differently. The developed method will be adaptive in two ways. More precisely, the method allows for a local mesh refinement such that a locally adjusted regularization parameter can be optimally tailored to edges and transition of colors. We will create local adjustment methods with the properties of being robust with respect to the observed data and efficient. By efficient we mean, that the methods are also optimized with respect to computational time, why an adaptive local refinement rather than a global refinement is performed. The development of the method will be accompanied by a rigorous mathematical analysis, investigating the obtained discrete problems as well as the obtained algorithms theoretically. The designed method will be explored and tested by numerous numerical experiments considering applications in image denoising.
+%The main objective of the proposed research project is the development and analysis of adaptive methods for solving inverse imaging problems, where the total variation minimization plays a fundamental role. The adaptivity in the methods is designed in a way that the reconstruction error is minimized during an iterative scheme or the computational complexity is reduced, while aiming at a certain accuracy of the solution, which may be obtained by optimising simultaneously the degrees of freedom and the reconstruction error. Such an adaptivity leads to a locally dependent treatment of the underlying problem, i.e., at different points or areas the considered problem will be treated differently. We will create local adjustment methods with the properties of being robust with respect to the observed data and efficient. By efficient we mean, that the methods are optimized with respect to computational time while keeping the numerical solution at a certain accuracy. % with the aim of reducing the reconstruction error. %Since we are dealing with inverse problems, this could mean that at different locations different regularization is used. 
 %
  % non-smooth variational image reconstruction including total variation minimization. 
-  The designed methods will be explored and tested by numerous numerical experiments considering the applications of determining the optical flow of image sequences %, i.e., the determination of the optical flow, 
-  and image inpainting. %In the course of the project we \newf{will} mainly focus on the $L^1$-$L^2$-TV model, see \eqref{L1L2TVmodel}, which is a generalization of standard image models and is able to treat images that are corrupted by a mixture of noise or unknown noise.
+%  The designed methods will be explored and tested by numerous numerical experiments considering applications the applications of determining the optical flow of image sequences %, i.e., the determination of the optical flow, 
+%  and image inpainting. %In the course of the project we \newf{will} mainly focus on the $L^1$-$L^2$-TV model, see \eqref{L1L2TVmodel}, which is a generalization of standard image models and is able to treat images that are corrupted by a mixture of noise or unknown noise.
 
 
 \subsection{Anticipated total duration of the project}
@@ -523,6 +524,9 @@ The main objective of the proposed research project is the development and analy
 
 \subsection{Objectives}\label{sec:Objectives}
 \todo{Objective genauer auf den Punkt ausarbeiten!}
+
+The aim of the current project is to improve state-of-the-art locally adaptive parameter selection strategies for total variation image denoising tasks. 
+
 
 The aim of the current project is to derive, analyse and implement methods for non-smooth optimization problems containing a total variation term with applications in image inpainting and motion estimation, which automatically adjust to the underlying problem. This adjustment, on the one hand-side, may happen on the modelling side where the according objective functional, e.g., its regularization term and parameters, is automatically chosen, and on the other hand-side, may occur on the discretization-level, where an optimal discretization is learned. This two-sided adjustment is motivated by the following observation on inverse problems: Let $X,Y$ be two normed vector spaces. Given $A\in \mathcal{L}(X,Y)$ and $y^\delta\in Y$, where $\|y-y^\delta\|_Y \leq \delta$ and $y\in Y$, we are seeking for a solution $x\in X$ such that $Ax=y$, whereas the equation is ill-posed. Let $(R_{\alpha})_\alpha$ be a regularisation of the pseudoinverse $A^\dagger$ of $A$ and $D_h: Y \to Y_h \subset Y$ a discretisation. Then we have 
 $$
@@ -1958,27 +1962,22 @@ We apply for
 \begin{itemize}\itemsep=0pt
 \item 1 TV-L13 (100\%) doctoral student
   for 3 years (at the University of Stuttgart).
-%\item 1 student research assistant (40h/month).
+\item 1 student research assistant (40h/month; at the University of Stuttgart).
 \end{itemize}
 \textbf{Justification.} 
-The doctoral student will mainly work on the first and third part of the project, i.e., the adaptive discretization, implementation and validation. This part of the project is an ambitious doctoral thesis subject, which requires a highly qualified candidate. The position holder will work on a wide spectrum of topics covering the derivation of a posteriori estimates, design and implementation of adaptive discretisation methods.
+The proposed project is an ambitious doctoral thesis subject, which requires a
+highly qualified candidate. The position holder will work on all topics
+of the wide spectrum covering analysis, design and implementation of adaptive methods. %We plan to fill the position with Mar Runft, M.Sc., who is familiar with total variation minimization and optimisation techniques in general, due to his studies.
 
-\begin{itemize}\itemsep=0pt
-\item 1 TV-L13 (100\%) postdoctoral researcher
-  for 3 years (at the University of Stuttgart).
-%\item 1 student research assistant (40h/month).
-\end{itemize}
-\textbf{Justification.} 
-The researcher should mainly work on the second part of the project, i.e., the adaptive regularization, its analysis and implementation. This position needs a highly qualified candidate, who has already experience in inverse problems and a strong background in functional analysis. Moreover, the position holder should have knowledge on adaptive finite element schemes as well as on (discontinuous) Galerkin methods. Additionally the researcher will support the doctoral student in deriving indicators and implementation issues. % deriving a posteriori estimates and has good knowledge on adaptive finite element schemes as well as on (discontinuous) Galerkin methods. The position holder will work on all topics of the wide spectrum covering analysis, design and implementation of adaptive methods. He will support the doctoral student in deriving indicators and implementation issues.
-%The proposed project is an ambitious doctoral thesis subject, which requires a highly qualified candidate. The position holder will work on all topics of the wide spectrum covering analysis, design and implementation of adaptive methods. We plan to fill the position with Stephan Hilb MSc, who has just finished his master's thesis related to a finite element discretization for image inpainting with a higher-order regularizer. 
+The assignment of the students research assistant is to support the proposer and 
+doctoral researcher in basic implementation tasks and numerical experiments. 
+Additionally, he/she is supposed to assist the researchers of the project in effective
+external presentation (web presence, preparation of conference presentations, etc.).
 
-%The doctoral student will work on the second part of the project, i.e., adaptive regularization. This part of the project is an ambitious doctoral thesis subject, which requires a highly qualified candidate. The position holder will work on all topics of the wide spectrum covering analysis, design and implementation of adaptive regularization methods. %We plan to fill the position with Stephan Hilb MSc, who has just finished his master's thesis related to a finite element discretization for image inpainting with a higher-order regularizer. %We plan to fill the position with Tatjana Agapkin BSc, who is currently finishing her master's thesis related to the semi-discretization in time. 
-
-%The assignment of the students research assistant is to support the proposer and  doctoral researcher in basic implementation tasks and numerical experiments. Additionally, he/she is supposed to assist the researchers of the project in effective external presentation (web presence, preparation of conference presentations, etc.).
 
 \subsubsection{Funding for travel costs and visiting researchers.}
 
-We apply for \EUR{12000} per year. The funds are required for intensive scientific exchange of the investigators among themselves but also with Massimo Fornasier (TU Munich), Robert Kl\"ofkorn (IRIS, Bergen) Pedro Morin (IMAL, Santa Fe, Argentina), Ricardo Nochetto (University of Maryland), Talal Rahman (Bergen University College), Juan Carlos De los Reyes (EPN Quito),  Carola-Bibiane Sch\"onlieb (University of Cambridge), which are experts in the field of adaptive finite element methods, discontinuous Galerkin methods, mathematical imaging, and parameter selection methods. Moreover it is intended to present achieved results on international conferences. In particular, we intend that Dr. Langer, Dr. Gaspoz, the PostDoc and the PhD should take part in 2 conferences each year (1 international and 1 national), where we calculate with \EUR{1600} for an international and \EUR{800} for an national conference. Moreover, we plan for 2 long term visits (2 - 3 month) at one or two of the aforementioned universities.
+We apply for \EUR{15000} for three years. The funds are required for intensive scientific exchange of the investigators among themselves but also with external researches, as Massimo Fornasier (TU Munich), Robert Kl\"ofkorn (IRIS, Bergen) Pedro Morin (IMAL, Santa Fe, Argentina), Ricardo Nochetto (University of Maryland), Talal Rahman (Bergen University College), Juan Carlos De los Reyes (EPN Quito),  Carola-Bibiane Sch\"onlieb (University of Cambridge), which are experts in the field of adaptive finite element methods, discontinuous Galerkin methods, mathematical imaging, and parameter selection methods. For these exchange visits we calculate with \EUR{1600} per year. Moreover achieved results will be presented to an expert audience on international conferences. Potential international conferences are SIAM Conference on Imaging Science, GAMM Annual Meeting, European Finite Element Fair, Scale Space and Variational Methods in Computer Vision, Applied Inverse Problem Conference, \dots. In particular, we intend the attendance of 2 conferences each year (1 international and 1 national), where we calculate with \EUR{1600} for an international and \EUR{800} for an national conference. Moreover, we plan for 1 long term visit (2 - 3 month) for the PhD candidate at one of the aforementioned universities, for which we plan \EUR{3000}.
 
 %Christian Kreuzer and R\"udiger Verf\"urth
 %(Ruhr-Universit\"at Bochum), Francesca Tantardini and Andreas Veeser (University
@@ -1986,26 +1985,10 @@ We apply for \EUR{12000} per year. The funds are required for intensive scientif
 %presentation of results on international conferences.
 We plan with the following budget for three years:
 \begin{itemize}\itemsep=-1pt
-\item Research visits at the aforementioned universities:\hfill {4 visit of 1 weeks}\\[-5mm]
+\item Research visits, invitations and attendance of conferences \dotfill\hbox{ \EUR{12000} for three years}
 
- \dotfill\hbox{4 $\times$ \EUR{1000}, \EUR{4000} in total}
-\item Invitation of at the aforementioned researchers:\hfill {4 visits of 1 weeks}\\[-5mm]
-
- \dotfill\hbox{4 $\times$ \EUR{1000}, \EUR{4000} in total}
-%
-%  \dotfill\hbox{4 $\times$ \EUR{1000}, \EUR{4000} in total}
-\item Potential international conferences: SIAM Conference on Imaging Science, GAMM Annual Meeting, European Finite Element Fair, Scale Space and Variational Methods in Computer Vision,  \dots\\[-5mm]
-%Enumath,
-%  MAFELAP, DMV Annual Meeting, GAMM Annual Meeting, Siam Annual Meeting, European
-%  Finite Element Fair, Workshop ``Numerical methods for evolution equations'', \dots\\[-5mm]
-
-  \dotfill\hbox{\EUR{28800} for three years}
-  \item Long term visits \\[-5mm]
-  
-   \dotfill\hbox{\EUR{16000} for three years}
-\item In total \\[-5mm]
-  
-   \dotfill\hbox{\EUR{52800} for three years}
+  \item Long term visits  \dotfill\hbox{\EUR{3000} for three years}
+\item In total  \dotfill\hbox{\EUR{15000} for three years}
 \end{itemize}
 
 \section{Project requirements}
@@ -2014,10 +1997,8 @@ We plan with the following budget for three years:
 \subsection{Employment status information}
 \label{sec:empl-stat-inform}
 \begin{description}
-\item[Fernando D. Gaspoz:] PostDoc, Chair for Numerical Mathematics for
-  High Performance Computing, Institute for Applied Analysis and Numerical
-  Simulation, Faculty for Mathematics and Physics, University of Stuttgart.
-\item[Andreas Langer:] Deputy professor, Chair for Numerical Mathematics for High Performance Computing, Institute for Applied Analysis and Numerical   Simulation, Faculty for Mathematics and Physics, University of Stuttgart.
+\item[Fernando D. Gaspoz:] PostDoc, TU Dortmund.
+\item[Andreas Langer:] PostDoc, Chair for Numerical Mathematics for High Performance Computing, Institute for Applied Analysis and Numerical  Simulation, Faculty for Mathematics and Physics, University of Stuttgart.
 \end{description}
 %\begin{description}
 %\item[Kunibert G. Siebert:] W3-Professor, Chair for Numerical Mathematics for
