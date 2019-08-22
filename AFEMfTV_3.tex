@@ -31,9 +31,53 @@
 \usepackage{subfigure}
 \usepackage[footsepline,headsepline]{scrpage2}
 \usepackage{typearea}
+
+\usepackage{color,soul} % to highlight text
+\usepackage{xcolor}
+
 \KOMAoptions{headsepline=true}
 \KOMAoptions{footsepline=true}
 \KOMAoptions{cleardoublepage=empty}
+
+
+\usepackage{calc}
+
+%Define a reference depth. 
+%You can choose either relative or absolute.
+%--------------------------
+\newlength{\DepthReference}
+%\settodepth{\DepthReference}{g}%relative to a depth of a letter.
+\setlength{\DepthReference}{0pt}%absolute value.
+
+%Define a reference Height. 
+%You can choose either relative or absolute.
+%--------------------------
+\newlength{\HeightReference}
+%\settoheight{\HeightReference}{T}
+%\setlength{\HeightReference}{6pt}
+
+
+%--------------------------
+\newlength{\Width}%
+
+\newcommand{\MyColorBox}[4][black]%
+{%
+    %\settowidth{\Width}{#2}%
+    \setlength{\Width}{#2}
+    \setlength{\HeightReference}{#3}
+    %\setlength{\fboxsep}{0pt}%
+    {\hspace{#4}%
+    \nolinebreak
+    \colorbox{#1}%
+    {%      
+        \raisebox{-\DepthReference}%
+        {%
+                \parbox[b][\HeightReference+\DepthReference][c]{\Width}{~}%
+        }%
+    }%
+    }
+}
+
 
 
 \newcommand{\note}[1]{\marginpar{%
@@ -47,7 +91,7 @@
  \begin{minipage}{\textwidth-4pt}#2\end{minipage}}}
 
 \ohead{\textsf{\pagemark}}
-\ofoot{\textsf{DFG Application ``Adaptive Finite Element Methods for Total Variation Minimization''}}
+\ofoot{\textsf{DFG Application ``Adaptive Methods for Free Discontinuity Problems''}}
 \cfoot{}
 
 \renewcommand{\titlepagestyle}{empty}
@@ -238,12 +282,15 @@
 
 \paragraph{Summary.} 
 
-In many modern applications, like image reconstruction and image analysis, the solution of interest is described by a discontinuous function. Unfortunately, it is a priori not known where the discontinuities  are located and that has to be determined numerically. In fact, computing discontinuities wrongly or inaccurately could be either fatal (as in obstacle and tumor detection) or scientifically costly.  %One approach is to optimize a functional, which consists of a generalized, measure-valued, gradient term.
-In order to preserve edges and discontinuities  in image processing, the minimization of a functional consisting of a the total variation term is common and widely used. Typical applications, where such a optimization problem is solved are for example: image denoising, image inpainting, and the determination of motion in image sequences. Note that all these examples are ill-posed inverse problems and hence the optimization problem is originated by regularization techniques, e.g., total variation regularization.
+In many modern applications, like image reconstruction and image analysis, the solution of interest is described by a discontinuous function. Unfortunately, it is a priori not known where the discontinuities  are located and that has to be determined numerically. In fact, computing discontinuities wrongly or inaccurately could be either fatal (as in obstacle and tumour detection) or scientifically costly.  %One approach is to optimize a functional, which consists of a generalized, measure-valued, gradient term.
+In order to preserve edges and discontinuities  in image processing, the minimization of a functional consisting of a the total variation term is common and widely used. Typical applications, where such an optimization problem is solved are for example: image denoising, image deblurring, and reconstruction of partial Fourier-data (magnetic resonance imaging). Note that all these examples are ill-posed inverse problems and hence the respective optimization problem is originated by regularization techniques, e.g., total variation regularization.
 
-In this project we solve the constituted problems by constructing methods, which automatically adjust to the discontinuities of the underlying (observed) data. This adjustment leads to methods, which adaptively (in an iterative manner) reduce the reconstruction error, allowing to obtain the discontinuities more accurately and hence yield qualitatively better reconstructions, and reduce the computational complexity of the underlying problem at the same time. Additionally to these attributes the derived methods will possess further desirable properties, as robustness with respect to the given data, they are guaranteed to converge to a more accurate solution than state-of-the-art methods, and they allow for different discretisation techniques. 
+In this project we solve the constituted problems by constructing methods, which automatically adjust to the discontinuities of the underlying (observed) data. This adjustment leads to methods, which adaptively (in an iterative manner) reduce the reconstruction error, allowing to obtain the discontinuities more accurately and hence yield qualitatively better reconstructions, and \hl{keep or even reduce the computational complexity} \todo{is this true?}  of the underlying problem at the same time. Additionally to these attributes the derived methods will possess further desirable properties, as robustness with respect to the given data, they are guaranteed to converge to a more accurate solution than state-of-the-art methods, and they allow for different discretization techniques. 
 
-The adaptive adjustment of the derived methods occur on two sides, on the regularization side, where the regularization is locally adjusted, and on the discretization side, where an optimal discretization is learned. We derive criteria based on edge-indicators, a posteriori estimates and local residuals, which tell us, how the adjustment of the regularization and discretization should be performed. In particular, at discontinuities the regularization should be very small, preventing any smoothing, while the mesh should be very fine, allowing for depicting the discontinuities very precisely. 
+The adaptive adjustment of the derived methods occur on two sides, on the regularization side, where the regularization is locally adjusted, and on the discretization side, where an optimal discretization is learned. Optimal in the sense of computational complexity and reconstruction quality. We derive criteria based on edge-indicators, a posteriori estimates and local residuals, which tell us, how the adjustment of the regularization and discretization should be performed. In particular, at discontinuities the regularization should be very small, preventing any smoothing, while the mesh should be very fine too, allowing to adjust the regularization very locally for depicting the discontinuities very precisely. Hence the mesh is adaptively refined at discontinuities and coarsened at parts where the solution is homogeneous.
+
+
+% In particular at discontinuities the mesh should be very fine allowing for very little regularization only very locally to preserve discontinuities very precisely (or accurately?)\hl{In particular, at discontinuities the regularization should be very small, preventing any smoothing, while the mesh should be very fine, allowing for depicting the discontinuities very precisely.} \todo{do not like this phrasing}
 
 In this vein, these adaptive methods are especially important in real-world applications, where the solution needs to be computed accurately, as they allow for a very precise solution while keeping the computational complexity on a manageable level. With the proposed research we will substantially foster the development and numerical analysis of optimal adaptive methods for non-smooth inverse imaging problems. %In addition, the investigation will contribute to a better understanding of the used models and their respective solvers.
 
@@ -251,7 +298,7 @@ In this vein, these adaptive methods are especially important in real-world appl
 
 %Secondly we will consider an adaptive regularization of the ill-posed inverse imaging problems.
 
-The principal investigators and co-investigator have a long track record in research areas like mathematical image processing, inverse problems, non-smooth optimisation, finite element methods, a posteriori estimates and adaptive methods. Furthermore, several mathematical problems involved in the project are quite suitable for postgraduate training.
+The principal investigators and co-investigator have a long track record in research areas like mathematical image processing, inverse problems, parameter selection strategies, non-smooth optimisation, finite element methods, a posteriori estimates and adaptive methods. Furthermore, the mathematical problems involved in the project are quite suitable for postgraduate training.
 
 
 %  analyze finite element methods for the minimization of the non-smooth and non-additive total variation with main focus on adaptive discretization.
@@ -274,152 +321,137 @@ The principal investigators and co-investigator have a long track record in rese
 
 \subsubsection{Free discontinuity problems}
 
-In certain applications, the desired solution should contain discontinuities, whereas it is a priori not know at which locations they will occur. Typical examples of such applications are found in image reconstruction, image analysis, and material science. In image reconstruction one is interested in recovering an image from its observed corrupted data, whereas the corruption might be for example noise or missing parts. Image analysis addresses the task of analysing the given observation. Here one might be for example interesting in extracting or detecting certain features or objects in an image. In case of image sequences also the question of detecting the motion of certain objects is part of image analysis. In material science a typical example is the calculation of the propagation of a crack path. In all these applications, in order to allow for a discontinuous solution, one usually minimizes a functional consisting of a total variation term. We recall, that for $u\in L^1(\Omega)$, where $\Omega \subset \R^2$ is a bounded open domain with Lipschitz boundary,
+In certain applications, the desired solution should contain discontinuities, whereas it is a priori not know at which locations they will occur. Typical examples of such applications are found in image reconstruction, image analysis, and material science. In image reconstruction, which is the application of interest in this project, one is interested in recovering an image from its observed corrupted data, whereas the corruption might be for example noise, blur or missing parts. %Image analysis addresses the task of analysing the given observation. Here one might be for example interesting in extracting or detecting certain features or objects in an image. In case of image sequences also the question of detecting the motion of certain objects is part of image analysis. In material science a typical example is the calculation of the propagation of a crack path. 
+ In all these applications, in order to allow for a discontinuous solution, one usually minimizes a functional consisting of a total variation term. We recall, that for $u\in L^1(\Omega)$, where $\Omega \subset \R^2$ is a bounded open domain with Lipschitz boundary,
 $$
-V(u,\Omega):=\sup\left\{\int_{\Omega} u \operatorname{div} \phi \ \text{d}x : \phi \in [C_c^1(\Omega)]^2, \|{\phi}\|_{L^\infty(\Omega)} \leq 1\right\}
+V(u,\Omega):=\sup\left\{\int_{\Omega} u \operatorname{div} \vec\phi \ \text{d}x : \vec\phi \in [C_c^1(\Omega)]^2, \|{|\vec\phi|_{\ell^2}}\|_{L^\infty(\Omega)} \leq 1\right\}
 $$
 is the variation of $u$ in $\Omega$. Here, $L^q(\Omega)$, with $q\in [1,\infty]$, denotes the usual Lebesgue space \cite{AdaFou} and $C_c^l(\Omega)$, $l\in \N$, is the space of $l$-times continuously differentiable functions with compact support in $\Omega$. In the event that $V(u,\Omega)<\infty$ we denote $|Du|(\Omega)=V(u,\Omega)$ and call it the total variation of $u$ in $\Omega$; see \cite{AmbFusPal, Giu} for more details. If $u\in W^{1,1}(\Omega)$, then $|Du|(\Omega)= \int_{\Omega}|\nabla u| dx$. Further, $BV(\Omega)$ denotes the space of functions with bounded variation, i.e., $u\in BV(\Omega)$ if and only if $V(u,\Omega)<\infty$. The space $BV(\Omega)$ endowed with the norm $\|u\|_{BV} = \|u\|_{L^1(\Omega)} + |Du|(\Omega)$ is a Banach space \cite{Giu}. 
 
-\paragraph{Image reconstruction}
+\paragraph{The total variation model}
 
-In image restoration one is interested in recovering an unknown image from a corrupted observation. Hence, the obtained data $g$ might be described as
+In image reconstruction one is interested in recovering an unknown image from a corrupted observation. Hence, the obtained data $g$ might be described as
 \begin{equation}\label{eq:g}
 g=\mathcal{N}(T\hat{u}),
 \end{equation}
+where $\hat{u}$ is the unknown original image, $T$ is a linear bounded operator modelling the image formation device (e.g., blur), and $\mathcal{N}$ represents noise. 
+Note that in reality in general not only one type of noise, but a mixture of several different types, such as Gaussian, and impulse noise, occur in an image. This contamination usually happens during image acquisition and image transmission. In this project we consider images which are corrupted by additive Gaussian noise, impulsive noise or a combination of these two type of noises.
 
-where $\hat{u}$ is the unknown original image, $T$ is a linear bounded operator modeling the image formation device, and $\mathcal{N}$ represents noise. %In this project we will concentrate on images, which do not possess any noise or they are corrupted by Gaussian noise. 
-We note, that in reality in general not only one type of noise, but a mixture of several different types, such as Gaussian, Poisson, and impulse noise, occur in an image. This contamination usually happens during image acquisition and image transmission. Nevertheless, in case the image is not effected by impulse noise, the mixture of Gaussian and Poisson noise can be transformed into additive white Gaussian noise \cite{}. In this vein, we will mainly focus in this project on either  Gaussian noise corrupted images or images which are noise-free at all. However, we plan to extend the work to other types of noise as well, by noting that this leads to different models, see below, and hence to a different analysis and numerical implementation. \todo{really or extend to more types of noise?}
+The reconstruction of $\hat{u}$ from $g$ is usually an ill-posed inverse problem and thus regularization techniques are required \cite{EngHanNeu}. A good approximation may be obtained by minimizing a functional consisting of a data term, which enforces the consistency between the recovered and measured image, a regularization term to prevent over-fitting, and a parameter $\alpha>0$ weighting the importance of these two terms. Since we are aiming at preserving discontinuities and edges in an image, the total variation is typically chosen as a regularization technique. However, we note, that a more sophisticated regularizer, as the nonlocal total variation \cite{KinOshJon}, the total generalized variation \cite{BreKunPoc}, a higher order regularizer (see e.g. \cite{PapSch} and references therein), or a nonconvex regularizer might be used as well \cite{}. 
 
-Due to the action of $T$, even in the noise-free case the reconstruction of $\hat{u}$ from $g$ is usually an ill-posed inverse problem and thus regularization techniques are required \cite{EngHanNeu}. A good approximation may be obtained by minimizing a functional consisting of a data term, which enforces the consistency between the recovered and measured image, a regularization term to prevent over-fitting, and a parameter $\lambda>0$ weighting the importance of these two terms. Since we are aiming at preserving discontinuities and edges in an image, the total variation is typically chosen as a regularization technique. However, we note, that a more sophisticated regularizer, as the nonlocal total variation \cite{KinOshJon}, the total generalized variation \cite{BreKunPoc}, a higher order regularizer (see e.g. \cite{PapSch} and references therein), or a nonconvex regularizer might be used as well \cite{}. %\todo{Nonconvex regularizer, $\ell^p$, $0<p<1$} Nevertheless, for simplicity in the sequel of this section we will only consider total variation regularisation, but we keep in mind that other regularisers might be used as well, possibly rendering the problem more complicated. 
-In the application of image inpainting, we will consider in this project, for example, a higher order regularizer, leading to the following minimization problem proposed in \cite{EseShe} %e.g., %$\gamma \int_{\Omega\setminus K} |\nabla u(x) |^2 \text{d}x + \int_K (\lambda + \beta \kappa^2) \text{d}s$, where $\Omega\subset \R^2$ is the image domain, $\gamma,\lambda, \beta \in \R_+$, and $K$ represents the edges of the image $u$.
- %the minimization problem proposed in \cite{EseShe}
-\begin{equation}\label{Eq:MSInpainting}
-\min_{u,K} \int_{\Omega\setminus K} |\nabla u(x) |^2 \text{d}x + \lambda \mathcal{H}^1(K) + \beta \int_K \kappa^2 + \alpha \int_\Omega |\chi_{\Omega\setminus K}(x) u(x) - g(x)|^2 \text{d}x,
-\end{equation}
-where $\Omega\subset \R^2$ is the image domain, $g\in L^\infty(\Omega)$ is the observation, $\alpha,\beta,\lambda\in \R_+$ are parameters, $\kappa$ denotes the curvature, and $K$ represents the edges of the image $u$. In particular, $K$ is a set of Hausdorff one-dimensional measure $\mathcal{H}^1(K)$.
-%where $\beta > 0$ is a parameter and $\kappa$ represents the curvature, is considered.
-Note that the minimization of \eqref{Eq:MSInpainting} is difficult, due to a minimization over $u$ and $K$ rendering the problem non-convex. In order to solve this problem, one may use the approximation based on  the work  \cite{AmbTor}. This approach is justified through $\Gamma$-convergence and approximates the edge set $K$ by some smooth function, rendering the problem easier to solve practically. 
-
-The choice of the data-term typically depends on the type of noise contamination. For Gaussian noise contaminated images a quadratic $L^2$-data-term is usually chosen and has been successfully used; see for example \cite{Cha, ChaDar, ChaLio, ChaGolMul, ComWaj, DarSig05, DarSig06, DauTesVes, DobVog, GolOsh, HinSta, Nes, OshBurGolXuYin, WeiBlaAub}. In this case, which we refer to as the $L^2$-model, an approximation of the unknown original image $\hat{u}$ is obtained for the observed data $g$ by solving 
+The choice of the data-term typically depends on the type of noise contamination. For Gaussian noise contaminated images a quadratic $L^2$-data-term is usually chosen and has been successfully used; see for example \cite{Cha, ChaDar, ChaLio, ChaGolMul, ComWaj, DarSig05, DarSig06, DauTesVes, DobVog, GolOsh, HinSta, Nes, OshBurGolXuYin, WeiBlaAub}. In this case, which we refer to as the $L^2$-model, an approximation of the unknown original image $\hat{u}$ is obtained for the observed data $g \in L^2(\Omega)$ by solving 
 \begin{equation}\label{L2TV}
-\min_{u\in BV(\Omega)} \|Tu-g\|_{L^2(\Omega)}^2 + \lambda R(u),
+\min_{u\in BV(\Omega)} \|Tu-g\|_{L^2(\Omega)}^2 + \alpha |Du|(\Omega),
 \end{equation}
-where $T : L^2(\Omega) \to L^2(\Omega)$ is a bounded linear operator modelling the image-formation device and $R$ represents the regularizer. If $R(u)=\int_\Omega |Du|$, then we call \eqref{L2TV} the $L^2$-TV model. In case the image is only corrupted by noise one typically sets $T=I$. For image inpainting the observed image has missing parts $D\subset \Omega$, and hence $T$ is set to be the characteristic function of $\Omega\setminus D$, i.e., $Tu=\chi_{\Omega\setminus D}\cdot u$. \todo{Other relevant choices of $T$}%in case the observed image is blurry, $T$ represents the respective convolution (blurring) operator. 
- Here and in the sequel we assume that $T$ is known.
+where $T : L^2(\Omega) \to L^2(\Omega)$ is as in \eqref{eq:g}. 
+%Let us discuss several image deformations with respect to the operator $T$, leading to different applications, relevant for this project.
+%\begin{enumerate}[(a)]
+%\item In case the image is only corrupted by noise one typically sets $T=I$ (image denoising).
+%\item If the image is blurred then $T$ is a convolution operator (image deblurring).
+%\item 
+%\end{enumerate} 
+%For image inpainting the observed image has missing parts $D\subset \Omega$, and hence $T$ is set to be the characteristic function of $\Omega\setminus D$, i.e., $Tu=\chi_{\Omega\setminus D}\cdot u$. \todo{Other relevant choices of $T$}%in case the observed image is blurry, $T$ represents the respective convolution (blurring) operator. 
+ %Here and in the sequel we assume that $T$ is known.
 
-In connection with other type of noise models, other and different fidelity terms have been considered, see for example \cite{} for impulse noise, \cite{} for Poisson noise, \cite{} for multiplicative noise, and \cite{} for Rician noise.
-
-\paragraph{Image analysis}
-
-Image analysis addresses the task of analysing the given observation. Here we will concentrate on  the computation of optical flow only. 
-%Image segmentation deals with the partitioning (or segmentation) of the image domain into different regions. Thereby the separation should be performed in a meaningful way, for example, that different objects depicted in an image are segmented and detected. In order to solve the image segmentation problem, one may solve the following optimization problem, proposed by Mumford and Shah \cite{MumSha},
-%\begin{equation}\label{Eq:MSProblem}
-%\min_{u,K} \left\{\mathcal{G}(u,K):= \int_{\Omega\setminus K} |\nabla u(x) |^2 \text{d}x + \lambda \mathcal{H}^1(K) + \alpha \int_\Omega |u(x)-g(x)|^2 \text{d}x\right\},
-%\end{equation}
-%where $\Omega\subset \R^2$ is the image domain, $g\in L^\infty(\Omega)$ is the observation, $\alpha,\lambda\in \R_+$ are parameters, and $K$ represents the edges of the image $u$. In particular, $K$ is a set of Hausdorff one-dimensional measure $\mathcal{H}^1(K)$. In case $\alpha=0$, problem \eqref{Eq:MSProblem} can be also used to predict quasi-static crack evolution \cite{FraMar}.  An extension of \eqref{Eq:MSProblem} to solve the problem of image inpainting is presented in \cite{EseShe}, i.e.,
-%\begin{equation}\label{Eq:MSInpainting}
-%\min_{u,K} \int_{\Omega\setminus K} |\nabla u(x) |^2 \text{d}x + \lambda \mathcal{H}^1(K) + \beta \int_K \kappa^2 + \alpha \int_\Omega |\chi_{\Omega\setminus D}(x) u(x) - g(x)|^2 \text{d}x,
-%\end{equation}
-%where $\beta > 0$ is a parameter and $\kappa$ represents the curvature, is considered.
-%
-%Note that the minimization of $\mathcal{G}$ and \eqref{Eq:MSInpainting} are difficult, due to a minimization over $u$ and $K$rendering the problem non-convex. In order to solve the image segmentation problem, several approximations of \eqref{Eq:MSProblem} have been proposed, see for example \cite{AubKor} and references therein. The most prominent approximation is probably the one proposed by Ambrosio and Tortorelli \cite{AmbTor}. This approach is based on $\Gamma$-convergence and approximates the edge set $K$ by some smooth function, rendering the problem easier to solve practically. This approximation strategy has also been applied in \cite{EseShe} to practically solve \eqref{Eq:MSInpainting}. 
-%The second application we are concerned with according to image analysis is 
-The estimation of motion is a crucial task in many applications. For example in the development of self-driving cars, it is a very important aspect that the vehicle itself is able to recognize danger and, consequently,  to react accordingly (artificial intelligence). In order to detect dangers, the motion of objects in the surrounding needs to be determined. One possibility is to record the surrounding as images, or better as a sequence of images. From these images the motion of the objects needs to be extracted. However, images do not record the actual motion, but only the projection of the motion into the 2D image plane. That is, one spatial component gets lost. Hence, from the image sequence we are able to determine the apparent motion, called \emph{optical flow}. By ``apparent'' we mean, that the motion can only be observed by the change of the intensity in a pixel. 
-
-A common and widely used method to link the intensity change with the motion is the \emph{optical flow constraint}. Thereby it is assumed that the intensity $u(x,t)$ in $x\in \Omega$ along its trajectory $x(t)$ keeps constant. Such an assumption is reasonable for small changes, as long as no superposition appears. Let $\frac{\text{d}x}{\text{d}t}=v(x,t)$, by $\frac{\text{d}u}{\text{d}t}=0$ the optical flow constraint is
-\begin{equation}\label{Eq:OFC}
-u_t(x,t) + \nabla u(x,t) \cdot v(x,t) = 0.
+The $L^2$-TV model usually does not yield a satisfactory restoration in the presence of impulse noise. This type of noise is usually constituted due to malfunctioning pixels in camera sensors, faulty memory locations in hardware, or transmission over noisy digital links. There are two commonly used models of impulse noise considered in the literature. The first one, called \emph{salt-and-pepper noise}, where the noisy image $g$ is given by
+$$
+g(x) = 
+\begin{cases}
+d_{\min} & \text{ with probability } s_1\in [0,1),\\
+d_{\max} & \text{ with probability } s_2\in [0,1),\\
+T \hat{u}(x)  & \text{ with probability } 1-s_1-s_2,
+\end{cases}
+$$
+with $1-s_1-s_2>0$ \cite{ChaHoNik}. Here and in the rest we assume that $T \hat{u}$ is in the dynamic range $[d_{\min},d_{\max}]$, i.e., $d_{\min}\leq T\hat{u}\leq d_{\max}$. The second model is called \emph{random-valued impulse noise}, where $g$ is described as
+$$
+g(x) = 
+\begin{cases}
+c & \text{ with probability } s\in [0,1),\\
+T \hat{u}(x)  & \text{ with probability } 1-s,
+\end{cases}
+$$
+with $c$ being a uniformly distributed random variable in the image intensity range $[d_{\min},d_{\max}]$. For impulse noise contaminated images a more successful approach uses instead of a quadratic $L^2$-data-fidelity term a non-smooth $L^1$-data-fidelity term \cite{All, Nik2002, Nik2004}. That is, instead of \eqref{L2TV} one optimizes the following minimization problem
+\begin{equation}\label{L1TV}
+\min_{u\in BV(\Omega)} \|Tu-g\|_{L^1(\Omega)} + \alpha |Du|(\Omega),
 \end{equation}
-Unfortunately, one scalar equation is not enough to compute both components of the motion field $v=(v_1,v_2)^T$. Hence, in general there exist infinity many solutions and the problem is ill-posed. As in the case of image reconstruction regularization techniques are required to solve the problem. Since the optical flow is in general discontinuous and possesses jumps, a commonly used model, to compute an approximation of the motion field, solves a problem of the type \eqref{L2TV}, where $T=(\partial_x u, \partial_y u)\cdot $, $g=-u_t$, and $R(u)=\int_\Omega |Du|$ \cite{AubDerKorn1999,AubKor}.
-\todo{maybe also describe mass-preserving constraint}
+which we call the $L^1$-TV model. 
+
+In case of images, which are contaminated by a mixture of Gaussian and impulse noise, in \cite{HinLan2013} an $L^1$-$L^2$-data-fidelity term has been introduced and shown to be suited to the task of removing this type of mixed noise. In this approach, which we call $L^1$-$L^2$-TV model, an image is restored by solving
+\begin{equation}\label{L1L2TVmodel}
+\min_{u\in BV(\Omega)} \lambda_1 \|T_1u-g_1\|_{L^1(\Omega)} +  \lambda_2 \|T_2 u-g_2\|_{L^2(\Omega)}^2 + \alpha |Du|(\Omega),
+\end{equation}
+where $T_i : L^2(\Omega) \to L^2(\Omega)$ is a bounded linear operator, $g_i\in L^2(\Omega)$ is a given datum, and $\lambda_i\geq 0$ for $i=1,2$ with $\lambda_1+\lambda_2>0$. For the case of removing a mixture of Gaussian and impulse noise from an image $g$ one typically sets $T_1=T_2$ and $g_1=g_2=g$ in \eqref{L1L2TVmodel}. In this setting it is easy to see that the $L^1$-$L^2$-$TV$ model \eqref{L1L2TVmodel} is a generalization of \eqref{L2TV} and \eqref{L1TV}. In particular, if we set $\lambda_2=0$ in \eqref{L1L2TVmodel} then we obtain the $L^1$-TV model while for $\lambda_1=0$ we obtain the $L^2$-TV model. Clearly the solution of \eqref{L1L2TVmodel} highly depends on the parameters $\lambda_1$ and $\lambda_2$. A suitable selection of the parameters is discussed in \cite{Lan2015} for the special case of the $L^1$-TV and $L^2$-TV model and in \cite{Lan2016} for the more general $L^1$-$L^2$-TV model.
+
+\paragraph{Imaging tasks}
+
+Let us shortly mention image reconstruction problems which are considered in this project.
+
+\subparagraph{Image denoising}
+
+Image denoising is the problem of removing the noisy part of an image. Typically random noise is modelled by a probability distribution, where the kind of distribution is chosen according to the application. A typical example is additive Gaussian noise. In this case an observed image $g$ in \ref{eq:g} can be written as $g = \hat{u} + \eta$, where $\eta$ represents the Gaussian noise. Note that $T=I$, if there is no additional image deformation.
+
+Noises in images are caused by many different sources, for instance:
+\begin{itemize}
+\item in astronomical imaging: atmospheric inhomogeneity in terms of density, temperature, and so on;
+\item in medical imaging: material inhomogeneity of tissues or organs;
+\item in night vision: fluctuation in heat, temperature, and infrared radiation;
+\item in general image acquisition: inherent thermal noises in electrooptical imaging devices, physical or chemical noises of the target systems to be imaged, and inhomogeneity of intermediate media.
+\end{itemize}
 
 
+Looking at such pictures makes it often very difficult in spotting the important features and patterns. Such failures could be either clinically fatal (as in tumour detection) or scientifically costly \cite{ChaShe}.
 
-%\paragraph{The total variation model}
-%In image restoration one is interested in recovering an unknown image from a corrupted observation. This recovery is usually an ill-posed inverse problem and thus regularization techniques are required \cite{EngHanNeu}. A good approximation may be obtained by minimizing a functional consisting of a data term, which enforces the consistency between the recovered and measured image, a regularization term to prevent over-fitting, and a parameter $\alpha>0$ weighting the importance of these two terms. In \cite{ROF} the total variation was introduced as a regularization technique in image reconstruction and has received considerable attention in image processing since then. We recall, that for $u\in L^1(\Omega)$, where $\Omega \subset \R^2$ is a bounded open domain with Lipschitz boundary,
-%$$
-%V(u,\Omega):=\sup\left\{\int_{\Omega} u \operatorname{div} \phi \ \text{d}x : \phi \in [C_c^1(\Omega)]^2, \|{\phi}\|_{L^\infty(\Omega)} \leq 1\right\}
-%$$
-%is the variation of $u$ in $\Omega$. Here, $L^q(\Omega)$, with $q\in [1,\infty]$, denotes the usual Lebesgue space \cite{AdaFou} and $C_c^l(\Omega)$, $l\in \N$, is the space of $l$-times continuously differentiable functions with compact support in $\Omega$. In the event that $V(u,\Omega)<\infty$ we denote $|Du|(\Omega)=V(u,\Omega)$ and call it the total variation of $u$ in $\Omega$; see \cite{AmbFusPal, Giu} for more details. If $u\in W^{1,1}(\Omega)$, then $|Du|(\Omega)= \int_{\Omega}|\nabla u| dx$. Further, $BV(\Omega)$ denotes the space of functions with bounded variation, i.e., $u\in BV(\Omega)$ if and only if $V(u,\Omega)<\infty$. The space $BV(\Omega)$ endowed with the norm $\|u\|_{BV} = \|u\|_{L^1(\Omega)} + |Du|(\Omega)$ is a Banach space \cite{Giu}. Note, that natural and man-made images may be characterized by edges and relatively uniform parts. Since the total variation is able to preserve edges and discontinuities in images, it seems suitable to us to use it as the regularization term. However, we note that a more sophisticated regularizer, as the nonlocal total variation \cite{KinOshJon}, the total generalized variation \cite{BreKunPoc}, or a higher order regularizer (see e.g. \cite{PapSch} and references therein) might be used as well.
-%
-%The choice of the data-term typically depends on the type of noise contamination. Usually images are corrupted by different types of noise, such as Gaussian noise and impulse noise. This contamination usually happens during image acquisition, which describes the process of capturing an image by a camera and converting it into a measurable entity \cite{Moe}, and image transmission. For images corrupted solely by Gaussian noise a quadratic $L^2$-data-term is usually chosen and has been successfully used; see for example \cite{Cha, ChaDar, ChaLio, ChaGolMul, ComWaj, DarSig05, DarSig06, DauTesVes, DobVog, GolOsh, HinSta, Nes, OshBurGolXuYin, WeiBlaAub}. In this case, which we refer to as the $L^2$-TV model, an approximation of the unknown original image $\hat{u}$ is obtained for the observed data $g$ by solving 
-%\begin{equation}\label{L2TV}
-%\min_{u\in BV(\Omega)} \alpha \|Tu-g\|_{L^2(\Omega)}^2 + |Du|(\Omega),
-%\end{equation}
-%where $T : L^2(\Omega) \to L^2(\Omega)$ is a bounded linear operator modeling the image-formation device. For example, in case the observed image is blurry, $T$ represents the respective convolution (blurring) operator. If the image is only corrupted by noise one sets $T=I$. Here and in the sequel we assume that $T$ is known.
-%
-%The $L^2$-TV model usually does not yield a satisfactory restoration in the presence of impulse noise. This type of noise is usually constituted due to malfunctioning pixels in camera sensors, faulty memory locations in hardware, or transmission over noisy digital links. There are two commonly used models of impulse noise considered in the literature. The first one, called \emph{salt-and-pepper noise}, where the noisy image $g$ is given by
-%$$
-%g(x) = 
-%\begin{cases}
-%d_{\min} & \text{ with probability } s_1\in [0,1),\\
-%d_{\max} & \text{ with probability } s_2\in [0,1),\\
-%T \hat{u}(x)  & \text{ with probability } 1-s_1-s_2,
-%\end{cases}
-%$$
-%with $1-s_1-s_2>0$ \cite{ChaHoNik}. Here and in the rest of the paper we assume that $T \hat{u}$ is in the dynamic range $[d_{\min},d_{\max}]$, i.e., $d_{\min}\leq T\hat{u}\leq d_{\max}$. The second model is called \emph{random-valued impulse noise}, where $g$ is described as
-%$$
-%g(x) = 
-%\begin{cases}
-%c & \text{ with probability } s\in [0,1),\\
-%T \hat{u}(x)  & \text{ with probability } 1-s,
-%\end{cases}
-%$$
-%with $c$ being a uniformly distributed random variable in the image intensity range $[d_{\min},d_{\max}]$. For impulse noise contaminated images a more successful approach uses instead of a quadratic $L^2$-data-fidelity term a non-smooth $L^1$-data-fidelity term \cite{All, Nik2002, Nik2004}. That is, instead of \eqref{L2TV} one optimizes the following minimization problem
-%\begin{equation}\label{L1TV}
-%\min_{u\in BV(\Omega)} \alpha \|Tu-g\|_{L^1(\Omega)} + |Du|(\Omega),
-%\end{equation}
-%which we call the $L^1$-TV model. 
-%
-%We are interested in recovering images, which are contaminated by a mixture of Gaussian and impulse noise. Recently in \cite{HinLan2013} an $L^1$-$L^2$-data-fidelity term has been introduced and shown to be suited to the task of removing mixed Gaussian-impulse noise. In this approach, which we call $L^1$-$L^2$-TV model, an image is restored by solving
-%\begin{equation}\label{L1L2TVmodel}
-%\min_{u\in BV(\Omega)} \alpha_1 \|T_1u-g_1\|_{L^1(\Omega)} +  \alpha_2 \|T_2 u-g_2\|_{L^2(\Omega)}^2 + |Du|(\Omega),
-%\end{equation}
-%where $T_i : L^2(\Omega) \to L^2(\Omega)$ is a bounded linear operator, $g_i\in L^2(\Omega)$ is a given datum, and $\alpha_i\geq 0$ for $i=1,2$ with $\alpha_1+\alpha_2>0$. For the case of removing a mixture of Gaussian and impulse noise from an image $g$ one typically sets $T_1=T_2$ and $g_1=g_2=g$ in \eqref{L1L2TVmodel}. In this setting it is easy to see that the $L^1$-$L^2$-$TV$ model \eqref{L1L2TVmodel} is a generalization of \eqref{L2TV} and \eqref{L1TV}. In particular, if we set $\alpha_2=0$ in \eqref{L1L2TVmodel} then we obtain the $L^1$-TV model while for $\alpha_1=0$ we obtain the $L^2$-TV model. Clearly the solution of \eqref{L1L2TVmodel} highly depends on the parameters $\alpha_1$ and $\alpha_2$. A suitable selection of the parameters is discussed in \cite{Lan2015} for the special case of the $L^1$-TV and $L^2$-TV model and in \cite{Lan2016} for the more general $L^1$-$L^2$-TV model.
+
+\subparagraph{Image deblurring}
+
+The task of reconstructing a sharp image from its blurry observation is called im- age deblurring. This problem often arises in optical, medical, and astronomical applications, for example, in satellite imaging and remote sensing. There are three major categories of blurs \begin{inparaenum}[(i)]
+\item the out-of-focus blur,
+\item the motion blur, and 
+\item the medium-induced blur, 
+\end{inparaenum}
+which are categorized according to their physical background, see \cite{ChaShe} for more details. In all different cases of blurry images $g$ is usually described as $g =T\hat{u}$, where $T$ is a blur operator modelled as a convolution $T\hat{u} = \kappa * u$ with kernel $\kappa$. If $g$ is additionally also corrupted by some noise, the observed image data is then generally modelled as in \eqref{eq:g}.
+
+\subparagraph{Reconstruction from partial Fourier-data}
+
+In magnetic resonance imaging (MRI), one aims to reconstruct an image which is only sampled by partial Fourier-data and additionally distorted by additive Gaussian noise. In this case the observed data $g$, defined over the Fourier domain, is written as in \eqref{eq:g}, where the data-formation operator is given by $T = S \circ F$. Here $F$ is a two-dimensional Fourier transform and $S$ represents a downsampling of the Fourier-data. 
+
 
 \subsubsection{Adaptivity for total variation minimization}
 
 \paragraph{Locally adaptive regularisation}
 
-Note, that a scalar regularization parameter might not be the best choice for every image restoration problem, since images usually have large homogeneous regions as well as parts with a lot of details. Actually it seems obvious that $\lambda$ should be small in parts with small features in order to preserve the details. On the contrary $\lambda$ should be large in homogeneous parts to remove noise considerably. With such a choice of a spatially varying weight we expect better reconstructions than with a globally constant parameter, as demonstrated for example in \cite{DonHinRin,HinRin}. 
+Note, that a scalar regularization parameter might not be the best choice for every image restoration problem, since images usually have large homogeneous regions as well as parts with a lot of details. Actually it seems obvious that $\alpha$ should be small in parts with small features in order to preserve the details. On the contrary $\alpha$ should be large in homogeneous parts to remove noise considerably. With such a choice of a spatially varying weight we expect better reconstructions than with a globally constant parameter, as demonstrated for example in \cite{DonHinRin,HinRin}. 
  This motivated to consider multi-scale total variation models with spatially varying parameters initially suggested in \cite{RudOsh}. The multi-scale version of the $L^2$-TV model reads as
 \begin{equation}\label{L2TVmultimodel}
-\min_{u\in BV(\Omega)}  \int_\Omega |Tu-g|^2 dx + \int_\Omega \lambda(x) |Du|
+\min_{u\in BV(\Omega)}  \int_\Omega |Tu-g|^2 dx + \int_\Omega \alpha(x) |Du|
 \end{equation}
-where $\lambda: \Omega \to \R_+$ is a bounded continuous function. Similarly one may consider
+where $\alpha: \Omega \to \R_+$ is a bounded continuous function. Similarly one may consider
 \begin{equation}\label{L2TVmultimodel2}
-\min_{u\in BV(\Omega)} \int_\Omega \alpha(x) |Tu-g|^2 dx +  \int_\Omega |Du|,
+\min_{u\in BV(\Omega)} \int_\Omega \lambda(x) |Tu-g|^2 dx +  \int_\Omega |Du|,
 \end{equation}
-where $\alpha:\Omega \to \R_+$. In the sequel we refer to \eqref{L2TVmultimodel} and \eqref{L2TVmultimodel2} as the multi-scale $L^2$-TV model.
+where $\lambda: \Omega \to \R_+$. In the sequel we refer to \eqref{L2TVmultimodel} and \eqref{L2TVmultimodel2} as the multi-scale $L^2$-TV model.
 
-In \cite{StrCha1996} the influence of the scale of an image feature on the choice of $\lambda$ is studied and the obtained observations were later used in \cite{StrBloCha1997} to construct an updating scheme of $\lambda$. Based on \eqref{L2TVmultimodel2} in \cite{BerCasRouSol} a piecewise constant function $\alpha$, where the pieces are defined by a partitioning of the image due to a pre-segmentation, is determined. In particular, for each segment a scalar $\alpha_i$, $i=1,\ldots,\#$pieces, is computed by Uzawa's method \cite{Cia}.
+In \cite{StrCha1996} the influence of the scale of an image feature on the choice of $\alpha$ is studied and the obtained observations were later used in \cite{StrBloCha1997} to construct an updating scheme of $\alpha$. Based on \eqref{L2TVmultimodel2} in \cite{BerCasRouSol} a piecewise constant function $\lambda$, where the pieces are defined by a partitioning of the image due to a pre-segmentation, is determined. In particular, for each segment a scalar $\lambda_i$, $i=1,\ldots,\#$pieces, is computed by Uzawa's method \cite{Cia}.
 
-Later it was noticed that stable choices of $\alpha$ (respectively $\lambda$) should incorporate statistical properties of the noise. In this vein, in \cite{AlmBalCasHar,DonHinRin,GilSocZee} for the problem \eqref{L2TVmultimodel2} automated update rules for $\alpha$ based on statistics of local constraints were proposed. In \cite{GilSocZee} a two level approach for variational denoising is considered, where in the first level noise and relevant texture are isolated in order to compute local constraints based on local variance estimation. In the second level a gradient descent method and an update formula for $\alpha(x)$ derived from the Euler-Lagrange equation is utilized. An adaptation of this approach to multiplicative noise can be found in \cite{LiNgShe}. For convolution type of problems in \cite{AlmBalCasHar} based on an estimate of the noise variance for each pixel an automatic updating scheme of $\alpha$ using Uzawa's method is created. This approach is improved in \cite{DonHinRin} by determining the fidelity weights due to the Gumbel statistic for the maximum of a finite number of random variables associated with localized image residuals and by incorporating hierarchical image decompositions, proposed in \cite{TadNezVes2004,TadNezVes2008}, to speed up the iterative parameter adjustment process. An adaptation of this approach to a total variation model with $L^1$ local constraints is studied in \cite{HinRin}. A different approach has been proposed in \cite{SutDelAuj} for image denoising only, where non-local means \cite{BuaColMor} are used to create a non-local data fidelity term. While in all these approaches the adjustment of $\alpha$ relies on the output of $T$ being a deteriorated image again, in \cite{HinLan2015} the method of \cite{DonHinRin} is adjusted to the situation where $T$ is an orthogonal wavelet transform or Fourier transform. Very recently also bilevel optimisation approaches are considered for computing spatially adaptive weights \cite{ChuDeLSch,HinRau,HinRauWuLan}.
+Later it was noticed that stable choices of $\lambda$ (respectively $\alpha$) should incorporate statistical properties of the noise. In this vein, in \cite{AlmBalCasHar, DonHinRin, GilSocZee} for the problem \eqref{L2TVmultimodel2} automated update rules for $\lambda$ based on statistics of local constraints were proposed. In \cite{GilSocZee} a two level approach for variational denoising is considered, where in the first level noise and relevant texture are isolated in order to compute local constraints based on local variance estimation. In the second level a gradient descent method and an update formula for $\lambda(x)$ derived from the Euler-Lagrange equation is utilized. An adaptation of this approach to multiplicative noise can be found in \cite{LiNgShe}. For convolution type of problems in \cite{AlmBalCasHar} based on an estimate of the noise variance for each pixel an automatic updating scheme of $\lambda$ using Uzawa's method is created. This approach is improved in \cite{DonHinRin} by determining the fidelity weights due to the Gumbel statistic for the maximum of a finite number of random variables associated with localized image residuals and by incorporating hierarchical image decompositions, proposed in \cite{TadNezVes2004,TadNezVes2008}, to speed up the iterative parameter adjustment process. An adaptation of this approach to a total variation model with $L^1$ local constraints is studied in \cite{HinRin}. A different approach has been proposed in \cite{SutDelAuj} for image denoising only, where non-local means \cite{BuaColMor} are used to create a non-local data fidelity term. While in all these approaches the adjustment of $\lambda$ relies on the output of $T$ being a deteriorated image again, in \cite{HinLan2015} the method of \cite{DonHinRin} is adjusted to the situation where $T$ is an orthogonal wavelet transform or Fourier transform. Recently also bilevel optimisation approaches are considered for computing spatially adaptive weights \cite{ChuDeLSch,HinRau,HinRauWuLan}.
 
-While all these approaches are related to image denoising, nearly no attention has been given to the applications in image inpainting and motion estimation. To the best of our knowledge, the only attempts for these tasks in this direction are \cite{BelHec2016,TheBelKalMoa,BelKalMoaThe}, where smoothed approximations of $L^2$-TV model have been considered together with an adaptive finite element discretization. In particular, the adaptive discretization as well as the distributed parameter selection are based on the considerations in \cite{BouCha}. However, these proposed adjustment strategies do not seem to be well understood yet, as till now no usable stopping criterion of the iterative process is provided. We believe that a locally adaptive treatment of the parameters in image inpainting and optical flow computation is able to improve the quality of the solution dramatically, as demonstrated already for image denoising. Therefore in this project one main topic is the development, analysis and implementation of locally adaptive parameter selection strategies, see Section \ref{Sec:Objective} for more details. \todo{Add for which application}%, for image segmentation it is not clear to us at all and for the calculation of the crack propagation this seems even uninteresting since there the parameters constitute from physical properties of the material.
+%While all these approaches are related to image denoising, nearly no attention has been given to the applications in image inpainting and motion estimation. To the best of our knowledge, the only attempts for these tasks in this direction are \cite{BelHec2016,TheBelKalMoa,BelKalMoaThe}, where smoothed approximations of $L^2$-TV model have been considered together with an adaptive finite element discretization. In particular, the adaptive discretization as well as the distributed parameter selection are based on the considerations in \cite{BouCha}. However, these proposed adjustment strategies do not seem to be well understood yet, as till now no usable stopping criterion of the iterative process is provided. We believe that a locally adaptive treatment of the parameters in image inpainting and optical flow computation is able to improve the quality of the solution dramatically, as demonstrated already for image denoising. Therefore in this project one main topic is the development, analysis and implementation of locally adaptive parameter selection strategies, see Section \ref{Sec:Objective} for more details. \todo{Add for which application}%, for image segmentation it is not clear to us at all and for the calculation of the crack propagation this seems even uninteresting since there the parameters constitute from physical properties of the material.
 
 
-\paragraph{Adaptive finite element discretization}
-The world around us and images in the environment, before being sensed, are naturally \emph{analog}, which means that the image exists on a continuous domain and takes values that come from a continuum of possibilities \cite{Bov}.
+\paragraph{Adaptive discretization}
+For the inverse problem of reconstructing an image from an observed corrupted data, for example, by solving a problem of the type \eqref{L1L2TVmodel}, usually the finite difference method is used. The reason for this might be that the image information is usually stored as a set of pixels, where each pixel is a square, in a row-column format and that in such optimization problems one usually minimizes a non-smooth functional, which do not allow usual derivatives and makes it rather difficult to find its weak formulation, which is needed for a finite element method (FEM). Nevertheless, first attempts for using FEMs in image processing (restoration) have been made for non-linear diffusion models, which are used mainly for image denoising and edge detection. In particular, in \cite{BazBlo, BaeMik, PreRum} adaptive FEMs are proposed for the modified Perona-Malik model introduced in \cite{CatLioMorCol}, and in \cite{Li} an optimal error estimate for a finite element discretization of this diffusion model is derived.
 
-Due to the digitalization of images, the image information is usually stored as a set of pixels in a row-column format. Depending on the pixel size (scale of the digital image) features of the original analog image may be lost in the digital one. Sufficient sampling, such that no important information in the digital image is lost, may result into large-scale data sets that want to be further processed. A typical choice for image enhancement (e.g., image denoising, image inpainting, and image deblurring) is total variation minimization \eqref{L2TV}. In order to address in real-time extremely large problems, subspace correction, domain decomposition and coordinate descent methods are fundamental allowing us to split the computational workload and solve a sequence of smaller problems rather than one large problem. %Numerical solution schemes of \eqref{L2TV}, \eqref{L1TV}, and \eqref{L1L2TVmodel} and the corresponding splitting techniques usually rely on finite difference approximations due to the pixelwise storage of image information. However, 
-While the aforementioned splitting techniques allow the post-processing of large-scale images, they do not reduce the number of pixels of an image.
-
-Note, that besides the finite difference scheme for solving partial differential equations (PDEs) finite element methods (FEMs) have been widely used, due to its flexibility when dealing with complex geometry and complicated boundary conditions, and the simplicity of its adaptive procedures (see~\cite{NoSiVe:09}). For the inverse problem of reconstructing an image from an observed corrupted data usually the finite difference method is used, while finite element methods are neglected. The reasons for this might be that the image information is stored pixelwise and that in such optimization problems one usually minimizes a non-smooth functional, which do not allow usual derivatives and makes it rather difficult to find its weak formulation, which is needed for a FEM. Nevertheless, first attempts for using FEMs in image processing (restoration) have been made for non-linear diffusion models, which are used mainly for image denoising and edge detection. In particular, in \cite{BazBlo, BaeMik, PreRum} adaptive FEMs are proposed for the modified Perona-Malik model introduced in \cite{CatLioMorCol}, and in \cite{Li} an optimal error estimate for a finite element discretization of this diffusion model is derived.
-
-Based on these considerations FEMs for smoothed versions of \eqref{L2TV}, where the total variation term is either replaced by a Tikhonov regularizer \cite{Lam} or a smoothed total variation \cite{DesJaoSel, Yao}, are introduced and investigated for image denoising. Similarly, due to smooth approximations of \eqref{Eq:MSProblem}, for example by the approach in \cite{AmbTor}, in image segmentation as well as determining brittle fracture FEMs and even adaptive FEMs are proposed, e.g., see \cite{ChaBou, FenPoh, DogMorNoc} for image segmentation and \cite{BurOrtSue2010,BurOrtSue2013,ArtForMicPer} for brittle fracture. For computing a smooth optical flow field via FEMs we refer to \cite{BelHec2011,BelHec2016,LehTur}. Although we are aware, that we do not mention every work here, even for smoothed versions the literature seems very scarce.
-
-%In \cite{Lam} even the removal of mixed Gaussian-impulse noise is considered. 
-However, recently, based on a primal-dual formulation and the method proposed by Chambolle and Pock \cite{ChaPoc}, FE discretizations of \eqref{L2TV} have been directly tackled in \cite{Bar2012, Bar2013, TiaYua}. Motivated by these approaches, in \cite{BarNocSal} a FE discretization of the total variation flow is considered as well. 
+Based on these considerations FEMs for smoothed versions of \eqref{L2TV}, where the total variation term is either replaced by a Tikhonov regularizer \cite{Lam} or a smoothed total variation \cite{DesJaoSel, Yao}, are introduced and investigated for image denoising. However, recently, based on a primal-dual formulation and the method proposed by Chambolle and Pock \cite{ChaPoc}, FE discretizations of \eqref{L2TV} have been directly tackled in \cite{Bar2012, Bar2013, TiaYua}. Motivated by these approaches, in \cite{BarNocSal} a FE discretization of the total variation flow is considered as well. 
 Very recently a FEM for the minimization of a functional consisting of a combined $L^1/L^2$ data-fidelity term and a total variation regularisation utilizing the primal-dual method of \cite{ChaPoc} is presented in \cite{AlkLan}, where the implementation is performed in DUNE-ACFem.
 %While to the best of knowledge no attention with respect to a FE discretization has been given to the $L^1$-TV model, 
 %\todo{Ueber\-arbeiten!!!}
 
-%Due to smooth approximations of \eqref{Eq:MSProblem}, for example by the one of Ambrosio and Tortorelli \cite{AmbTor}, in image segmentation as well as determining brittle fracture FEMs and even AFEMs are more commonly used, see for example \cite{ChaBou, FenPoh, DogMorNoc} for image segmentation and \cite{BurOrtSue2010,BurOrtSue2013,ArtForMicPer} for brittle fracture.
 
 In order to diminish the dimensionality of images without losing important information of the analog image, a good way would be to discretize (sample) in an adaptive way by taking features of the pictured environment into account. Note, that images usually have homogeneous regions as well as parts with a lot of details. Hence, it seems intuitively sufficient to discretize fine in regions of transitions and fine details, while a coarse discretization should do well in uniform parts. In this vein, based on the primal-dual method of \cite{ChaPoc} in \cite{Bar2015} an adaptive FEM using a posteriori error estimates for \eqref{L2TV} is proposed.  %one may use an adaptive finite element method relying on a posteriori error estimates indicating whether an element has to be further separated or not. 
 %Adaptive finite element methods have been widely used in solving partial differential equations due to its obvious success in reducing the complexity of problems \cite{AinOde,BanRan, Car}. Recently adaptive meshing strategies are also used for solving constrained optimization problems \cite{}. However, for the inverse problem of reconstructing an image from an observed corrupted data finite element methods not to mention adaptive finite element methods are not yet widely used. The reason for this might be that in such problems one usually minimizes a non-smooth functional, which do not allow usual derivatives and renders the optimality conditions complicated. Nevertheless, first attempts for using FEM have been made for smoothed versions of \eqref{L2TV}, where the total variation term is either replaced by a Tikhonov regularizer \cite{Lam} or a smoothed total variation \cite{DesJaoSel, Yao}. In the last years, based on the primal-dual method by Chambolle and Pock \cite{ChaPoc}, FE discretizations of \eqref{L2TV} have been directly tackled in \cite{Bar12, Bar13, TiaYua}. Based on this approach in \cite{Bar15} an aFEM using a posteriori error estimates for \eqref{L2TV} is proposed. 
-Note that in \cite{Bar2015} only clean images are considered and no image reconstruction nor image analysis problem is tackled. In a similar way relying on a semi-smooth Newton method for solving a smoothed version of \eqref{L2TV} in \cite{HinRin2014} an adaptive FEM, again using a posteriori error estimates, is suggested for image denoising. Hence the approach in \cite{Bar2015}, to the best of our knowledge, is the only one where adaptive FEMs for the minimization of the non-smooth total variation are considered. %, adaptive meshing strategies for smooth imaging problems have been considered for non-linear diffusion models \cite{BazBlo, BaeMik, PreRum} (as already above mentioned) and optical tomography, see \cite{BanJos} and references therein.
+Note that in \cite{Bar2015} only clean images are considered and no image reconstruction problem is tackled. In a similar way relying on a semi-smooth Newton method for minimizing \eqref{L2TV} over the Hilbert space $H^1_0(\Omega)$ in \cite{HinRin2014} an adaptive FEM, again using a posteriori error estimates, is suggested for image denoising. Hence these two approaches seem to be the only ones where adaptive FEMs for the minimization of the non-smooth total variation is considered. 
+However, to the best of our knowledge, there exist no approach which combines adaptive meshing with local adaptive parameter selection, neither in a finite difference setting nor in a finite element setting. We are not even aware of any adaptive finite difference method for minimizing total variation.
+%, adaptive meshing strategies for smooth imaging problems have been considered for non-linear diffusion models \cite{BazBlo, BaeMik, PreRum} (as already above mentioned) and optical tomography, see \cite{BanJos} and references therein.
 
 \paragraph{A posteriori estimates}
 Any adaptive strategy is based upon information encoded \newf{in local  estimators of the error notion at hand}. There exists a variety of reliable and efficient estimators for a large class of different elliptic problems; compare with the monographs~\cite{AinOde,Ciarlet:02,Verfurth:96} and the references therein. In this case error estimation is in general a two-step procedure: in a first step one shows, by a continuous inf-sup condition and continuity of the associated bilinear form, equivalence of the true error to some negative norm of the residual, then the non-computable negative norm of the residual is estimated by an equivalent (up to oscillation) but computable quantity in the second step. It is important to notice that the equivalence of the first step is equivalent to have the continuous inf-sup and at the same time continuity of B with respect to the chosen spaces. Recently a posteriori estimators have been developed  for solving constrained optimization problems \cite{KoRoSi:14}. However, for the inverse problem of reconstructing an image from an observed corrupted data a posteriori estimators for finite element methods are not yet widely used. The reason for this might be that in such problems one usually minimizes a non-smooth functional, which do not allow usual derivatives and renders the optimality conditions complicated. To our knowledge the only result in this direction is~\cite{Bar2015} for the $L^2$-TV model 
@@ -442,7 +474,11 @@ It is worth mentioning too  the work~\cite{BaeMik} in which adaptive coarsening 
 
 
 \subsection{Preliminary work}\label{sec:prelim}
+\todo{to be done!!!!!!!!!!}
 
+\textcolor{blue}{Here should go (Andreas): the M.Sc. thesis of A. Dieterich; all the own work on (local adaptive) parameter selection; FE discretization of \eqref{L1L2TVmodel} in DUNE; }
+
+\textcolor{blue}{Here should go (Fernando): Any work on a posteriori estimates, AFEM, ...}
 
 
 %\small 
@@ -524,7 +560,7 @@ The main objective of the proposed research project is the enhancement of the re
 3 years
 
 \subsection{Objectives}\label{sec:Objectives}
-\todo{Objective genauer auf den Punkt ausarbeiten!}
+%\todo{Objective genauer auf den Punkt ausarbeiten!}
 
 The aim of the current project is to improve state-of-the-art locally adaptive parameter selection strategies for total variation image denoising. %By image denoising tasks we mean that the observed image contains noise and might be additionally corrupted by further instances, like blur or subsampling. That is the observation $g$ is given as in \eqref{eq:g}, where the operator $T$ might be, for example, the identity (solely denoising), a blurring operator (deblurring + denoising), a subsampled Fourier-transform (reconstruction of CT images), or a subsampled wavelet-transform.\todo{what type of noise?!}
 For image denoising it has been demonstrated multiple times that a locally depend regularisation parameter is able to produce better results than a globally constant parameter \cite{}. In particular the local regularisation parameter should be large in homogeneous regions, while in parts with details the parameter should be small in order to preserve the structures. When looking at a concrete digital image, the underlying analogue image is usually discretized by quadratic pixels of uniform size. For further image enhancement, e.g. removing noise, this strongly supplies a finite difference (FD) implementation of image restoration algorithms. Considering a FD discretization, a local parameter may be viewed as a piecewise constant function, being constant on each pixel. That is, any constant part of the parameter is at least of the size of a pixel. This is (clearly) a restriction of the spatial adjustment of the parameter which may have influence on the restoration; cf. Figure~\ref{fig:1Dsignal}.
@@ -853,7 +889,26 @@ Complementarily we will consider the dependency of the solutions of~\eqref{L2TVm
  \item Armed with these results we will study the monotonicity and convergence properties of the developed double adaptive methods, i.e., whether the localised resolution increase together with a parameter adjustment, results in optimal (or quasi-optimal) rate of approximation to the solution. 
  \end{enumerate} 
  
- \subparagraph{WP 7: Documentation and publication}
+\subparagraph{WP 7: Validation and application} 
+ 
+ \textcolor{blue}{How does an h-adaptive and locally adaptive TV method compare with higher order regularizers, as TGV? A digital image is always piecewise constant!}
+ 
+The derived adaptive methods will be validated by carefully planed experiments on image denoising application. In particular we consider the following settings:
+
+\begin{enumerate}[(i)]
+\item \textbf{Solely denoising:} In these experiments the considered images are solely corrupted by noise, where they may contain Gaussian noise, impulsive noise or a combination of these two noise types.
+
+\item \textbf{Deblurring $\&$ denoising}: Images might not only be corrupted by noise but also by blur. Here we consider such images, where the noise may vary as in (i).
+
+\item \textbf{MRI:} In magnetic resonance imaging one wishes to reconstruct an image which is only given by partial Fourier-data and additionally distorted by some additive Gaussian noise. We will not only test our methods on artificially constructed Fourier-data, but also plan to reconstruct images from real field-data provided by the group of Prof. Martin Uecker (University of G\"ottingen, University Medical Center G\"ottingen).
+
+\item \textbf{Wavelet inpainting:} This is the problem of filling in missing data in the wavelet domain, whereby the data may got lost by conventional communication techniques and noise is added to the data. 
+
+\end{enumerate}
+
+
+ 
+ \subparagraph{WP 8: Documentation and publication}
  
  The project results are presented in reports, at national and international conferences and published in journals. These publications will be written during the entire project period, whenever significant new results are achieved. The software created in the project is documented with modern documentation tools in such a way that reusability is guaranteed. Reusability is not only guaranteed within the group, but as the implementation is done in the software environment DUNE appropriate subpackages of the resulting software are made available to everybody via the internet.
  
@@ -1041,7 +1096,7 @@ Complementarily we will consider the dependency of the solutions of~\eqref{L2TVm
 %\end{figure}
 
 \paragraph{Work plan}
-Based on the work packages described above the intended workload is distributed during the project period as follows:\\
+Based on the work packages described above the intended workload is distributed during the project period as follows:\\ 
 \begin{center}
 %\begin{table}[!htbp]\centering
 {\small%\scriptsize%
@@ -1049,23 +1104,24 @@ Based on the work packages described above the intended workload is distributed 
 \toprule
  \multicolumn{1}{c|}{work program} &  \centering year 1 & \centering year 2 & \centering{year 3} \tabularnewline
 \midrule
-\textbf{Indicator} \\
-\-\hspace{2pt} WP 2: Heuristic indicators & \multicolumn{3}{l}{\hspace{0.5cm}\textbullet \textbullet \textbullet \textbullet \textbullet \textbullet  \textbullet \textbullet \textbullet } \\
-\-\hspace{2pt} WP 5: Theoretic indicators & \multicolumn{3}{l}{\hspace{3.9cm} \textbullet\textbullet\textbullet\textbullet\textbullet\textbullet\textbullet \textbullet\textbullet\textbullet\textbullet\textbullet\textbullet \textbullet}   \\
+\textbf{Indicator} & & & \\%\MyColorBox{1cm}{1pt}{1.8cm}\nolinebreak & & \MyColorBox{1cm}{1pt}{.5cm}\nolinebreak \\% \colorbox{black}{\parbox{3cm}{}} &  \\
+\-\hspace{2pt} WP 2: Heuristic indicators & \MyColorBox{1.4cm}{3pt}{0.5cm}\nolinebreak & & \\ %\multicolumn{3}{l}{\hspace{0.5cm}\textbullet \textbullet \textbullet \textbullet \textbullet \textbullet  \textbullet \textbullet \textbullet } \\
+\-\hspace{2pt} WP 5: Theoretic indicators & & \MyColorBox{2.4cm}{3pt}{1.7cm}\nolinebreak & \\%\multicolumn{3}{l}{\hspace{3.9cm} \textbullet\textbullet\textbullet\textbullet\textbullet\textbullet\textbullet \textbullet\textbullet\textbullet\textbullet\textbullet\textbullet \textbullet}   \\
 \hline
-\textbf{Implementation and validation}  \\
-WP 1  Adaptive FDM&  \multicolumn{3}{l}{\textbullet\textbullet\textbullet\textbullet}   \\
-WP 3 Fully adaptive method by FD&  \multicolumn{3}{l}{\hspace{1.3cm} \textbullet\textbullet\textbullet\textbullet \textbullet\textbullet}   \\
-WP 4 FE discretization & \multicolumn{3}{l}{\hspace{2.3cm} \textbullet\textbullet\textbullet \textbullet \textbullet\textbullet \textbullet\textbullet\textbullet  \textbullet\textbullet\textbullet}   \\
-WP 8 (Validation) & \multicolumn{3}{l}{\hspace{1.9cm} \textbullet\textbullet\textbullet \textbullet\textbullet\textbullet \hspace{0.8cm}  \textbullet\textbullet\textbullet \hspace{0.4cm} \textbullet\textbullet\textbullet  \textbullet\textbullet  \textbullet\textbullet\textbullet}\\
+\textbf{Implementation} & & &  \\
+WP 1  Adaptive FDM& \MyColorBox{0.5cm}{3pt}{0cm} &  & \\% \multicolumn{3}{l}{\textbullet\textbullet\textbullet\textbullet}   \\
+WP 3 Fully adaptive method by FD& \MyColorBox{1.2cm}{3pt}{1.cm}\nolinebreak & & \\% \multicolumn{3}{l}{\hspace{1.3cm} \textbullet\textbullet\textbullet\textbullet \textbullet\textbullet}   \\
+WP 4 FE discretization & &  \MyColorBox{2cm}{3pt}{.2cm}\nolinebreak & \\%\multicolumn{3}{l}{\hspace{2.3cm} \textbullet\textbullet\textbullet \textbullet \textbullet\textbullet \textbullet\textbullet\textbullet  \textbullet\textbullet\textbullet}   \\
 \hline
-\textbf{Analysis} \\
-WP 6 & \multicolumn{3}{l}{\hspace{0.9cm} \textbullet\textbullet\textbullet\textbullet\textbullet\textbullet\textbullet \textbullet\textbullet\textbullet\textbullet\textbullet\textbullet\textbullet\textbullet\textbullet
-\textbullet\textbullet\textbullet \textbullet\textbullet\textbullet \textbullet\textbullet\textbullet \textbullet\textbullet\textbullet \textbullet\textbullet\textbullet}   \\
+\textbf{Analysis} & & & \\
+WP 6 & \MyColorBox[gray]{5.cm}{3pt}{1.5cm}\nolinebreak && \\% \multicolumn{3}{l}{\hspace{0.9cm} \textbullet\textbullet\textbullet\textbullet\textbullet\textbullet\textbullet \textbullet\textbullet\textbullet\textbullet\textbullet\textbullet\textbullet\textbullet\textbullet \textbullet\textbullet\textbullet \textbullet\textbullet\textbullet \textbullet\textbullet\textbullet \textbullet\textbullet\textbullet \textbullet\textbullet\textbullet}   \\
 %(C)  Application and validation & \multicolumn{3}{l}{\hspace{2.4cm} \textbullet\textbullet\textbullet\textbullet\textbullet\textbullet\textbullet \textbullet\textbullet}   \\
 \hline
-\textbf{Documentation} \\
-WP 7 & \multicolumn{3}{l}{\hspace{1.9cm} \textbullet\textbullet\textbullet \textbullet\textbullet\textbullet \hspace{1.4cm}  \textbullet\textbullet\textbullet  \textbullet\textbullet\textbullet  \textbullet\textbullet  \textbullet\textbullet\textbullet}\\
+\textbf{Validation and application} & & & \\
+WP 7 &  \MyColorBox{1.cm}{3pt}{1.5cm}\nolinebreak &\MyColorBox{1.cm}{3pt}{1.5cm}\nolinebreak & \MyColorBox{.8cm}{3pt}{1cm}\nolinebreak  \\% \multicolumn{3}{l}{\hspace{1.9cm} \textbullet\textbullet\textbullet \textbullet\textbullet\textbullet \hspace{0.8cm}  \textbullet\textbullet\textbullet \hspace{0.4cm} \textbullet\textbullet\textbullet  \textbullet\textbullet  \textbullet\textbullet\textbullet}\\
+\hline
+\textbf{Documentation} & & & \\
+WP 8 &  \MyColorBox{1.cm}{3pt}{1.7cm}\nolinebreak &&  \MyColorBox{1.9cm}{3pt}{0.cm}\nolinebreak \\% \multicolumn{3}{l}{\hspace{1.9cm} \textbullet\textbullet\textbullet \textbullet\textbullet\textbullet \hspace{1.4cm}  \textbullet\textbullet\textbullet  \textbullet\textbullet\textbullet  \textbullet\textbullet  \textbullet\textbullet\textbullet}\\
 \bottomrule
 \end{tabular}
 %\caption{Intended workload distribution over project duration.\label{T:workload}}}\vspace{-0.5cm}
