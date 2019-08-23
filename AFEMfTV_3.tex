@@ -39,6 +39,8 @@
 \KOMAoptions{footsepline=true}
 \KOMAoptions{cleardoublepage=empty}
 
+\usepackage[resetlabels,labeled]{multibib}
+\newcites{O}{Project-related publications}
 
 \usepackage{calc}
 
@@ -376,7 +378,7 @@ with $c$ being a uniformly distributed random variable in the image intensity ra
 \end{equation}
 which we call the $L^1$-TV model. 
 
-In case of images, which are contaminated by a mixture of Gaussian and impulse noise, in \cite{HinLan2013} an $L^1$-$L^2$-data-fidelity term has been introduced and shown to be suited to the task of removing this type of mixed noise. In this approach, which we call $L^1$-$L^2$-TV model, an image is restored by solving
+In case of images, which are contaminated by a mixture of Gaussian and impulse noise, in \cite{HintermullerLanger:13} an $L^1$-$L^2$-data-fidelity term has been introduced and shown to be suited to the task of removing this type of mixed noise. In this approach, which we call $L^1$-$L^2$-TV model, an image is restored by solving
 \begin{equation}\label{L1L2TVmodel}
 \min_{u\in BV(\Omega)} \lambda_1 \|T_1u-g_1\|_{L^1(\Omega)} +  \lambda_2 \|T_2 u-g_2\|_{L^2(\Omega)}^2 + \alpha |Du|(\Omega),
 \end{equation}
@@ -421,13 +423,13 @@ In magnetic resonance imaging (MRI), one aims to reconstruct an image which is o
 \paragraph{Locally adaptive regularisation}
 
 Note, that a scalar regularization parameter might not be the best choice for every image restoration problem, since images usually have large homogeneous regions as well as parts with a lot of details. Actually it seems obvious that $\alpha$ should be small in parts with small features in order to preserve the details. On the contrary $\alpha$ should be large in homogeneous parts to remove noise considerably. With such a choice of a spatially varying weight we expect better reconstructions than with a globally constant parameter, as demonstrated for example in \cite{DonHinRin,HinRin}. 
- This motivated to consider multi-scale total variation models with spatially varying parameters initially suggested in \cite{RudOsh}. The multi-scale version of the $L^2$-TV model reads as
+ This motivated to consider multi-scale total variation models with spatially varying parameters initially suggested in \cite{RudOsh}. The multi-scale version of the $L^2$-TV and $L^1$-TV model read as
 \begin{equation}\label{L2TVmultimodel}
-\min_{u\in BV(\Omega)}  \int_\Omega |Tu-g|^2 dx + \int_\Omega \alpha(x) |Du|
+\min_{u\in BV(\Omega)}  \int_\Omega |Tu-g|^\tau dx + \int_\Omega \alpha(x) |Du|, \qquad \tau\in \{1,2\},
 \end{equation}
 where $\alpha: \Omega \to \R_+$ is a bounded continuous function. Similarly one may consider
 \begin{equation}\label{L2TVmultimodel2}
-\min_{u\in BV(\Omega)} \int_\Omega \lambda(x) |Tu-g|^2 dx +  \int_\Omega |Du|,
+\min_{u\in BV(\Omega)} \int_\Omega \lambda(x) |Tu-g|^\tau dx +  \int_\Omega |Du|, \qquad \tau\in \{1,2\},
 \end{equation}
 where $\lambda: \Omega \to \R_+$. In the sequel we refer to \eqref{L2TVmultimodel} and \eqref{L2TVmultimodel2} as the multi-scale $L^2$-TV model.
 
@@ -474,11 +476,42 @@ It is worth mentioning too  the work~\cite{BaeMik} in which adaptive coarsening 
 
 
 \subsection{Preliminary work}\label{sec:prelim}
+
+We next describe our activities related to the proposed research. Publications closely related to the project are indicated by a leading O.
+\subsubsection{Locally adaptive parameter selection}
+
+%Recently new methods for the automatic selection of parameters in the $L^2$-TV, $L^1$-TV and $L^1$-$L^2$-TV model have been proposed \citeO{Langer:17, HiLaRaWu:18, Langer:17a, Langer:18, Langer:19, HiRaWuLa:17}.
+
+
+While the methods in \cite{DonHinRin, HinRin}, based on \eqref{L2TVmultimodel2} are competitive, the iterative adjustment of $\lambda$ requires, that $T$ maps into the image domain $\Omega$. This limits the applicability of these approaches. In particular, applications in which the operator $T$ is a transformation of the image data into some data space disparate of the image space, e.g., $T$ being a wavelet or Fourier transform, these methods cannot be used. In \citeO{HiLaRaWu:18} we have constructed a new locally adaptive parameter selection strategy which overcome this shortcomings. In particular, we have replaced \eqref{L2TVmultimodel2} for $\tau=2$ by a sequence of auxiliary problems. These auxiliary problems are chosen in a way, that
+\begin{inparaenum}[(i)]
+\item $T$ does not affect $u$ any longer and hence each auxiliary problem is solved in the spatial domain, and
+\item the sequence of solutions of the auxiliary problems converges towards the minimizer of the original problem.
+\end{inparaenum}
+Since the sequence of auxiliary problems is solved in the spatial domain, we are able to choose the regularization parameter locally varying, in a similar way as in \cite{DonHinRin}.  Numerical experiments demonstrate, that this new method is able to generate reconstructions from partial Fourier data, as they occur in magnetic resonance imaging, and from partial wavelet coefficients, which are qualitatively better than the results of standard methods.
+
+Instead of selecting the locally dependent weight $\lambda$ in \eqref{L2TVmultimodel2} in \citeO{Langer:17} a fully automatic selection strategy of locally adaptive parameters $\alpha$ for the problem \eqref{L2TVmultimodel} is presented. There the adjustment of $\alpha$ is based on local constraints, similarly as already considered for example in \cite{AlmBalCasHar,DonHinRin,HinRin}. However, while the iterative update of the spatially varying parameter in \cite{AlmBalCasHar,DonHinRin,HinRin} depends on an additional parameter, which needs to be chosen by the user, the approach in \citeO{Langer:17} does not need any additional parameter and hence is fully automatic for the user. Moreover, differently to the approaches in \cite{DonHinRin,HinRin} where the initial regularization parameter $\lambda>0$ has to be set sufficiently small, in our approach any initial $\alpha>0$ is allowed. In this sense is our algorithm in \citeO{Langer:17} even more general than the ones presented in \cite{DonHinRin,HinRin}.
+
+The method developed in \citeO{Langer:17} is used to investigate the influence of the regularization parameter on total variation models \citeO{Langer:18} and has been utilized for selecting a locally adjusted regularization parameter in the $L^1$-$L^2$-TV model \citeO{Langer:19}.
+
+A completely different approach has been pursued in \citeO{HiRaWuLa:17}, where the problem of finding a suitable locally varying regularization parameter in the multi-scale $L^2$-TV model is formulated as a bilevel optimisation problem. The objective function of the first level is constituted by indicators telling the parameter how to change, while the second level consists of the pre-dual of the multi-scale $L^2$-TV model. In this setting this optimisation problem simultaneously recovers the image as well as determines a spatially varying regularization weight. Details on the algorithm, analysis and numerical experiments can be found in \citeO{HiRaWuLa:17}. 
+
+% However, our approach in \citeO{Langer:17}  differs significantly from these previous works, where problem \eqref{L2TVmultimodel2} is considered and Uzawa's method or an Uzawa-like method is utilized for the update of the spatially varying parameter. Note, that in Uzawa's method an additional parameter has to be introduced and chosen accordingly. In \citeO{Langer:17} an update-scheme of $\alpha$ is proposed which does not need any additional parameter and hence is not similar to Uzawa's method. Moreover, differently to the approaches in \cite{DonHinRin,HinRin} where the initial regularization parameter $\lambda>0$ has to be set sufficiently small, in our approach any initial $\alpha>0$ is allowed. In this sense is our algorithm even more general than the ones presented in \cite{DonHinRin,HinRin}.
+
+
+\subsubsection{Finite element discretization}
+
+While in all the aforementioned works for discretization the finite difference method (FDM) is used, in \citeO{AlkamperLanger:17} a finite element discretization of the $L^1$-$L^2$-TV model with $T_1=T_2=I$ has been presented. In particular the finite element discretization is considered on conforming and locally adaptive meshes. Analytically we have proven that a minimizer of the treated model on a suitable continuous finite element space indeed converges to a minimizer of the original problem in the space of bounded variation functions. In order to obtain a solution of the considered optimisation problem, we have adapted the primal-dual algorithm of \cite{ChaPocFEM}  and have implemented it in the programming environment \dune \cite{Blaetal}. Further, the implementation is based on an adaptive refinement of the mesh, where the refinement is performed heuristically at known discontinuities. This demonstrates that an efficient implementation of nonsmooth total variation minimization problems in a FE framework is indeed possible. 
+
+A comparison of continuous and discontinuous finite element spaces has been performed in the master thesis \citeO{Dieterich:19} supervised by the principle investigator Andreas Langer. In the situation of noise-free images and the $L^2$-TV model with $T=I$ it has been demonstrated that a discontinuous finite element space allows to preserve edges much more accurate than a continuous space.
+
+%\textcolor{blue}{Here should go (Andreas): the M.Sc. thesis of A. Dieterich; all the own work on (local adaptive) parameter selection; FE discretization of \eqref{L1L2TVmodel} in DUNE; }
+
+\textcolor{blue}{Here should go (Fernando): Any work on a posteriori estimates, AFEM, ... (about 1 page)}
 \todo{to be done!!!!!!!!!!}
 
-\textcolor{blue}{Here should go (Andreas): the M.Sc. thesis of A. Dieterich; all the own work on (local adaptive) parameter selection; FE discretization of \eqref{L1L2TVmodel} in DUNE; }
 
-\textcolor{blue}{Here should go (Fernando): Any work on a posteriori estimates, AFEM, ...}
+
 
 
 %\small 
@@ -488,60 +521,63 @@ It is worth mentioning too  the work~\cite{BaeMik} in which adaptive coarsening 
 \subsection{Project-related publications}%
 }
 \makeatother
+
+\bibliographystyleO{abbrv}
+\bibliographyO{nmh}
 %\bibliographystyle{acm}
-\begin{thebibliography}{O10}
-
-\itemsep=-3.5pt
-\ourbibitem{AlkLan}
-{\sc Alk\"amper, M. and Langer, A.}
-\newblock{Using DUNE-ACFem for non-smooth minimization of bounded variation functions}.
-\newblock{\em submitted to Archive of Numerical Software}, (2016), pp. 17.
-
-\ourbibitem{HinLan2013} 
-{\sc Hinterm\"uller, M., and Langer, A.}
-\newblock {Subspace correction methods for a class of nonsmooth and nonadditive convex variational problems with mixed $L^1/L^2$ data-fidelity in image processing}.
-\newblock {\em SIAM J. Imaging Sciences 6}, 4 (2013), 2134--2173.
-
-\ourbibitem{Lan2016} 
-{\sc Langer A.}
-\newblock {Automated parameter selection in the $L^1$-$L^2$-TV model for removing Gaussian plus impulse noise}.
-\newblock { accepted by {\em Inverse Problems}}, (2016), pp. 41.
+%\begin{thebibliography}{O10}
+%
 %\itemsep=-3.5pt
-%\ourbibitem{O:GaHeSi:14}
-%{\sc Gaspoz, F.~D., Heine, C.-J., and Siebert, K.~G.}
-%\newblock Optimal grading of the newest vertex bisection and ${H}^1$-stability of
-%  the ${L}_2$-projection.
-%\newblock Stuttgarter Mathematische Berichte 2014-015 
-%(\url{http://www.mathematik.uni-stuttgart.de/preprints/downloads/2014/2014-015.pdf}),
-%2014. Submitted for publication to {\em IMA J. of Numer. Anal.}
+%\ourbibitem{AlkLan}
+%{\sc Alk\"amper, M. and Langer, A.}
+%\newblock{Using DUNE-ACFem for non-smooth minimization of bounded variation functions}.
+%\newblock{\em submitted to Archive of Numerical Software}, (2016), pp. 17.
 %
-%\ourbibitem{O:GaspozMorin:14}
-%{\sc Gaspoz, F.\,D.  and  Morin, P.}
-%\newblock Approximation classes for adaptive higher order finite element
-%  approximation.
-%\newblock {\em Math. Comp.} 83(289):2127-2160, 2014. 
+%\ourbibitem{HinLan2013} 
+%{\sc Hinterm\"uller, M., and Langer, A.}
+%\newblock {Subspace correction methods for a class of nonsmooth and nonadditive convex variational problems with mixed $L^1/L^2$ data-fidelity in image processing}.
+%\newblock {\em SIAM J. Imaging Sciences 6}, 4 (2013), 2134--2173.
 %
-%\ourbibitem{O:KoRoSi:14}
-% {\sc Kohls, K.,  R\"osch, A. and  Siebert, K.\,G.}
-%\newblock A Posteriori error analysis of optimal control problems with control constraints.
-%\newblock {\em SIAM J. Control Optim.}, 52(3):1832--1861, 2014.
-%
-%\ourbibitem{O:KrMoScSi:12}
-% {\sc Kreuzer, C.,  M\"oller, C.\,A.,  Schmidt, A. and Siebert, K.\,G. }
-%\newblock Design and convergence analysis for an adaptive discretization of the
-%  heat equation.
-%\newblock {\em IMA J. Numer. Anal.} 32(4):1375-1403, 2012.
-%
-%\ourbibitem{O:KreuzerSiebert:11}
-%{\sc Kreuzer, C. and  Siebert, K.\,G.}
-%\newblock Decay rates of adaptive finite elements with {D}\"orfler {M}arking.
-%\newblock {\em Numer. Math.}, 117(4):679--716, 2011.
-%
-%\ourbibitem{O:Siebert:11}
-% {\sc Siebert, K.\,G.}
-%\newblock A convergence proof for adaptive finite elements without lower bound.
-%\newblock {\em IMA J. of Numer. Anal.}, 31(3):947--970, 2011.
-\end{thebibliography}
+%\ourbibitem{Lan2016} 
+%{\sc Langer A.}
+%\newblock {Automated parameter selection in the $L^1$-$L^2$-TV model for removing Gaussian plus impulse noise}.
+%\newblock { accepted by {\em Inverse Problems}}, (2016), pp. 41.
+%%\itemsep=-3.5pt
+%%\ourbibitem{O:GaHeSi:14}
+%%{\sc Gaspoz, F.~D., Heine, C.-J., and Siebert, K.~G.}
+%%\newblock Optimal grading of the newest vertex bisection and ${H}^1$-stability of
+%%  the ${L}_2$-projection.
+%%\newblock Stuttgarter Mathematische Berichte 2014-015 
+%%(\url{http://www.mathematik.uni-stuttgart.de/preprints/downloads/2014/2014-015.pdf}),
+%%2014. Submitted for publication to {\em IMA J. of Numer. Anal.}
+%%
+%%\ourbibitem{O:GaspozMorin:14}
+%%{\sc Gaspoz, F.\,D.  and  Morin, P.}
+%%\newblock Approximation classes for adaptive higher order finite element
+%%  approximation.
+%%\newblock {\em Math. Comp.} 83(289):2127-2160, 2014. 
+%%
+%%\ourbibitem{O:KoRoSi:14}
+%% {\sc Kohls, K.,  R\"osch, A. and  Siebert, K.\,G.}
+%%\newblock A Posteriori error analysis of optimal control problems with control constraints.
+%%\newblock {\em SIAM J. Control Optim.}, 52(3):1832--1861, 2014.
+%%
+%%\ourbibitem{O:KrMoScSi:12}
+%% {\sc Kreuzer, C.,  M\"oller, C.\,A.,  Schmidt, A. and Siebert, K.\,G. }
+%%\newblock Design and convergence analysis for an adaptive discretization of the
+%%  heat equation.
+%%\newblock {\em IMA J. Numer. Anal.} 32(4):1375-1403, 2012.
+%%
+%%\ourbibitem{O:KreuzerSiebert:11}
+%%{\sc Kreuzer, C. and  Siebert, K.\,G.}
+%%\newblock Decay rates of adaptive finite elements with {D}\"orfler {M}arking.
+%%\newblock {\em Numer. Math.}, 117(4):679--716, 2011.
+%%
+%%\ourbibitem{O:Siebert:11}
+%% {\sc Siebert, K.\,G.}
+%%\newblock A convergence proof for adaptive finite elements without lower bound.
+%%\newblock {\em IMA J. of Numer. Anal.}, 31(3):947--970, 2011.
+%\end{thebibliography}
 \normalsize
 
 \section{Objectives and work programme}
