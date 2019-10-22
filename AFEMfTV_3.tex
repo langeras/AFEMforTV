@@ -210,6 +210,17 @@
 
 \newcommand{\nnew}[1]{{\textcolor{red}{#1}}}
 
+%\newcounter{para}
+%\newcommand\mypara{\par\refstepcounter{para}\thepara\space}
+
+\usepackage{titlesec}
+
+\setcounter{secnumdepth}{4}
+
+\titleformat{\paragraph}
+{\normalfont\normalsize\bfseries}{\theparagraph}{1em}{}
+\titlespacing*{\paragraph}
+{0pt}{3.25ex plus 1ex minus .2ex}{1.5ex plus .2ex}
 
 
 \begin{document}
@@ -583,7 +594,7 @@ A comparison of continuous and discontinuous finite element spaces has been perf
 
 \section{Objectives and work programme} 
 \label{sec:object}
-The main objective of the proposed research project is the enhancement of the restoration of noisy images. This enhancement of the restoration quality is achieved by developing adaptive methods for solving total variation minimization problems. The adaptivity in the method is designed in a way that features and edges in the considered image are preserved while noise is substantially eliminated. Such an adaptivity leads to a locally dependent treatment of the underlying problem, i.e., at different points or areas in the image domain the considered problem will be treated differently. The developed method will be adaptive in two ways. More precisely, the method allows for a local mesh refinement such that a locally adjusted regularization parameter can be optimally tailored to edges and transition of colors. We will create local adjustment methods with the properties of being robust with respect to the observed data and efficient. By efficient we mean, that the methods are also optimized with respect to computational time, why an adaptive local refinement rather than a global refinement is performed. The development of the method will be accompanied by a rigorous mathematical analysis, investigating the obtained discrete problems as well as the obtained algorithms theoretically. The designed method will be explored and tested by numerous numerical experiments considering applications in image denoising.
+The main objective of the proposed research project is the enhancement of the restoration of noisy images. This enhancement of the restoration quality is achieved by developing adaptive methods for solving total variation minimization problems. The adaptivity in the method is designed in a way that features and edges in the considered image are preserved much better than by state-of-the-art methods, while noise is substantially eliminated. Such an adaptivity leads to a locally dependent treatment of the underlying problem, i.e., at different points or areas in the image domain the considered problem will be treated differently. The developed method will be adaptive in two ways. More precisely, the method allows for a local mesh refinement such that a locally adjusted regularization parameter can be optimally tailored to edges and transition of colors. We will create local adjustment methods with the properties of being robust with respect to the observed data and efficient. By efficient we mean, that the methods are also optimized with respect to computational time, why an adaptive local refinement rather than a global refinement is performed. The development of the method will be accompanied by a rigorous mathematical analysis, investigating the obtained discrete problems as well as the obtained algorithms theoretically. The designed method will be explored and tested by numerous numerical experiments considering applications in image denoising.
 %The main objective of the proposed research project is the development and analysis of adaptive methods for solving inverse imaging problems, where the total variation minimization plays a fundamental role. The adaptivity in the methods is designed in a way that the reconstruction error is minimized during an iterative scheme or the computational complexity is reduced, while aiming at a certain accuracy of the solution, which may be obtained by optimising simultaneously the degrees of freedom and the reconstruction error. Such an adaptivity leads to a locally dependent treatment of the underlying problem, i.e., at different points or areas the considered problem will be treated differently. We will create local adjustment methods with the properties of being robust with respect to the observed data and efficient. By efficient we mean, that the methods are optimized with respect to computational time while keeping the numerical solution at a certain accuracy. % with the aim of reducing the reconstruction error. %Since we are dealing with inverse problems, this could mean that at different locations different regularization is used. 
 %
  % non-smooth variational image reconstruction including total variation minimization. 
@@ -622,7 +633,7 @@ In order to overcome this constraint, in this project we develop methods, which 
 Let us motivate our approach further on by demonstrating with a simple one-dimensional example the strength of a combined local refinement and local parameter selection. We consider the noisy signal in Figure~\ref{fig:noisy_signal}, where the noise is of Gaussian type, and restore the original signal once on the original (observed) mesh, i.e., mesh-size $h=0.01$, with a locally adjusted parameter and once on a locally twice refined mesh around the discontinuity again with a locally adjusted parameter by minimizing \eqref{L2TVmultimodel2}. For the concrete choices of the local refined mesh and locally adjusted parameters see Figure~\ref{fig:stepsize} and Figure~\ref{fig:lamdba} respectively. That is, the non-uniform (locally refined) case allows for a more precise choice of the regularization parameter leading to a significantly more accurate restoration than the uniform setting, see Figure~\ref{fig:1Dsignal}.
 %In order to motivate our approach and demonstrate the strength of a combined local refinement and local parameter selection we depict in 
 %In Figure~\ref{fig:1Dsignal} we depict for a one-dimensional signal that a local refinement together with a local parameter selection indeed allows for better reconstruction. The mesh-size in Figure~\ref{fig:1Dsignal} is chosen to be $h=0.01$ in the uniform case and in the case of a non-uniform mesh the grid is two times refined around the jump, see Figure \ref{fig:stepsize}.  According to the grid the parameter $\lambda$ is locally adjusted as depicted in Figure \ref{fig:lamdba}. That is, in the non-uniform case this allows for a more precise choice of the regularization parameter leading to a significantly more accurate restoration than in the uniform setting, see Figure~\ref{fig:1Dsignal}.
- Note that in this motivative example the mesh refinement as well as the parameter choice of $\lambda$ is set by hand knowing the position of the discontinuity in advance. 
+ Note that in this motivative example the mesh refinement as well as the parameter choice of $\lambda$ is set by hand knowing the position of the discontinuity in advance. However, it serves as a nice demonstration that such a strategy works indeed well of the local refinement and the local adaptive parameter is chosen reasonably and in accordance. 
  
  The goal of this project is to develop a method which fully automatic adapts the grid as well as the regularization parameter in total variation image denoising problems without a priori knowing the places of the discontinuities (free-discontinuity problem) in order to increase the restoration quality significantly. More precisely the developed method will have the following desirable properties: 
 \begin{inparaenum}[(i)]
@@ -873,7 +884,7 @@ Based on this considerations in a next step we will incorporate the h-adaptivity
 % $\Gamma$-convergence; stability; a priori estimate; convergence w.r.t. h; robustness
 
 
- \subparagraph{WP 3: Theoretical analysis}
+ \subsubsection*{WP 3: Theoretical analysis}
 
 From a theoretically point of view it is also highly interesting how such a double adaptive strategy effects the solution. Here we proceed in the following steps:
  
@@ -888,7 +899,7 @@ Complementarily we will consider the dependency of the solutions of~\eqref{L2TVm
  \item Armed with these results we will study the monotonicity and convergence properties of the developed double adaptive methods, i.e., whether the localised resolution increase together with a parameter adjustment, results in optimal (or quasi-optimal) rate of approximation to the solution. 
  \end{enumerate} 
  
-\subparagraph{WP 4: Validation and application} 
+\subsubsection*{WP 4: Validation and application} 
  
  \textcolor{blue}{How does an h-adaptive and locally adaptive TV method compare with higher order regularizers, as TGV? A digital image is always piecewise constant!}
  
@@ -917,7 +928,7 @@ The derived adaptive methods will be validated by carefully planed experiments o
  
 
  
- \subparagraph{WP 5: Documentation and publication}
+ \subsubsection*{WP 5: Documentation and publication}
  
  The project results are presented in reports, at national and international conferences and published in journals. These publications will be written during the entire project period, whenever significant new results are achieved. The software created in the project is documented with modern documentation tools in such a way that reusability is guaranteed. Reusability is not only guaranteed within the group, but as the implementation is done in the software environment DUNE appropriate subpackages of the resulting software are made available to everybody via the internet.
 
@@ -926,7 +937,7 @@ The derived adaptive methods will be validated by carefully planed experiments o
 
 
 
-\paragraph{Work plan}
+\subsubsection*{Work plan}
 Based on the work packages described above the intended workload is distributed during the project period as follows:\\ 
 \begin{center}
 %\begin{table}[!htbp]\centering
@@ -962,12 +973,12 @@ Based on the work packages described above the intended workload is distributed 
  
 
 
-\subsection{Impact and Continuation of the Project}
+\subsubsection*{Impact and Continuation of the Project}
 
 
 Although our proposed adaptive method is tailored to Gaussian and impulsive noise removal as well as to total variation minimization, is also serves as a groundwork for other type of noises, as Poisson and multiplicative noise, as well as other type of regularization.
 
-\paragraph{Supplements.}\todo{Here could go: nonconvex regularizer, different data terms, ...}
+\paragraph*{Supplements.}\todo{Here could go: nonconvex regularizer, different data terms, ...}
 %We are going to consider additional topics for enriching the understanding of adaptive mechanisms by aspects that are different to the setting above. 
 
 
@@ -979,12 +990,15 @@ Although our proposed adaptive method is tailored to Gaussian and impulsive nois
 %adaptive finite element methods for functionals consisting of a combined $L^1$/$L^2$ data fidelity term and one of the before mentioned regularizers.
 
 \todo{Application medical imaging as a continuation project}
+\subsection{Data handling}
+
 
 \subsection{Other information }
 \subsubsection{Responsibilities of the investigators}
 \todo{Do not know how to do that reasonably!}
 
-\paragraph{Dr. Andreas Langer}  is an expert in the field of mathematical image reconstruction, optimization and inverse problems. Hence he knows how to tackle the considered applications in an optimization framework and has experience in deriving and analysing locally adaptive parameter selection methods. He will be the primary supervisor of the PhD candidate, who will be situated at the University of Stuttgart. Hence he will be responsible for all parts of the project but primary for WP 1.1, WP 2.1, WP 2.2 and WP 4. %Due to his expertise, he is responsible for WP 1.1.
+\paragraph{Dr. Andreas Langer}  
+A. Langer is an expert in the field of mathematical image reconstruction, optimization and inverse problems. Hence he knows how to tackle the considered applications in an optimization framework and has experience in deriving and analysing locally adaptive parameter selection methods. He will be the primary supervisor of the PhD candidate, who will be situated at the University of Stuttgart. Hence he will be responsible for all parts of the project but primary for WP 1.1, WP 2.1, WP 2.2 and WP 4. %Due to his expertise, he is responsible for WP 1.1.
 %\begin{enumerate}[(1)]
 %\item the development and analysis of the adaptive discretization techniques;
 %\item the development and analysis of the adaptive regularization methods;
@@ -994,7 +1008,7 @@ Although our proposed adaptive method is tailored to Gaussian and impulsive nois
 
 
 
-\paragraph{Dr. Fernando Gaspoz}  has a strong background in functional analysis and is an expert for a posteriori estimates for adaptive finite elements. In this project he is co-supervising the PhD candidate and primary responsible for WP 1.2, WP 2.3 and WP 3. 
+\paragraph{Dr. Fernando Gaspoz}  F. Gaspoz has a strong background in functional analysis and is an expert for a posteriori estimates for adaptive finite elements. In this project he is co-supervising the PhD candidate and primary responsible for WP 1.2, WP 2.3 and WP 3. 
 %\begin{enumerate}[(1)]
 %\item  the derivation of the a posteriori estimates for the respective problems and the adaptive discretization approaches;
 %\item the supervision of the postdoc researcher and doctoral student for the derivation of the adaptive finite element methods and analytical aspects involved in the project;
@@ -1026,14 +1040,14 @@ Although our proposed adaptive method is tailored to Gaussian and impulsive nois
 % \label{sec:other-information}
 % Does not apply.
 
-% \subsection{Descriptions of proposed investigations involving experiments on humans, human materials or animals}
-% \label{sec:proposed-investigations}
-% Does not apply.
+ \subsection{Descriptions of proposed investigations involving experiments on humans, human materials or animals}
+ \label{sec:proposed-investigations}
+ Does not apply.
 
 
-% \subsection{Information on scientific and financial involvement of international cooperation partners}
-% \label{sec:cooperations}
-% Does not apply.
+ \subsection{Information on scientific and financial involvement of international cooperation partners}
+ \label{sec:cooperations}
+ Does not apply.
 
 %\small
 \section{Bibliography}%
@@ -1990,9 +2004,12 @@ doctoral researcher in basic implementation tasks and numerical experiments.
 Additionally, he/she is supposed to assist the researchers of the project in effective
 external presentation (web presence, preparation of conference presentations, etc.).
 
+\subsubsection{Direct Project Costs}
+%\subsubsection{Funding for travel costs and visiting researchers.}
+\paragraph{Equipment up to Euro 10,000, Software and Consumables}
 
-\subsubsection{Funding for travel costs and visiting researchers.}
 
+\paragraph{Travel Expenses}
 We apply for \EUR{15000} for three years. The funds are required for intensive scientific exchange of the investigators among themselves but also with external researches, as Massimo Fornasier (TU Munich), Robert Kl\"ofkorn (IRIS, Bergen) Pedro Morin (IMAL, Santa Fe, Argentina), Ricardo Nochetto (University of Maryland), Talal Rahman (Bergen University College), Juan Carlos De los Reyes (EPN Quito),  Carola-Bibiane Sch\"onlieb (University of Cambridge), which are experts in the field of adaptive finite element methods, discontinuous Galerkin methods, mathematical imaging, and parameter selection methods. For these exchange visits we calculate with \EUR{1600} per year. Moreover achieved results will be presented to an expert audience on international conferences. Potential international conferences are SIAM Conference on Imaging Science, GAMM Annual Meeting, European Finite Element Fair, Scale Space and Variational Methods in Computer Vision, Applied Inverse Problem Conference, \dots. In particular, we intend the attendance of 2 conferences each year (1 international and 1 national), where we calculate with \EUR{1600} for an international and \EUR{800} for an national conference. Moreover, we plan for 1 long term visit (2 - 3 month) for the PhD candidate at one of the aforementioned universities, for which we plan \EUR{3000}.
 
 %Christian Kreuzer and R\"udiger Verf\"urth
@@ -2007,6 +2024,23 @@ We plan with the following budget for three years:
 \item In total  \dotfill\hbox{\EUR{15000} for three years}
 \end{itemize}
 
+\paragraph{Visiting Researchers}
+
+\paragraph{Expenses for Laboratory Animals}
+Does not apply.
+
+\paragraph{Other Costs}
+
+\paragraph{Project-related publication expenses}
+
+\subsubsection{Instrumentation}
+Does not apply.
+%\paragraph{Equipment exceeding Euro 10,000}
+%\paragraph{Major Instrumentation exceeding Euro 50,000}
+
+%\subsection{Module ....}
+
+
 \section{Project requirements}
 \label{sec:requirements}
 
@@ -2014,7 +2048,7 @@ We plan with the following budget for three years:
 \label{sec:empl-stat-inform}
 \begin{description}
 \item[Fernando D. Gaspoz:] PostDoc, TU Dortmund.
-\item[Andreas Langer:] PostDoc, Chair for Numerical Mathematics for High Performance Computing, Institute for Applied Analysis and Numerical  Simulation, Faculty for Mathematics and Physics, University of Stuttgart.
+\item[Andreas Langer:] PostDoc, Chair for Numerical Mathematics for High Performance Computing, Institute for Applied Analysis and Numerical  Simulation, Faculty for Mathematics and Physics, University of Stuttgart (budgetary funds, non-permanent till ??.??.????)
 \end{description}
 %\begin{description}
 %\item[Kunibert G. Siebert:] W3-Professor, Chair for Numerical Mathematics for
@@ -2029,16 +2063,18 @@ Langer, Andreas
 \subsection{Composition of the project group}
 \label{sec:comp-proj-group}
 
-
-The research team is supported by
+\subparagraph*{IANS (Dr. Andreas Langer)}
+At the IANS the research team is supported by
 \begin{itemize}
 %\item Dr. Fernando D. Gaspoz, PostDoc at the Chair of Numerical Mathematics for
 %  HPC, who is a consultant for approximation classes and optimality of
 %  adaptive methods;
-\item Dr. Claus-Justus Heine, Akademischer Rat at the University of Stuttgart,
-  and Martin Alk\"amper MSc, doctoral student financed by the DFG cluster of excellence
-  ``Simulation Technology'', who work intensively on an
-  adaptive simulation environment for parabolic and elliptic problems in \dunefem.
+\item Dr. Claus-Justus Heine, Akademischer Rat (budgetary funds, permanent)
+\item Stephan Hilb, M.Sc. (budgetary funds, non-permanent)
+\item Arthur G\"unthner, M.Sc. (financed by the DFG cluster of excellence
+  ``Simulation Technology'', non-permanent until 30.11.2022)
+  
+  %  and Martin Alk\"amper MSc, doctoral student financed by the DFG cluster of excellence ``Simulation Technology'', who work intensively on an adaptive simulation environment for parabolic and elliptic problems in \dunefem.
 \end{itemize}
 
 \subsection{Cooperation with other researchers}
@@ -2070,6 +2106,12 @@ Martin Alk\"amper (Stuttgart), Hendrik Dirks (M\"unster), Claus-Justus Heine (St
 %(Duisburg-Essen), Alfred Schmidt (Bremen),
 %Andreas Veeser (Milan, Italy), Winnifried Wollner (Hamburg)
 
+\subsection{Scientific equipment}
+%List large instruments that will be available to you for the project. These may include large computer facilities if computing capacity will be needed.
+\subsection{Project-relevant cooperation with commercial enterprises}
+Does not apply.
+\subsection{Project-relevant participation in commercial enterprises}
+Does not apply.
 
 \section{Additional information}
 \label{sec:addit-inform}
