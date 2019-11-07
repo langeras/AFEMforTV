@@ -229,7 +229,7 @@
   \subject{DFG Research Grant Application} 
   \title{Adaptive Methods for Free Discontinuity Problems}% (for Image Reconstruction)}
   
-  \author{Andreas Langer and Fernando Gaspoz}
+  \author{Andreas Langer}
   \date{Stuttgart, \today \\[50mm] Submission\\[50mm]
     Application period: 01.04.2020 --- 31.03.2023}
 \end{titlepage}
@@ -260,20 +260,20 @@
 \end{flushleft}
 
 
-\begin{flushleft}
-  \textbf{Dr. Fernando Gaspoz}
-  \begin{tabbing}
-    DFG reference number:\quad\=Phone:\quad\=\kill
-    Position:\> PostDoc\\
-    %DFG reference number:\>SI 814/1-2\\[1mm]
-    Contact:\> Numerische Mathematik f\"ur H\"ochstleistungsrechner\\ 
-    \>Institut f\"ur Angewandte Analysis und Numerische Simulation\\
-    \> Universit\"at Stuttgart\\
-    \> Pfaffenwaldring 57 \\
-    \> D-70569 Stuttgart\\[1mm]
-    \> Email:\> fernando.gaspoz@ians.uni-stuttgart.de\\[1mm]
- \end{tabbing}
-\end{flushleft}
+%\begin{flushleft}
+%  \textbf{Dr. Fernando Gaspoz}
+%  \begin{tabbing}
+%    DFG reference number:\quad\=Phone:\quad\=\kill
+%    Position:\> PostDoc\\
+%    %DFG reference number:\>SI 814/1-2\\[1mm]
+%    Contact:\> Numerische Mathematik f\"ur H\"ochstleistungsrechner\\ 
+%    \>Institut f\"ur Angewandte Analysis und Numerische Simulation\\
+%    \> Universit\"at Stuttgart\\
+%    \> Pfaffenwaldring 57 \\
+%    \> D-70569 Stuttgart\\[1mm]
+%    \> Email:\> fernando.gaspoz@ians.uni-stuttgart.de\\[1mm]
+% \end{tabbing}
+%\end{flushleft}
 
 %\subsection*{Co-Investigator}
 %
@@ -298,7 +298,7 @@
 In many modern applications, like image reconstruction and image analysis, the solution of interest is described by a discontinuous function. Unfortunately, it is a priori not known where the discontinuities  are located and that has to be determined numerically. In fact, computing discontinuities wrongly or inaccurately could be either fatal (as in obstacle and tumour detection) or scientifically costly.  %One approach is to optimize a functional, which consists of a generalized, measure-valued, gradient term.
 In order to preserve edges and discontinuities  in image processing, the minimization of a functional consisting of a the total variation term is common and widely used. Typical applications, where such an optimization problem is solved are for example: image denoising, image deblurring, and reconstruction of partial Fourier-data (magnetic resonance imaging). Note that all these examples are ill-posed inverse problems and hence the respective optimization problem is originated by regularization techniques, e.g., total variation regularization.
 
-In this project we solve the constituted problems by constructing methods, which automatically adjust to the discontinuities of the underlying (observed) data. This adjustment leads to methods, which adaptively (in an iterative manner) reduce the reconstruction error, allowing to obtain the discontinuities more accurately and hence yield qualitatively better reconstructions, and \hl{keep or even reduce the computational complexity} \todo{is this true?}  of the underlying problem at the same time. Additionally to these attributes the derived methods will possess further desirable properties, as robustness with respect to the given data, they are guaranteed to converge to a more accurate solution than state-of-the-art methods, and they allow for different discretization techniques. 
+In this project we solve the constituted problems by constructing methods which automatically adjust to the discontinuities of the underlying (observed) data. This adjustment leads to methods, which adaptively (in an iterative manner) reduce the reconstruction error, allowing to obtain the discontinuities more accurately and hence yield qualitatively better reconstructions, and \hl{keep or even reduce the computational complexity} \todo{is this true?}  of the underlying problem at the same time. Additionally to these attributes the derived methods will possess further desirable properties, as robustness with respect to the given data, they are guaranteed to converge to a more accurate solution than state-of-the-art methods, and they allow for different discretization techniques. 
 
 The adaptive adjustment of the derived methods occur on two sides, on the regularization side, where the regularization is locally adjusted, and on the discretization side, where an optimal discretization is learned. Optimal in the sense of computational complexity and reconstruction quality. We derive criteria based on edge-indicators, a posteriori estimates and local residuals, which tell us, how the adjustment of the regularization and discretization should be performed. In particular, at discontinuities the regularization should be very small, preventing any smoothing, while the mesh should be very fine too, allowing to adjust the regularization very locally for depicting the discontinuities very precisely. Hence the mesh is adaptively refined at discontinuities and coarsened at parts where the solution is homogeneous.
 
@@ -311,7 +311,10 @@ In this vein, these adaptive methods are especially important in real-world appl
 
 %Secondly we will consider an adaptive regularization of the ill-posed inverse imaging problems.
 
-The principal investigators and co-investigator have a long track record in research areas like mathematical image processing, inverse problems, parameter selection strategies, non-smooth optimisation, finite element methods, a posteriori estimates and adaptive methods. Furthermore, the mathematical problems involved in the project are quite suitable for postgraduate training.
+The principal investigators %and co-investigator 
+have a long track record in research areas like mathematical image processing, inverse problems, parameter selection strategies, non-smooth optimisation.
+%, finite element methods, a posteriori estimates and adaptive methods. 
+Furthermore, the mathematical problems involved in the project are quite suitable for postgraduate training.
 
 
 %  analyze finite element methods for the minimization of the non-smooth and non-additive total variation with main focus on adaptive discretization.
@@ -339,7 +342,11 @@ In certain applications, the desired solution should contain discontinuities, wh
 $$
 V(u,\Omega):=\sup\left\{\int_{\Omega} u \operatorname{div} \vec\phi \ \text{d}x : \vec\phi \in [C_c^1(\Omega)]^2, \|{|\vec\phi|_{\ell^2}}\|_{L^\infty(\Omega)} \leq 1\right\}
 $$
-is the variation of $u$ in $\Omega$. Here, $L^q(\Omega)$, with $q\in [1,\infty]$, denotes the usual Lebesgue space \cite{AdaFou} and $C_c^l(\Omega)$, $l\in \N$, is the space of $l$-times continuously differentiable functions with compact support in $\Omega$. In the event that $V(u,\Omega)<\infty$ we denote $|Du|(\Omega)=V(u,\Omega)$ and call it the total variation of $u$ in $\Omega$; see \cite{AmbFusPal, Giu} for more details. If $u\in W^{1,1}(\Omega)$, then $|Du|(\Omega)= \int_{\Omega}|\nabla u| dx$. Further, $BV(\Omega)$ denotes the space of functions with bounded variation, i.e., $u\in BV(\Omega)$ if and only if $V(u,\Omega)<\infty$. The space $BV(\Omega)$ endowed with the norm $\|u\|_{BV} = \|u\|_{L^1(\Omega)} + |Du|(\Omega)$ is a Banach space \cite{Giu}. 
+is the variation of $u$ in $\Omega$. 
+%Here, $L^q(\Omega)$, with $q\in [1,\infty]$, denotes the usual Lebesgue space \cite{AdaFou} and $C_c^l(\Omega)$, $l\in \N$, is the space of $l$-times continuously differentiable functions with compact support in $\Omega$. In the event that $V(u,\Omega)<\infty$ 
+We denote $|Du|(\Omega)=V(u,\Omega)$ and call it the total variation of $u$ in $\Omega$; see \cite{AmbFusPal, Giu} for more details.
+% If $u\in W^{1,1}(\Omega)$, then $|Du|(\Omega)= \int_{\Omega}|\nabla u| dx$. 
+ Further, $BV(\Omega)$ denotes the space of functions with bounded variation, i.e., $u\in BV(\Omega)$ if and only if $V(u,\Omega)<\infty$. The space $BV(\Omega)$ endowed with the norm $\|u\|_{BV} = \|u\|_{L^1(\Omega)} + |Du|(\Omega)$ is a Banach space \cite{Giu}. 
 
 \paragraph{The total variation model}
 
@@ -366,24 +373,26 @@ where $T : L^2(\Omega) \to L^2(\Omega)$ is as in \eqref{eq:g}.
 %For image inpainting the observed image has missing parts $D\subset \Omega$, and hence $T$ is set to be the characteristic function of $\Omega\setminus D$, i.e., $Tu=\chi_{\Omega\setminus D}\cdot u$. \todo{Other relevant choices of $T$}%in case the observed image is blurry, $T$ represents the respective convolution (blurring) operator. 
  %Here and in the sequel we assume that $T$ is known.
 
-The $L^2$-TV model usually does not yield a satisfactory restoration in the presence of impulse noise. This type of noise is usually constituted due to malfunctioning pixels in camera sensors, faulty memory locations in hardware, or transmission over noisy digital links. There are two commonly used models of impulse noise considered in the literature. The first one, called \emph{salt-and-pepper noise}, where the noisy image $g$ is given by
-$$
-g(x) = 
-\begin{cases}
-d_{\min} & \text{ with probability } s_1\in [0,1),\\
-d_{\max} & \text{ with probability } s_2\in [0,1),\\
-T \hat{u}(x)  & \text{ with probability } 1-s_1-s_2,
-\end{cases}
-$$
-with $1-s_1-s_2>0$ \cite{ChaHoNik}. Here and in the rest we assume that $T \hat{u}$ is in the dynamic range $[d_{\min},d_{\max}]$, i.e., $d_{\min}\leq T\hat{u}\leq d_{\max}$. The second model is called \emph{random-valued impulse noise}, where $g$ is described as
-$$
-g(x) = 
-\begin{cases}
-c & \text{ with probability } s\in [0,1),\\
-T \hat{u}(x)  & \text{ with probability } 1-s,
-\end{cases}
-$$
-with $c$ being a uniformly distributed random variable in the image intensity range $[d_{\min},d_{\max}]$. For impulse noise contaminated images a more successful approach uses instead of a quadratic $L^2$-data-fidelity term a non-smooth $L^1$-data-fidelity term \cite{All, Nik2002, Nik2004}. That is, instead of \eqref{L2TV} one optimizes the following minimization problem
+The $L^2$-TV model usually does not yield a satisfactory restoration in the presence of impulse noise. This type of noise is usually constituted due to malfunctioning pixels in camera sensors, faulty memory locations in hardware, or transmission over noisy digital links. 
+%There are two commonly used models of impulse noise considered in the literature. The first one, called \emph{salt-and-pepper noise}, where the noisy image $g$ is given by
+%$$
+%g(x) = 
+%\begin{cases}
+%d_{\min} & \text{ with probability } s_1\in [0,1),\\
+%d_{\max} & \text{ with probability } s_2\in [0,1),\\
+%T \hat{u}(x)  & \text{ with probability } 1-s_1-s_2,
+%\end{cases}
+%$$
+%with $1-s_1-s_2>0$ \cite{ChaHoNik}. Here and in the rest we assume that $T \hat{u}$ is in the dynamic range $[d_{\min},d_{\max}]$, i.e., $d_{\min}\leq T\hat{u}\leq d_{\max}$. The second model is called \emph{random-valued impulse noise}, where $g$ is described as
+%$$
+%g(x) = 
+%\begin{cases}
+%c & \text{ with probability } s\in [0,1),\\
+%T \hat{u}(x)  & \text{ with probability } 1-s,
+%\end{cases}
+%$$
+%with $c$ being a uniformly distributed random variable in the image intensity range $[d_{\min},d_{\max}]$. 
+For impulse noise contaminated images a more successful approach uses instead of a quadratic $L^2$-data-fidelity term a non-smooth $L^1$-data-fidelity term \cite{All, Nik2002, Nik2004}. That is, instead of \eqref{L2TV} one optimizes the following minimization problem
 \begin{equation}\label{L1TV}
 \min_{u\in BV(\Omega)} \|Tu-g\|_{L^1(\Omega)} + \alpha |Du|(\Omega),
 \end{equation}
@@ -594,7 +603,8 @@ A comparison of continuous and discontinuous finite element spaces has been perf
 
 \section{Objectives and work programme} 
 \label{sec:object}
-The main objective of the proposed research project is the enhancement of the restoration of noisy images. This enhancement of the restoration quality is achieved by developing adaptive methods for solving total variation minimization problems. The adaptivity in the method is designed in a way that features and edges in the considered image are preserved much better than by state-of-the-art methods, while noise is substantially eliminated. Such an adaptivity leads to a locally dependent treatment of the underlying problem, i.e., at different points or areas in the image domain the considered problem will be treated differently. The developed method will be adaptive in two ways. More precisely, the method allows for a local mesh refinement such that a locally adjusted regularization parameter can be optimally tailored to edges and transition of colors. We will create local adjustment methods with the properties of being robust with respect to the observed data and efficient. By efficient we mean, that the methods are also optimized with respect to computational time, why an adaptive local refinement rather than a global refinement is performed. The development of the method will be accompanied by a rigorous mathematical analysis, investigating the obtained discrete problems as well as the obtained algorithms theoretically. The designed method will be explored and tested by numerous numerical experiments considering applications in image denoising.
+%The main objective of the proposed research project is the enhancement of the restoration of noisy images. This enhancement of the restoration quality is achieved by developing adaptive methods for solving total variation minimization problems. The adaptivity in the method is designed in a way that features and edges in the considered image are preserved much better than by state-of-the-art methods, while noise is substantially eliminated. Such an adaptivity leads to a locally dependent treatment of the underlying problem, i.e., at different points or areas in the image domain the considered problem will be treated differently. The developed method will be adaptive in two ways. More precisely, the method allows for a local mesh refinement such that a locally adjusted regularization parameter can be optimally tailored to edges and transition of colors. We will create local adjustment methods with the properties of being robust with respect to the observed data and efficient. By efficient we mean, that the methods are also optimized with respect to computational time, why an adaptive local refinement rather than a global refinement is performed. The development of the method will be accompanied by a rigorous mathematical analysis, investigating the obtained discrete problems as well as the obtained algorithms theoretically. The designed method will be explored and tested by numerous numerical experiments considering applications in image denoising.
+
 %The main objective of the proposed research project is the development and analysis of adaptive methods for solving inverse imaging problems, where the total variation minimization plays a fundamental role. The adaptivity in the methods is designed in a way that the reconstruction error is minimized during an iterative scheme or the computational complexity is reduced, while aiming at a certain accuracy of the solution, which may be obtained by optimising simultaneously the degrees of freedom and the reconstruction error. Such an adaptivity leads to a locally dependent treatment of the underlying problem, i.e., at different points or areas the considered problem will be treated differently. We will create local adjustment methods with the properties of being robust with respect to the observed data and efficient. By efficient we mean, that the methods are optimized with respect to computational time while keeping the numerical solution at a certain accuracy. % with the aim of reducing the reconstruction error. %Since we are dealing with inverse problems, this could mean that at different locations different regularization is used. 
 %
  % non-smooth variational image reconstruction including total variation minimization. 
@@ -772,8 +782,8 @@ In this part indicators telling in which locations of the image domain the grid 
 \begin{enumerate}
  \item As already stated above, we wish the regularization parameter to be locally small at discontinuities, in order to preserve them. Hence it seems suitable that the mesh is fine around a discontinuity allowing to localize the jump accurately. In this vein, a possible indicator may be an edge indicator, as the Sobel operator or the Canny detector. A consequential strategy to obtain a suitable refinement indicator might be \begin{inparaenum}[(i)] \item (pre-)denoise the image by a standard technique \item apply an edge detector \item define the indicator according to the result of the edge detector\end{inparaenum}.
 This refinement indicator is then combined with a locally adaptive parameter selection strategy. As there exist several different locally adaptive parameter selection strategies, we may use one of these; see \cite{}, and compare them numerically.  \\ %first use the one described in \cite{Lan}. Subsequently we will adjust the approach to other adaptive parameter selection strategies, as \cite{}, and compare them numerically.  \\
-\textcolor{blue}{(Additional comments: ad (i) How accurate does the pre-denoised solution need to be? Should it be over-smoothed (no noise but possibly features and edges are lost) or under-smoothed (still noisy but no features lost)? Which method is suitable (filter, like Gaussian filter, or an variational approach, as TV-denoising)? ad (ii) How accurate should the edge detector be? Is it preferable to use a reluctant one or should it detect nearly everything, which would also include noise? All these question lead to a question of philosophy: Should be refined in case of doubt, or not? From a quality point of view we should refine better more than too less, as this allows for a more precise adjustment of the regularization parameter. However this might be computationally too costly. This needs to be checked and acted accordingly!)}
-
+%\textcolor{blue}{(Additional comments: ad (i) How accurate does the pre-denoised solution need to be? Should it be over-smoothed (no noise but possibly features and edges are lost) or under-smoothed (still noisy but no features lost)? Which method is suitable (filter, like Gaussian filter, or an variational approach, as TV-denoising)? ad (ii) How accurate should the edge detector be? Is it preferable to use a reluctant one or should it detect nearly everything, which would also include noise? All these question lead to a question of philosophy: Should be refined in case of doubt, or not? From a quality point of view we should refine better more than too less, as this allows for a more precise adjustment of the regularization parameter. However this might be computationally too costly. This needs to be checked and acted accordingly!)}
+\vspace{-0.5cm}
 \item As we are looking for a combined h-adaptive and locally adaptive parameter choice method, we may first select a locally adaptive parameter choice method, e.g., \cite{DonHinRin}. This method then already delivers an indicator for adjusting the parameters locally. This indicator will be investigated how it can be utilized to perform h-adaptivity. More precisely we believe that the indicator provided in \cite{DonHinRin} for the adjustment of the parameter can also be used for indicating h-adaptivity, as this indicator leads to parameters which regularize less around features while regularizing much in homogeneous regions, see \cite{DonHinRin}. Subsequently this approach is then also adjusted to other locally adaptive parameter selection methods and accompanied by a numerical comparison.\\
 \textcolor{blue}{(Additional comment: The local adaptive parameter choice is an iterative procedure. Such an indicator usually depends on the previously computed approximation and hence depends on the regularisation parameter. One has to be careful, as a small regularisation parameter leads to a global change of the parameter although locally differently. This needs to be taken into account.)}
 \end{enumerate}  
@@ -990,10 +1000,10 @@ Although our proposed adaptive method is tailored to Gaussian and impulsive nois
 %adaptive finite element methods for functionals consisting of a combined $L^1$/$L^2$ data fidelity term and one of the before mentioned regularizers.
 
 \todo{Application medical imaging as a continuation project}
-\subsection{Data handling}
+%\subsection{Data handling}
 
 
-\subsection{Other information }
+%\subsection{Other information }
 \subsubsection{Responsibilities of the investigators}
 \todo{Do not know how to do that reasonably!}
 
@@ -1040,14 +1050,14 @@ A. Langer is an expert in the field of mathematical image reconstruction, optimi
 % \label{sec:other-information}
 % Does not apply.
 
- \subsection{Descriptions of proposed investigations involving experiments on humans, human materials or animals}
- \label{sec:proposed-investigations}
- Does not apply.
+% \subsection{Descriptions of proposed investigations involving experiments on humans, human materials or animals}
+% \label{sec:proposed-investigations}
+% Does not apply.
 
 
- \subsection{Information on scientific and financial involvement of international cooperation partners}
- \label{sec:cooperations}
- Does not apply.
+% \subsection{Information on scientific and financial involvement of international cooperation partners}
+% \label{sec:cooperations}
+% Does not apply.
 
 %\small
 \section{Bibliography}%
@@ -2004,37 +2014,44 @@ doctoral researcher in basic implementation tasks and numerical experiments.
 Additionally, he/she is supposed to assist the researchers of the project in effective
 external presentation (web presence, preparation of conference presentations, etc.).
 
-\subsubsection{Direct Project Costs}
+%\subsubsection{Direct Project Costs}
 %\subsubsection{Funding for travel costs and visiting researchers.}
-\paragraph{Equipment up to Euro 10,000, Software and Consumables}
+%\paragraph{Equipment up to Euro 10,000, Software and Consumables}
 
 
-\paragraph{Travel Expenses}
-We apply for \EUR{15000} for three years. The funds are required for intensive scientific exchange of the investigators among themselves but also with external researches, as Massimo Fornasier (TU Munich), Robert Kl\"ofkorn (IRIS, Bergen) Pedro Morin (IMAL, Santa Fe, Argentina), Ricardo Nochetto (University of Maryland), Talal Rahman (Bergen University College), Juan Carlos De los Reyes (EPN Quito),  Carola-Bibiane Sch\"onlieb (University of Cambridge), which are experts in the field of adaptive finite element methods, discontinuous Galerkin methods, mathematical imaging, and parameter selection methods. For these exchange visits we calculate with \EUR{1600} per year. Moreover achieved results will be presented to an expert audience on international conferences. Potential international conferences are SIAM Conference on Imaging Science, GAMM Annual Meeting, European Finite Element Fair, Scale Space and Variational Methods in Computer Vision, Applied Inverse Problem Conference, \dots. In particular, we intend the attendance of 2 conferences each year (1 international and 1 national), where we calculate with \EUR{1600} for an international and \EUR{800} for an national conference. Moreover, we plan for 1 long term visit (2 - 3 month) for the PhD candidate at one of the aforementioned universities, for which we plan \EUR{3000}.
+\subsubsection{Travel Expenses}
+%We apply for \EUR{15000} for three years. The funds are required for intensive scientific exchange of the investigators among themselves but also with external researches, as Massimo Fornasier (TU Munich), Robert Kl\"ofkorn (IRIS, Bergen) Pedro Morin (IMAL, Santa Fe, Argentina), Ricardo Nochetto (University of Maryland), Talal Rahman (Bergen University College), Juan Carlos De los Reyes (EPN Quito),  Carola-Bibiane Sch\"onlieb (University of Cambridge), which are experts in the field of adaptive finite element methods, discontinuous Galerkin methods, mathematical imaging, and parameter selection methods. For these exchange visits we calculate with \EUR{1600} per year. Moreover achieved results will be presented to an expert audience on international conferences. Potential international conferences are SIAM Conference on Imaging Science, GAMM Annual Meeting, European Finite Element Fair, Scale Space and Variational Methods in Computer Vision, Applied Inverse Problem Conference, \dots. In particular, we intend the attendance of 2 conferences each year (1 international and 1 national), where we calculate with \EUR{1600} for an international and \EUR{800} for an national conference. Moreover, we plan for 1 long term visit (2 - 3 month) for the PhD candidate at one of the aforementioned universities, for which we plan \EUR{3000}.
 
 %Christian Kreuzer and R\"udiger Verf\"urth
 %(Ruhr-Universit\"at Bochum), Francesca Tantardini and Andreas Veeser (University
 %of Milan), and Charalambos Makridakis (University of Sussex) as well as the 
 %presentation of results on international conferences.
-We plan with the following budget for three years:
+Total requested allowance for travel: \EUR{9000}.
 \begin{itemize}\itemsep=-1pt
-\item Research visits, invitations and attendance of conferences \dotfill\hbox{ \EUR{12000} for three years}
+\item Participation to one international conference per year. Duration trip: one week. Persons travelling: applicant  or doctoral researcher. Potential international conferences: Enumath, MAFELAP,  SIAM Conference on Imaging Science, GAMM annual meeting, European Finite Element Fair. \\
+Expected cost for three years: \dotfill\hbox{ $3 \times 1000 \text{\euro}=3000\text{\euro}$ for three years.}
 
-  \item Long term visits  \dotfill\hbox{\EUR{3000} for three years}
-\item In total  \dotfill\hbox{\EUR{15000} for three years}
+  \item One visit to TU Dortmund per year for collaboration with Fernando Gaspoz.Duration of trip: one week. Persons travelling: applicant or doctoral researcher.\\
+ Expected cost for three years:  \dotfill\hbox{$3 \times 1000 \text{\euro}=3000\text{\euro}$ for three years.}
+ 
+\item One visit to "Name places" per year for collaboration with "Name people". Duration of trip: one week. Persons travelling: applicant or doctoral researcher.\\Expected cost for three years:  \dotfill\hbox{$3 \times 1000 \text{\euro}=3000\text{\euro}$ for three years.}
 \end{itemize}
 
-\paragraph{Visiting Researchers}
+\subsubsection{Visiting Researchers}
+Total requested allowance for transportation and accommodation of invited researchers: \EUR{6000}.
+\begin{itemize}\itemsep=-1pt
+\item Two visits of Fernando Gaspoz (Dortmund) or "Name people" per year. Duration of visit: one week.\\ Expected cost for three years:   \dotfill\hbox{$3 \times 2000 \text{\euro}=6000\text{\euro}$ for three years.}
+\end{itemize}
 
-\paragraph{Expenses for Laboratory Animals}
-Does not apply.
+%\paragraph{Expenses for Laboratory Animals}
+%Does not apply.
 
-\paragraph{Other Costs}
+%\paragraph{Other Costs}
+%
+%\paragraph{Project-related publication expenses}
 
-\paragraph{Project-related publication expenses}
-
-\subsubsection{Instrumentation}
-Does not apply.
+%\subsubsection{Instrumentation}
+%Does not apply.
 %\paragraph{Equipment exceeding Euro 10,000}
 %\paragraph{Major Instrumentation exceeding Euro 50,000}
 
@@ -2047,7 +2064,7 @@ Does not apply.
 \subsection{Employment status information}
 \label{sec:empl-stat-inform}
 \begin{description}
-\item[Fernando D. Gaspoz:] PostDoc, TU Dortmund.
+%\item[Fernando D. Gaspoz:] PostDoc, TU Dortmund.
 \item[Andreas Langer:] PostDoc, Chair for Numerical Mathematics for High Performance Computing, Institute for Applied Analysis and Numerical  Simulation, Faculty for Mathematics and Physics, University of Stuttgart (budgetary funds, non-permanent till ??.??.????)
 \end{description}
 %\begin{description}
@@ -2057,7 +2074,7 @@ Does not apply.
 %\end{description}
 
 \subsection{First-time proposal data}
-Gaspoz, Fernando\\
+%Gaspoz, Fernando\\
 Langer, Andreas
 
 \subsection{Composition of the project group}
@@ -2083,7 +2100,11 @@ At the IANS the research team is supported by
 
 \subsubsection{Researchers with whom you have agreed to cooperate on this project}
 \label{sec:rese-with-whom}
-
+\begin{itemize}
+\item Fernando Gaspoz (Technische Universit\"at Dortmund): Fernando Gaspoz has beenpart of the research group during from "date you started or date I started??" untilSeptember 31st 2018. In recent times we have developed a domain decomposition method for total variation minimization [cite paper].
+\item Name another external collaborator you plan to visit or send the doctorand.
+\item Name a Stuttgart prof you may work with.
+\end{itemize}
 %We plan to continue our collaboration with group of Andreas Veeser, Francesca
 %Tantardini (both University of Milan, Italy), and Christian Kreuzer
 %(Ruhr-Universit\"at Bochum). Their findings 
@@ -2096,7 +2117,8 @@ At the IANS the research team is supported by
 
 \subsubsection{Researchers with whom you have collaborated scientifically within the past three years}
 \label{sec:rese-with-whom-1}
-Martin Alk\"amper (Stuttgart), Hendrik Dirks (M\"unster), Claus-Justus Heine (Stuttgart), Michael Hinterm\"uller (Berlin), Pedro Morin (Santa Fe, Argentina), Carlos Rautenberg (Berlin), Juan Carlos De los Reyes (Quito), Kunibert G. Siebert (Stuttgart), Andreas Veeser (Milan, Italy), Tao Wu (Berlin)
+Martin Alk\"amper (Stuttgart), Hendrik Dirks (M\"unster), Claus-Justus Heine (Stuttgart), Michael Hinterm\"uller (Berlin), %Pedro Morin (Santa Fe, Argentina),
+ Carlos Rautenberg (Berlin), Juan Carlos De los Reyes (Quito), Kunibert G. Siebert (Stuttgart), Tao Wu (Berlin). %, Kunibert G. Siebert (Stuttgart), Andreas Veeser (Milan, Italy)
 
 %Manfred Bischoff (Stuttgart), Klaus Deckelnick (Magdeburg), Rainer Helmig
 %(Stuttgart), Mi\-cha\-el Hinze (Hamburg), Pedro Morin (Santa Fe,
@@ -2107,16 +2129,17 @@ Martin Alk\"amper (Stuttgart), Hendrik Dirks (M\"unster), Claus-Justus Heine (St
 %Andreas Veeser (Milan, Italy), Winnifried Wollner (Hamburg)
 
 \subsection{Scientific equipment}
+Necessary computing facilities for the applicant and the doctoral researcher are available at theMathematics Faculty of the University of Stuttgart.
 %List large instruments that will be available to you for the project. These may include large computer facilities if computing capacity will be needed.
-\subsection{Project-relevant cooperation with commercial enterprises}
-Does not apply.
-\subsection{Project-relevant participation in commercial enterprises}
-Does not apply.
+%\subsection{Project-relevant cooperation with commercial enterprises}
+%Does not apply.
+%\subsection{Project-relevant participation in commercial enterprises}
+%Does not apply.
 
 \section{Additional information}
 \label{sec:addit-inform}
 
-Does not apply.
+A request for funding for this project has not been submitted to the DFG or to any otheragency.
 
 
 
