@@ -14,232 +14,230 @@
 %\documentclass[twoside,11pt,]{scrartcl}\
 %\usepackage[nopoints,nosolution]{ians_exercise}
 
-\usepackage[colorlinks=true]{hyperref}
-\usepackage[english]{babel}
-
-\usepackage[right]{eurosym}
-\usepackage{enumerate}
-
-\usepackage{graphicx}
-\usepackage{paralist}
-\usepackage{rotating,multirow,booktabs}
-
-\usepackage{amsmath,amssymb}
-\usepackage{comment,xspace}
-\usepackage[latin1]{inputenc}
-\usepackage{todonotes}
-%\usepackage{color}
-\usepackage{subfigure}
-\usepackage[footsepline,headsepline]{scrpage2}
-\usepackage{typearea}
-
-\usepackage{color,soul} % to highlight text
-\usepackage{xcolor}
-
-\KOMAoptions{headsepline=true}
-\KOMAoptions{footsepline=true}
-\KOMAoptions{cleardoublepage=empty}
-
-\usepackage[resetlabels,labeled]{multibib}
-\newcites{O}{Project-related publications}
-
-\usepackage{calc}
-\usepackage{floatrow}
-
-\usepackage{hyperref}
-
-%\renewenvironment{comment}{\newline\color{blue}\textnormal{\textbf{Comment:}} \itshape}{}
-
-%Define a reference depth. 
-%You can choose either relative or absolute.
-%--------------------------
-\newlength{\DepthReference}
-%\settodepth{\DepthReference}{g}%relative to a depth of a letter.
-\setlength{\DepthReference}{0pt}%absolute value.
-
-%Define a reference Height. 
-%You can choose either relative or absolute.
-%--------------------------
-\newlength{\HeightReference}
-%\settoheight{\HeightReference}{T}
-%\setlength{\HeightReference}{6pt}
-
-
-%--------------------------
-\newlength{\Width}%
-
-\newcommand{\MyColorBox}[4][black]%
-{%
-    %\settowidth{\Width}{#2}%
-    \setlength{\Width}{#2}
-    \setlength{\HeightReference}{#3}
-    %\setlength{\fboxsep}{0pt}%
-    {\hspace{#4}%
-    \nolinebreak
-    \colorbox{#1}%
-    {%      
-        \raisebox{-\DepthReference}%
-        {%
-                \parbox[b][\HeightReference+\DepthReference][c]{\Width}{~}%
-        }%
-    }%
-    }
-}
-
-\setkomafont{caption}{\small\itshape} %Style von caption
-\setkomafont{captionlabel}{\small\itshape\bfseries} %Style von Label von Caption
-
-\newcommand{\note}[1]{\marginpar{%
-    \fbox{\begin{minipage}{25mm}
-       #1
-    \end{minipage}}}}
-
-\newcommand{\newf}[1]{}%{\color{red}{#1}}}
-
-\newcommand\todoin[2][]{\todo[inline, caption={2do}, #1]{
- \begin{minipage}{\textwidth-4pt}#2\end{minipage}}}
-
-\ohead{\textsf{\pagemark}}
-\ofoot{\textsf{DFG Application ``Adaptive Methods for Free Discontinuity Problems''}}
-\cfoot{}
-
-\renewcommand{\titlepagestyle}{empty}
-
-\usepackage[labeled]{multibib}
-\newcites{A,B}%
-{{Articles published by outlets with scientific quality assurance, book publications, and works accepted for publication but not yet published},{Other publications}}
-
-
-
-\renewenvironment{description}
-{\begin{list}{\epdes}{\topsep0mm \labelwidth0mm \leftmargin3mm %
-  \itemsep1pt plus 4pt \topsep3pt \parsep1pt plus 4pt \labelsep3mm}}
-{\end{list}}
-\renewenvironment{itemize}
-{\begin{list}{$\triangleright$}{\labelwidth-2mm \leftmargin3mm %
-  \itemsep5pt plus 0pt  \topsep3pt \parsep1pt plus 4pt \labelsep2mm}}
-{\end{list}}
-
-% for having several reference lists...
-\newcounter{savecount}
-\newcommand{\ourbibitem}[1]{%
-\stepcounter{savecount}\def\ourlabel{O\arabic{savecount}}\bibitem[\ourlabel]{#1}}
-
-
-
-\let\OLDthebibliography\thebibliography
-\renewcommand\thebibliography[1]{
-  \OLDthebibliography{#1}
-  \setlength{\parskip}{0pt}
-  \setlength{\itemsep}{0pt plus 0.3ex}
-}
-
-% a, A
-\newcommand{\As}[1][s]{\ensuremath{\mathbb{A}_{#1}}}
-\newcommand{\abs}[1]{\ensuremath{\left|#1\right|}}
-\newenvironment{algotab}%
-{~\ttfamily\begin{samepage}%
-\begin{tabbing}%
- \hspace*{5mm}\=\hspace{3ex}\=\hspace{3ex}\=\hspace{3ex}\=\hspace{3ex}%
-\=\hspace{3ex}\=\hspace{3ex}\=\hspace{3ex}\=\hspace{3ex}\kill}%
-{\end{tabbing}\end{samepage}}
-\newcommand{\astfem}{\textsf{ASTFEM}\xspace}
-\newcommand{\alberta}{\textsf{ALBERTA}\xspace}
-% b, B
-
-\newcommand{\B}{\mathcal{B}}
-\newcommand{\bilin}[2]{\B[#1,\,#2]}
-
-% c, C
-\newcommand{\C}{{\mathbb C}}
-\newcommand{\cGq}[1][q]{\textsf{cG$(#1)$}\xspace}
-\newcommand{\Cleq}{\ensuremath{\lesssim}}
-\newcommand{\Cgeq}{\ensuremath{\gtrsim}}
-% d, D
-\newcommand{\definedas}{\mathrel{:=}}
-\newcommand{\dGq}[1][q]{\textsf{dG$(#1)$}\xspace}
-\newcommand{\DOF}{\textsf{DOF}\xspace}
-\newcommand{\DOFs}{\textsf{DOFs}\xspace}
-\newcommand{\dual}[3][]{\ensuremath{\langle #2,\, #3\rangle}_{#1}}
-\newcommand{\dt}{{\rm d}t\xspace}
-\newcommand{\dune}{\textsf{DUNE}\xspace}
-\newcommand{\dunefem}{\textsf{DUNE-FEM}\xspace}
-
-% e, E
-\newcommand{\E}{{\mathbb E}}
-\newcommand{\elm}{E}
-\newcommand{\epde}{\textsf{ePDE}\xspace}
-\newcommand{\epdes}{\textsf{ePDEs}\xspace}
-
-% g, G
-\newcommand{\grid}{\mathcal{G}}
-\newcommand{\G}{\mathbb{G}}
-
-% h, H
-\newcommand{\helm}[1][\elm]{\ensuremath{h_{#1}}}
-
-% i, I
-\newcommand{\ie}{i.\,e.}
-
-% n, N
-\newcommand{\N}{{\mathbb N}}
-
-% P, p
-\newcommand{\ppde}{\textsf{pPDE}\xspace}
-\newcommand{\ppdes}{\textsf{pPDEs}\xspace}
-
-% Q, q
-\newcommand{\Q}{{\mathbb Q}}
-
-% r, R
-\newcommand{\R}{{\mathbb R}}
-
-% t, T
-\newcommand{\Tn}[1][n]{\ensuremath{\mathcal{T}_{#1}}}
-\newcommand{\taun}[1][n]{\ensuremath{\tau_{#1}}}
-\newcommand{\tol}{\textsf{TOL}\xspace}
-
-% u, U
-\newcommand{\Un}[1][n]{\ensuremath{U_{#1}}}
-
-% v, V
-\newcommand{\V}{\ensuremath{\mathbb{V}}}
-\newcommand{\VN}[1][N]{\ensuremath{\V_{\!#1}}}
-
-% w, W
-\newcommand{\W}{\ensuremath{\mathbb{W}}}
-\newcommand{\WN}[1][N]{\ensuremath{\W_{\!#1}}}
-\newcommand{\Wclass}{\ensuremath{\mathcal{W}}}
-
-% z, Z
-\newcommand{\Z}{{\mathbb Z}}
-
-
-
-\newcommand{\bnew}[1]{\textcolor{blue}{#1}}
-
-
-
-\newcommand{\sbt}{\,\begin{picture}(-1,1)(-1,-3)\circle*{2}\end{picture}\ }
-
-
-\newcommand{\nnew}[1]{{\textcolor{red}{#1}}}
-
-%\newcounter{para}
-%\newcommand\mypara{\par\refstepcounter{para}\thepara\space}
-
+%\usepackage[colorlinks=true]{hyperref}
+%\usepackage[english]{babel}
+%
+%\usepackage[right]{eurosym}
+%\usepackage{enumerate}
+%
+%\usepackage{graphicx}
+%\usepackage{paralist}
+%\usepackage{rotating,multirow,booktabs}
+%
+%\usepackage{amsmath,amssymb}
+%\usepackage{comment,xspace}
+%\usepackage[latin1]{inputenc}
+%\usepackage{todonotes}
+%%\usepackage{color}
+%\usepackage{subfigure}
+%\usepackage[footsepline,headsepline]{scrpage2}
+%\usepackage{typearea}
+%
+%\usepackage{color,soul} % to highlight text
+%\usepackage{xcolor}
+%
+%\KOMAoptions{headsepline=true}
+%\KOMAoptions{footsepline=true}
+%\KOMAoptions{cleardoublepage=empty}
+%
+%\usepackage[resetlabels,labeled]{multibib}
+%\newcites{O}{Project-related publications}
+%
+%\usepackage{calc}
+%\usepackage{floatrow}
+%
+%%\renewenvironment{comment}{\newline\color{blue}\textnormal{\textbf{Comment:}} \itshape}{}
+%
+%%Define a reference depth. 
+%%You can choose either relative or absolute.
+%%--------------------------
+%\newlength{\DepthReference}
+%%\settodepth{\DepthReference}{g}%relative to a depth of a letter.
+%\setlength{\DepthReference}{0pt}%absolute value.
+%
+%%Define a reference Height. 
+%%You can choose either relative or absolute.
+%%--------------------------
+%\newlength{\HeightReference}
+%%\settoheight{\HeightReference}{T}
+%%\setlength{\HeightReference}{6pt}
+%
+%
+%%--------------------------
+%\newlength{\Width}%
+%
+%\newcommand{\MyColorBox}[4][black]%
+%{%
+%    %\settowidth{\Width}{#2}%
+%    \setlength{\Width}{#2}
+%    \setlength{\HeightReference}{#3}
+%    %\setlength{\fboxsep}{0pt}%
+%    {\hspace{#4}%
+%    \nolinebreak
+%    \colorbox{#1}%
+%    {%      
+%        \raisebox{-\DepthReference}%
+%        {%
+%                \parbox[b][\HeightReference+\DepthReference][c]{\Width}{~}%
+%        }%
+%    }%
+%    }
+%}
+%
+%\setkomafont{caption}{\small\itshape} %Style von caption
+%\setkomafont{captionlabel}{\small\itshape\bfseries} %Style von Label von Caption
+%
+%\newcommand{\note}[1]{\marginpar{%
+%    \fbox{\begin{minipage}{25mm}
+%       #1
+%    \end{minipage}}}}
+%
+%\newcommand{\newf}[1]{}%{\color{red}{#1}}}
+%
+%\newcommand\todoin[2][]{\todo[inline, caption={2do}, #1]{
+% \begin{minipage}{\textwidth-4pt}#2\end{minipage}}}
+%
+%\ohead{\textsf{\pagemark}}
+%\ofoot{\textsf{DFG Application ``Adaptive Methods for Free Discontinuity Problems''}}
+%\cfoot{}
+%
+%\renewcommand{\titlepagestyle}{empty}
+%
+%\usepackage[labeled]{multibib}
+%\newcites{A,B}%
+%{{Articles published by outlets with scientific quality assurance, book publications, and works accepted for publication but not yet published},{Other publications}}
+%
+%
+%
+%\renewenvironment{description}
+%{\begin{list}{\epdes}{\topsep0mm \labelwidth0mm \leftmargin3mm %
+%  \itemsep1pt plus 4pt \topsep3pt \parsep1pt plus 4pt \labelsep3mm}}
+%{\end{list}}
+%\renewenvironment{itemize}
+%{\begin{list}{$\triangleright$}{\labelwidth-2mm \leftmargin3mm %
+%  \itemsep5pt plus 0pt  \topsep3pt \parsep1pt plus 4pt \labelsep2mm}}
+%{\end{list}}
+%
+%% for having several reference lists...
+%\newcounter{savecount}
+%\newcommand{\ourbibitem}[1]{%
+%\stepcounter{savecount}\def\ourlabel{O\arabic{savecount}}\bibitem[\ourlabel]{#1}}
+%
+%
+%
+%\let\OLDthebibliography\thebibliography
+%\renewcommand\thebibliography[1]{
+%  \OLDthebibliography{#1}
+%  \setlength{\parskip}{0pt}
+%  \setlength{\itemsep}{0pt plus 0.3ex}
+%}
+%
+%% a, A
+%\newcommand{\As}[1][s]{\ensuremath{\mathbb{A}_{#1}}}
+%\newcommand{\abs}[1]{\ensuremath{\left|#1\right|}}
+%\newenvironment{algotab}%
+%{~\ttfamily\begin{samepage}%
+%\begin{tabbing}%
+% \hspace*{5mm}\=\hspace{3ex}\=\hspace{3ex}\=\hspace{3ex}\=\hspace{3ex}%
+%\=\hspace{3ex}\=\hspace{3ex}\=\hspace{3ex}\=\hspace{3ex}\kill}%
+%{\end{tabbing}\end{samepage}}
+%\newcommand{\astfem}{\textsf{ASTFEM}\xspace}
+%\newcommand{\alberta}{\textsf{ALBERTA}\xspace}
+%% b, B
+%
+%\newcommand{\B}{\mathcal{B}}
+%\newcommand{\bilin}[2]{\B[#1,\,#2]}
+%
+%% c, C
+%\newcommand{\C}{{\mathbb C}}
+%\newcommand{\cGq}[1][q]{\textsf{cG$(#1)$}\xspace}
+%\newcommand{\Cleq}{\ensuremath{\lesssim}}
+%\newcommand{\Cgeq}{\ensuremath{\gtrsim}}
+%% d, D
+%\newcommand{\definedas}{\mathrel{:=}}
+%\newcommand{\dGq}[1][q]{\textsf{dG$(#1)$}\xspace}
+%\newcommand{\DOF}{\textsf{DOF}\xspace}
+%\newcommand{\DOFs}{\textsf{DOFs}\xspace}
+%\newcommand{\dual}[3][]{\ensuremath{\langle #2,\, #3\rangle}_{#1}}
+%\newcommand{\dt}{{\rm d}t\xspace}
+%\newcommand{\dune}{\textsf{DUNE}\xspace}
+%\newcommand{\dunefem}{\textsf{DUNE-FEM}\xspace}
+%
+%% e, E
+%\newcommand{\E}{{\mathbb E}}
+%\newcommand{\elm}{E}
+%\newcommand{\epde}{\textsf{ePDE}\xspace}
+%\newcommand{\epdes}{\textsf{ePDEs}\xspace}
+%
+%% g, G
+%\newcommand{\grid}{\mathcal{G}}
+%\newcommand{\G}{\mathbb{G}}
+%
+%% h, H
+%\newcommand{\helm}[1][\elm]{\ensuremath{h_{#1}}}
+%
+%% i, I
+%\newcommand{\ie}{i.\,e.}
+%
+%% n, N
+%\newcommand{\N}{{\mathbb N}}
+%
+%% P, p
+%\newcommand{\ppde}{\textsf{pPDE}\xspace}
+%\newcommand{\ppdes}{\textsf{pPDEs}\xspace}
+%
+%% Q, q
+%\newcommand{\Q}{{\mathbb Q}}
+%
+%% r, R
+%\newcommand{\R}{{\mathbb R}}
+%
+%% t, T
+%\newcommand{\Tn}[1][n]{\ensuremath{\mathcal{T}_{#1}}}
+%\newcommand{\taun}[1][n]{\ensuremath{\tau_{#1}}}
+%\newcommand{\tol}{\textsf{TOL}\xspace}
+%
+%% u, U
+%\newcommand{\Un}[1][n]{\ensuremath{U_{#1}}}
+%
+%% v, V
+%\newcommand{\V}{\ensuremath{\mathbb{V}}}
+%\newcommand{\VN}[1][N]{\ensuremath{\V_{\!#1}}}
+%
+%% w, W
+%\newcommand{\W}{\ensuremath{\mathbb{W}}}
+%\newcommand{\WN}[1][N]{\ensuremath{\W_{\!#1}}}
+%\newcommand{\Wclass}{\ensuremath{\mathcal{W}}}
+%
+%% z, Z
+%\newcommand{\Z}{{\mathbb Z}}
+%
+%
+%
+%\newcommand{\bnew}[1]{\textcolor{blue}{#1}}
+%
+%
+%
+%\newcommand{\sbt}{\,\begin{picture}(-1,1)(-1,-3)\circle*{2}\end{picture}\ }
+%
+%
+%\newcommand{\nnew}[1]{{\textcolor{red}{#1}}}
+%
+%%\newcounter{para}
+%%\newcommand\mypara{\par\refstepcounter{para}\thepara\space}
+%
 %\usepackage{titlesec}
-
+%
 \setcounter{secnumdepth}{4}
-
+%
 %\titleformat{\paragraph}
 %{\normalfont\normalsize\bfseries}{\theparagraph}{1em}{}
 %\titlespacing*{\paragraph}
 %{0pt}{3.25ex plus 1ex minus .2ex}{1.5ex plus .2ex}
-
-
+%
+%
 \begin{document}
-
+%
 \begin{titlepage}\sffamily
   \subject{DFG Research Grant Application} 
   \title{Adaptive Methods for Free Discontinuity Problems}% (for Image Reconstruction)}
@@ -248,13 +246,14 @@
   \date{Stuttgart, \today \\[50mm] Submission\\[50mm]
     Application period: 01.04.2020 --- 31.03.2023}
 \end{titlepage}
-
+%
 \maketitle[-1]
 \cleardoublepage
 \setcounter{page}{1}
-\pagestyle{scrheadings}
+%\pagestyle{scrheadings}
 
-
+\section{A}
+\end{document}
 \section*{Applicants}
 
 \subsection*{Principle Investigator}
